@@ -1,2 +1,1 @@
 # Indians-Wrath
-yes/no
