@@ -15,7 +15,8 @@ public class SyncListString : SyncList<String> { }
 public class RoomList : NetworkBehaviour
 {
     public static RoomList instance;
-    [SerializeField]private SyncListRooms rooms = new SyncListRooms();
+
+    public SyncListRooms rooms = new SyncListRooms();
     public SyncListString matchIDs = new SyncListString();
 
     private void Awake()
@@ -29,7 +30,7 @@ public class RoomList : NetworkBehaviour
         {
             matchIDs.Add(matchId);
             rooms.Add(new Room(matchId, player));
-
+            Debug.Log(matchId);
             return true;
         }
         else
@@ -50,4 +51,24 @@ public static class Extensions
 
         return new Guid(hashBytes);
     }
+
+    public static string GetRandomMatchID()
+    {
+        string _id = string.Empty;
+        for (int i = 0; i < 5; i++)
+        {
+            int random = UnityEngine.Random.Range(0, 36);
+            if (random < 26)
+            {
+                _id += (char)(random + 65);
+            }
+            else
+            {
+                _id += (random - 26).ToString();
+            }
+        }
+        Debug.Log($"Random Match ID: {_id}");
+        return _id;
+    }
+
 }
