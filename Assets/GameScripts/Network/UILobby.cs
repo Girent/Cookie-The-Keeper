@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,7 +30,7 @@ public class UILobby : MonoBehaviour
         hostButton.interactable = false;
         joinId.interactable = false;
 
-        Player.localPlayer.createRoom();
+        Player.localPlayer.CreateRoom();
     }
 
     public void HostSuccess (bool success)
@@ -51,6 +49,7 @@ public class UILobby : MonoBehaviour
 
     public void Join()
     {
+        Player.localPlayer.JoinRoom(joinId.text);
         joinButton.interactable = false;
         hostButton.interactable = false;
         joinId.interactable = false;

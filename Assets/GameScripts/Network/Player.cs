@@ -1,13 +1,13 @@
 using UnityEngine;
 using Mirror;
 
+
+
 [RequireComponent(typeof(NetworkMatch))]
 
 public class Player : NetworkBehaviour
 {
     public static Player localPlayer;
-
-    [SyncVar] public string matchId;
 
     private NetworkMatch networkMatch;
 
@@ -25,7 +25,7 @@ public class Player : NetworkBehaviour
         }
     }
 
-    public void createRoom()
+    public void CreateRoom()
     {
         string matchId = Extensions.GetRandomMatchID();
 
@@ -35,24 +35,45 @@ public class Player : NetworkBehaviour
     [Command]
     private void cmdCreateRoom(string _matchId)
     {
-        matchId = _matchId;
         if (RoomList.instance.HostGame(_matchId, gameObject))
         {
             networkMatch.matchId = _matchId.ToGuid();
             TargetHostGame(true, _matchId);
-            Debug.Log($"<color = green>Room created in ID: {_matchId}</color>");
         }
         else
         {
             TargetHostGame(false, _matchId);
-            Debug.Log($"<color = red>Created room error</color>");
         }
     }
 
     [TargetRpc]
     private void TargetHostGame (bool success, string matchId)
     {
-        Debug.Log($"MatchID: {this.matchId}--{matchId}");
+        UILobby.instance.HostSuccess(success);
+    }
+
+    public void JoinRoom(string inputMatchId)
+    {
+        cmdJoinRoom(inputMatchId);
+    }
+
+    [Command]
+    private void cmdJoinRoom(string _matchId)
+    {
+        if (RoomList.instance.JoinGame(_matchId, gameObject))
+        {
+            networkMatch.matchId = _matchId.ToGuid();
+            TargetJoinGame(true, _matchId);
+        }
+        else
+        {
+            TargetJoinGame(false, _matchId);
+        }
+    }
+
+    [TargetRpc]
+    private void TargetJoinGame(bool success, string matchId)
+    {
         UILobby.instance.HostSuccess(success);
     }
 }

@@ -1,10 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System;
 using System.Security.Cryptography;
 using System.Text;
+
+
+
+
+
 
 [System.Serializable]
 public class SyncListRooms : SyncList<Room> { }
@@ -16,7 +19,7 @@ public class RoomList : NetworkBehaviour
 {
     public static RoomList instance;
 
-    public SyncListRooms rooms = new SyncListRooms();
+    public SyncList<Room> rooms = new SyncList<Room>();
     public SyncListString matchIDs = new SyncListString();
 
     private void Awake()
@@ -28,9 +31,10 @@ public class RoomList : NetworkBehaviour
     {
         if (!matchIDs.Contains(matchId))
         {
+            
             matchIDs.Add(matchId);
-            rooms.Add(new Room(matchId, player));
-            Debug.Log(matchId);
+            Room room = new Room(matchId, player);
+            rooms.Add(room);
             return true;
         }
         else
@@ -39,6 +43,39 @@ public class RoomList : NetworkBehaviour
             return false;
         }
     }
+
+    public bool JoinGame(string matchId, GameObject player)
+    {
+        if (matchIDs.Contains(matchId))
+        {
+            for (int i = 0; i < rooms.Count; i++)
+            {
+                if (rooms[i].matchId == matchId)
+                {
+                    rooms[i].players.Add(player);
+                    break;
+                }
+            }
+            return true;
+        }
+        else
+        {
+            Debug.Log("Id does not exist");
+            return false;
+        }
+    }
+
+    public void DebugPlayersRooms()
+    {
+        for (int i = 0; i < rooms.Count; i++)
+        {
+            for (int a = 0; a < rooms[i].players.Count; a++)
+            {
+                Debug.Log("Room :"+ i + "player : " +rooms[i].players[a]);
+            }
+        }
+    }
+
 }
 
 public static class Extensions
@@ -67,7 +104,6 @@ public static class Extensions
                 _id += (random - 26).ToString();
             }
         }
-        Debug.Log($"Random Match ID: {_id}");
         return _id;
     }
 

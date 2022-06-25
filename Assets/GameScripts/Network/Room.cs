@@ -1,23 +1,22 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
-
 
 [System.Serializable]
-public class SyncListGameObject : SyncList<GameObject> { }
-
-[System.Serializable]
-public class Room : NetworkBehaviour
+public class Room
 {
-    private string matchId;
-    private SyncListGameObject players = new SyncListGameObject();
+    public string matchId;
+    public List<GameObject> players = new List<GameObject>();
 
-    public Room( string matchId, GameObject player)
+    public Room(string matchId, GameObject player)
     {
         this.matchId = matchId;
         players.Add(player);
+        Debug.Log(players[0] + "Room class");
+        Debug.Log(this.matchId + "Room class");
     }
 
-    public Room() { }
+    public Room()
+    {
+
+    }
 }
