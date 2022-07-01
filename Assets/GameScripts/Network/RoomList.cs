@@ -20,39 +20,49 @@ public class RoomList : NetworkBehaviour
     public static RoomList instance;
 
     public SyncList<Room> rooms = new SyncList<Room>();
-    public SyncListString matchIDs = new SyncListString();
+    public SyncListString roomIDs = new SyncListString();
+
+    [SerializeField]
+    private GameObject turnManagerPrefab;
 
     private void Awake()
     {
         instance = this;
     }
 
-    public bool HostGame(string matchId, GameObject player)
+    public bool HostGame(string roomId, GameObject player, bool publicRoom, out int playerIndex)
     {
-        if (!matchIDs.Contains(matchId))
+        if (!roomIDs.Contains(roomId))
         {
-            
-            matchIDs.Add(matchId);
-            Room room = new Room(matchId, player);
+            roomIDs.Add(roomId);
+            Room room = new Room(roomId, player);
+
+            room.publicRoom = publicRoom;
             rooms.Add(room);
+            player.GetComponent<NetworkPlayer>().currentRoom = room;
+            playerIndex = 1;
             return true;
         }
         else
         {
             Debug.Log("Id already exists");
+            playerIndex = -1;
             return false;
         }
     }
 
-    public bool JoinGame(string matchId, GameObject player)
+    public bool JoinGame(string roomId, GameObject player, out int playerIndex)
     {
-        if (matchIDs.Contains(matchId))
+        playerIndex = - 1;
+        if (roomIDs.Contains(roomId))
         {
             for (int i = 0; i < rooms.Count; i++)
             {
-                if (rooms[i].matchId == matchId)
+                if (rooms[i].roomId == roomId)
                 {
                     rooms[i].players.Add(player);
+                    player.GetComponent<NetworkPlayer>().currentRoom = rooms[i];
+                    playerIndex = rooms[i].players.Count;
                     break;
                 }
             }
@@ -65,17 +75,48 @@ public class RoomList : NetworkBehaviour
         }
     }
 
-    public void DebugPlayersRooms()
+
+    public bool SearchGame (GameObject player, out int playerIndex, out string roomId)
     {
+        playerIndex= -1;
+        roomId = String.Empty;
+
         for (int i = 0; i < rooms.Count; i++)
         {
-            for (int a = 0; a < rooms[i].players.Count; a++)
+            if (rooms[i].publicRoom && !rooms[i].roomFull && !rooms[i].inMatch)
             {
-                Debug.Log("Room :"+ i + "player : " +rooms[i].players[a]);
+                roomId = rooms[i].roomId;
+                if (JoinGame(roomId, player, out playerIndex)){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public void BeginGame (string roomId)
+    {
+        GameObject newTurnManager = Instantiate(turnManagerPrefab);
+        NetworkServer.Spawn(newTurnManager);
+        newTurnManager.GetComponent<NetworkMatch>().matchId =  roomId.ToGuid();
+        TurnManager turnManager = newTurnManager.GetComponent<TurnManager>(); //Скорей всего мы берём первый менеджер из списка нескольких, и попадаем на не тот что нам нужен
+        
+
+        for (int i = 0; i < rooms.Count; i++)
+        {
+            if (rooms[i].roomId == roomId)
+            {
+                foreach (var collectPlayer in rooms[i].players)
+                {
+                    NetworkPlayer player = collectPlayer.GetComponent<NetworkPlayer>();
+                    turnManager.AddPlayer(player);
+                    player.StartGame();
+                }
+                break;
             }
         }
     }
-
 }
 
 public static class Extensions

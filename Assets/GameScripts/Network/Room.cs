@@ -4,15 +4,20 @@ using UnityEngine;
 [System.Serializable]
 public class Room
 {
-    public string matchId;
+    public string roomId { get; }
+
+    public bool publicRoom;
+
+    public bool inMatch;
+
+    public bool roomFull;
+
     public List<GameObject> players = new List<GameObject>();
 
-    public Room(string matchId, GameObject player)
+    public Room(string roomId, GameObject player)
     {
-        this.matchId = matchId;
+        this.roomId = roomId;
         players.Add(player);
-        Debug.Log(players[0] + "Room class");
-        Debug.Log(this.matchId + "Room class");
     }
 
     public Room()
