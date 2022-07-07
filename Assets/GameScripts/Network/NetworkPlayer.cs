@@ -6,32 +6,40 @@ using UnityEngine.SceneManagement;
 
 public class NetworkPlayer : NetworkBehaviour
 {
+    public Scene scene;
+
     public static NetworkPlayer localPlayer;
 
     private NetworkMatch networkMatch;
 
     [SyncVar] public int PlayerIndex;
 
-    [SyncVar] public string MatchID;
+    [SyncVar] public string RoomID;
 
     [SyncVar] public Room currentRoom;
+
 
     void Awake()
     {
         networkMatch = GetComponent<NetworkMatch>();
     }
 
-
-    private void Start()
+    public override void OnStartClient()
     {
         if (isLocalPlayer)
         {
             localPlayer = this;
         }
-        else
-        {
-            UILobby.instance.SpawnUIPlayer(this);
-        }
+    }
+
+    public override void OnStopClient()
+    {
+        clientDisconnect();
+    }
+
+    public override void OnStopServer()
+    {
+        serverDisconnect();
     }
 
     #region CreateGame
@@ -46,7 +54,7 @@ public class NetworkPlayer : NetworkBehaviour
     [Command]
     private void cmdCreateRoom(string _matchId, bool publicMatch)
     {
-        MatchID = _matchId;
+        RoomID = _matchId;
         if (RoomList.instance.HostGame(_matchId, gameObject, publicMatch, out PlayerIndex))
         {
             networkMatch.matchId = _matchId.ToGuid();
@@ -61,7 +69,7 @@ public class NetworkPlayer : NetworkBehaviour
     [TargetRpc]
     private void TargetHostGame (bool success, string matchId)
     {
-        MatchID = matchId;
+        RoomID = matchId;
         UILobby.instance.HostSuccess(success, matchId);
     }
 
@@ -75,17 +83,17 @@ public class NetworkPlayer : NetworkBehaviour
     }
 
     [Command]
-    private void cmdJoinRoom(string matchId)
+    private void cmdJoinRoom(string roomId)
     {
-        MatchID = matchId;
-        if (RoomList.instance.JoinGame(matchId, gameObject, out PlayerIndex))
+        RoomID = roomId;
+        if (RoomList.instance.JoinGame(roomId, gameObject, out PlayerIndex))
         {
-            networkMatch.matchId = matchId.ToGuid();
-            TargetJoinGame(true, matchId);
+            networkMatch.matchId = roomId.ToGuid();
+            TargetJoinGame(true, roomId);
         }
         else
         {
-            TargetJoinGame(false, matchId);
+            TargetJoinGame(false, roomId);
         }
     }
 
@@ -106,14 +114,14 @@ public class NetworkPlayer : NetworkBehaviour
     [Command]
     private void cmdSearchGame()
     {
-        if (RoomList.instance.SearchGame(gameObject, out PlayerIndex, out MatchID))
+        if (RoomList.instance.SearchGame(gameObject, out PlayerIndex, out RoomID))
         {
-            networkMatch.matchId = MatchID.ToGuid();
-            targetSearchGame(true, MatchID, PlayerIndex);
+            networkMatch.matchId = RoomID.ToGuid();
+            targetSearchGame(true, RoomID, PlayerIndex);
         }
         else
         {
-            targetSearchGame(false, MatchID, PlayerIndex);
+            targetSearchGame(false, RoomID, PlayerIndex);
         }
     }
 
@@ -121,7 +129,7 @@ public class NetworkPlayer : NetworkBehaviour
     private void targetSearchGame(bool success, string matchId, int playerIndex)
     {
         PlayerIndex = playerIndex;
-        MatchID = matchId;
+        RoomID = matchId;
         UILobby.instance.SearchSuccess(success, matchId);
     }
     #endregion
@@ -136,7 +144,7 @@ public class NetworkPlayer : NetworkBehaviour
     [Command]
     private void cmdBeginGame()
     {
-        RoomList.instance.BeginGame(MatchID);
+        RoomList.instance.BeginGame(RoomID);
     }
 
     public void StartGame()
@@ -147,8 +155,40 @@ public class NetworkPlayer : NetworkBehaviour
     [TargetRpc]
     private void TargetBeginGame()
     {
+        
         SceneManager.LoadScene(2, LoadSceneMode.Additive);
     }
 
+    #endregion
+
+    #region Disconect match
+    public void DisconnectGame ()
+    {
+        cmdDisconnectGame();
+    }
+
+    [Command]
+    private void cmdDisconnectGame ()
+    {
+        serverDisconnect();
+    }
+
+    private void serverDisconnect ()
+    {
+        RoomList.instance.PlayerDisconnected(this, RoomID);
+        networkMatch.matchId = string.Empty.ToGuid();
+        rpcDisconnectGame();
+    }
+
+    [ClientRpc]
+    private void rpcDisconnectGame()
+    {
+        clientDisconnect();
+    }
+
+    private void clientDisconnect()
+    {
+
+    }
     #endregion
 }

@@ -4,13 +4,15 @@ using UnityEngine;
 [System.Serializable]
 public class Room
 {
-    public string roomId { get; }
+    public string roomId { get; private set; }
 
     public bool publicRoom;
 
     public bool inMatch;
 
     public bool roomFull;
+
+    public int maxPlayers = 2;
 
     public List<GameObject> players = new List<GameObject>();
 

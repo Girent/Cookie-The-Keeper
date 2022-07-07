@@ -5,10 +5,6 @@ using System.Security.Cryptography;
 using System.Text;
 
 
-
-
-
-
 [System.Serializable]
 public class SyncListRooms : SyncList<Room> { }
 
@@ -63,6 +59,8 @@ public class RoomList : NetworkBehaviour
                     rooms[i].players.Add(player);
                     player.GetComponent<NetworkPlayer>().currentRoom = rooms[i];
                     playerIndex = rooms[i].players.Count;
+                    if (rooms[i].players.Count == rooms[i].maxPlayers)
+                        rooms[i].roomFull = true;
                     break;
                 }
             }
@@ -112,6 +110,27 @@ public class RoomList : NetworkBehaviour
                     NetworkPlayer player = collectPlayer.GetComponent<NetworkPlayer>();
                     turnManager.AddPlayer(player);
                     player.StartGame();
+                }
+                break;
+            }
+        }
+    }
+
+    public void PlayerDisconnected(NetworkPlayer player, string roomId)
+    {
+        for (int i = 0; i < rooms.Count; i++)
+        {
+            if (rooms[i].roomId == roomId)
+            {
+                int playerIndex = rooms[i].players.IndexOf(player.gameObject);
+                rooms[i].players.RemoveAt(playerIndex);
+                rooms[i].roomFull = false;
+                Debug.Log($"Player disconnected {roomId}");
+
+                if (rooms[i].players.Count == 0)
+                {
+                    rooms.RemoveAt(i);
+                    roomIDs.Remove(roomId);
                 }
                 break;
             }

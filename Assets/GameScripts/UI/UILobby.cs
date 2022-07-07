@@ -23,13 +23,6 @@ public class UILobby : MonoBehaviour
     [SerializeField]
     private Canvas searchCanvas;
 
-    [Header("Lobby")]
-    [SerializeField]
-    private Transform uiLobbyPlayers;
-
-    [SerializeField]
-    private GameObject uiLobbyPrefab;
-
     [SerializeField]
     private Text matchIdText;
 
@@ -44,7 +37,7 @@ public class UILobby : MonoBehaviour
         instance = this;
     }
 
-    public void Host()
+    private void Host()
     {
         lobbySelectables.ForEach(selectable => selectable.interactable = false);
         joinId.interactable = false;
@@ -58,7 +51,6 @@ public class UILobby : MonoBehaviour
         {
             lobbyCanvas.enabled = true;
             beginGameButton.SetActive(true);
-            SpawnUIPlayer(NetworkPlayer.localPlayer);
             matchIdText.text = matchId;
         }
         else
@@ -80,7 +72,8 @@ public class UILobby : MonoBehaviour
         if (success)
         {
             lobbyCanvas.enabled = true;
-            SpawnUIPlayer(NetworkPlayer.localPlayer);
+            beginGameButton.SetActive(false);
+
             matchIdText.text = matchId;
         }
         else
@@ -88,13 +81,6 @@ public class UILobby : MonoBehaviour
             lobbySelectables.ForEach(selectable => selectable.interactable = true);
             joinId.interactable = true;
         }
-    }
-
-    public void SpawnUIPlayer (NetworkPlayer player)
-    {
-        GameObject newUIPlayer = Instantiate(uiLobbyPrefab, uiLobbyPlayers);
-        newUIPlayer.GetComponent<UIPlayer>().SetPlayer(player);
-        newUIPlayer.transform.SetSiblingIndex(player.PlayerIndex - 1);
     }
 
     public void BeginGame ()
@@ -135,6 +121,12 @@ public class UILobby : MonoBehaviour
             searching = false;
             searchCanvas.enabled = false;
         }
+        else
+        {
+            searching = false;
+            searchCanvas.enabled = false;
+            Host();
+        }
        
     }
 
@@ -143,5 +135,14 @@ public class UILobby : MonoBehaviour
         searchCanvas.enabled = false;
         searching = false;
         lobbySelectables.ForEach(selectable => selectable.interactable = true);
+    }
+
+    public void DisconnectLobby ()
+    {
+        NetworkPlayer.localPlayer.DisconnectGame();
+
+        lobbyCanvas.enabled = false;
+        lobbySelectables.ForEach(selectable => selectable.interactable = true);
+        beginGameButton.SetActive(false);
     }
 }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5108020973896509948}
   - component: {fileID: 4462236226517566860}
   - component: {fileID: 3174306990855708142}
+  - component: {fileID: -5911534629839195799}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -79,5 +80,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  scene:
+    m_Handle: 0
   PlayerIndex: 0
-  MatchID: 
+  RoomID: 
+  currentRoom:
+    publicRoom: 0
+    inMatch: 0
+    roomFull: 0
+    maxPlayers: 2
+    players: []
+--- !u!114 &-5911534629839195799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352942515576853519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2576730625b1632468cbcbfe5e721f88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  teamId: 
+  forceShown: 0
