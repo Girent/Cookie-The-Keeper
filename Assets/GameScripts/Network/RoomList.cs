@@ -3,7 +3,7 @@ using Mirror;
 using System;
 using System.Security.Cryptography;
 using System.Text;
-
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class SyncListRooms : SyncList<Room> { }
@@ -99,7 +99,6 @@ public class RoomList : NetworkBehaviour
         NetworkServer.Spawn(newTurnManager);
         newTurnManager.GetComponent<NetworkMatch>().matchId =  roomId.ToGuid();
         TurnManager turnManager = newTurnManager.GetComponent<TurnManager>(); //Скорей всего мы берём первый менеджер из списка нескольких, и попадаем на не тот что нам нужен
-        
 
         for (int i = 0; i < rooms.Count; i++)
         {
@@ -109,7 +108,7 @@ public class RoomList : NetworkBehaviour
                 {
                     NetworkPlayer player = collectPlayer.GetComponent<NetworkPlayer>();
                     turnManager.AddPlayer(player);
-                    player.StartGame();
+                    player.StartGame(rooms[i].players);
                 }
                 break;
             }

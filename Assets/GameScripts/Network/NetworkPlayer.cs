@@ -1,6 +1,7 @@
 using UnityEngine;
 using Mirror;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(NetworkMatch))]
 
@@ -147,16 +148,25 @@ public class NetworkPlayer : NetworkBehaviour
         RoomList.instance.BeginGame(RoomID);
     }
 
-    public void StartGame()
+    public void StartGame(List<GameObject> players)
     {
-        TargetBeginGame();
+        
+        TargetBeginGame(players);
+        
     }
 
     [TargetRpc]
-    private void TargetBeginGame()
+    private void TargetBeginGame(List<GameObject> players)
     {
         
         SceneManager.LoadScene(2, LoadSceneMode.Additive);
+        Scene sceneToLoad = SceneManager.GetSceneByName("Game");
+
+        //SceneManager.MoveGameObjectToScene(gameObject, sceneToLoad);
+        foreach (GameObject player in players)
+        {
+            SceneManager.MoveGameObjectToScene(player, sceneToLoad);
+        }
     }
 
     #endregion
