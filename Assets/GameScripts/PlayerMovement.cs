@@ -1,13 +1,23 @@
 using Mirror;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
-    [SerializeField] float speed = 5;
+    [SerializeField] private float speed = 5;
     [SerializeField] private Joystick playerJoystick;
+    [SerializeField] private GameObject playerCamera;
+
+    [SerializeField] private Canvas playerCanvas;
+
+    private GameObject mainCamera;
 
     private Rigidbody2D rb;
     private Vector2 moveVelocity;
+
+    private void Awake()
+    {
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+    }
 
     private void Start()
     {
@@ -23,5 +33,16 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         rb.MovePosition(rb.position + moveVelocity * Time.deltaTime);
+    }
+
+    public void EnablePlayerInterface()
+    {
+        mainCamera.SetActive(false);
+        if (isLocalPlayer)
+        {
+            playerCamera.SetActive(true);
+        }
+        if (hasAuthority)
+            playerCanvas.enabled = true;
     }
 }

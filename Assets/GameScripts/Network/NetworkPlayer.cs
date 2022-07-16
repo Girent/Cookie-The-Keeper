@@ -19,24 +19,17 @@ public class NetworkPlayer : NetworkBehaviour
 
     [SyncVar] public Room currentRoom;
 
-    [SerializeField] private GameObject playerCamera;
-
-    [SerializeField] private Canvas playerCanvas;
-
-    private GameObject mainCamera;
 
     void Awake()
     {
         networkMatch = GetComponent<NetworkMatch>();
-        mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
     }
 
     public override void OnStartClient()
     {
-        if (isLocalPlayer)
+        if (hasAuthority)
         {
             localPlayer = this;
-            playerCanvas.enabled = true;
         }
     }
 
@@ -147,11 +140,6 @@ public class NetworkPlayer : NetworkBehaviour
     public void BeginGame()
     {
         cmdBeginGame();
-        mainCamera.SetActive(false);
-        if(isLocalPlayer)
-        {
-            playerCamera.SetActive(true);
-        }
     }
 
     [Command]
@@ -170,7 +158,8 @@ public class NetworkPlayer : NetworkBehaviour
     [TargetRpc]
     private void TargetBeginGame(List<GameObject> players)
     {
-        
+        gameObject.GetComponent<PlayerMovement>().EnablePlayerInterface();
+
         SceneManager.LoadScene(2, LoadSceneMode.Additive);
         Scene sceneToLoad = SceneManager.GetSceneByName("Game");
 
@@ -183,7 +172,7 @@ public class NetworkPlayer : NetworkBehaviour
 
     #endregion
 
-    #region Disconect match
+    #region DisconectMatch
     public void DisconnectGame ()
     {
         cmdDisconnectGame();
