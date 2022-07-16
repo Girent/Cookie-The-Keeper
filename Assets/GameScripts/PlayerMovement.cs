@@ -11,28 +11,24 @@ public class PlayerMovement : NetworkBehaviour
 
     private GameObject mainCamera;
 
-    private Rigidbody2D rb;
+    private Rigidbody2D playerRigidBody;
     private Vector2 moveVelocity;
 
     private void Awake()
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        playerRigidBody = GetComponent<Rigidbody2D>();
     }
 
-    private void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-    }
     void Update()
     {
         Vector2 moveInput = new Vector2(playerJoystick.Horizontal, playerJoystick.Vertical);
         moveVelocity = moveInput * speed;
-        
     }
 
     private void FixedUpdate()
     {
-        rb.MovePosition(rb.position + moveVelocity * Time.deltaTime);
+        playerRigidBody.MovePosition(playerRigidBody.position + moveVelocity * Time.deltaTime);
     }
 
     public void EnablePlayerInterface()
