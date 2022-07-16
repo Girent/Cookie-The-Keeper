@@ -27,7 +27,7 @@ public class NetworkPlayer : NetworkBehaviour
 
     public override void OnStartClient()
     {
-        if (isLocalPlayer)
+        if (hasAuthority)
         {
             localPlayer = this;
         }
@@ -158,7 +158,8 @@ public class NetworkPlayer : NetworkBehaviour
     [TargetRpc]
     private void TargetBeginGame(List<GameObject> players)
     {
-        
+        gameObject.GetComponent<PlayerMovement>().EnablePlayerInterface();
+
         SceneManager.LoadScene(2, LoadSceneMode.Additive);
         Scene sceneToLoad = SceneManager.GetSceneByName("Game");
 
@@ -171,7 +172,7 @@ public class NetworkPlayer : NetworkBehaviour
 
     #endregion
 
-    #region Disconect match
+    #region DisconectMatch
     public void DisconnectGame ()
     {
         cmdDisconnectGame();
