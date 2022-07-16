@@ -7,17 +7,16 @@ using System.Collections.Generic;
 
 public class NetworkPlayer : NetworkBehaviour
 {
-    public Scene scene;
-
-    public static NetworkPlayer localPlayer;
-
-    private NetworkMatch networkMatch;
-
     [SyncVar] public int PlayerIndex;
 
     [SyncVar] public string RoomID;
 
     [SyncVar] public Room currentRoom;
+
+    public Scene scene;
+
+    public static NetworkPlayer localPlayer;
+    private NetworkMatch networkMatch;
 
 
     void Awake()
