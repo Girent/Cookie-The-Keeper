@@ -19,10 +19,16 @@ public class NetworkPlayer : NetworkBehaviour
 
     [SyncVar] public Room currentRoom;
 
+    [SerializeField] private GameObject playerCamera;
+
+    [SerializeField] private Canvas playerCanvas;
+
+    private GameObject mainCamera;
 
     void Awake()
     {
         networkMatch = GetComponent<NetworkMatch>();
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
     }
 
     public override void OnStartClient()
@@ -30,6 +36,7 @@ public class NetworkPlayer : NetworkBehaviour
         if (isLocalPlayer)
         {
             localPlayer = this;
+            playerCanvas.enabled = true;
         }
     }
 
@@ -140,6 +147,11 @@ public class NetworkPlayer : NetworkBehaviour
     public void BeginGame()
     {
         cmdBeginGame();
+        mainCamera.SetActive(false);
+        if(isLocalPlayer)
+        {
+            playerCamera.SetActive(true);
+        }
     }
 
     [Command]
