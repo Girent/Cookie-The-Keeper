@@ -12,7 +12,7 @@ public class Room
 
     public bool roomFull;
 
-    public int maxPlayers = 2;
+    public int maxPlayers = 5;
 
     public List<GameObject> players = new List<GameObject>();
 
@@ -21,6 +21,8 @@ public class Room
         this.roomId = roomId;
         players.Add(player);
     }
+
+
 
     public Room()
     {

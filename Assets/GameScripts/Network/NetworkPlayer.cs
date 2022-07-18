@@ -162,7 +162,6 @@ public class NetworkPlayer : NetworkBehaviour
         SceneManager.LoadScene(2, LoadSceneMode.Additive);
         Scene sceneToLoad = SceneManager.GetSceneByName("Game");
 
-        //SceneManager.MoveGameObjectToScene(gameObject, sceneToLoad);
         foreach (GameObject player in players)
         {
             SceneManager.MoveGameObjectToScene(player, sceneToLoad);

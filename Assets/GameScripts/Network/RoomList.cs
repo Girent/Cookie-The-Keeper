@@ -18,9 +18,6 @@ public class RoomList : NetworkBehaviour
     public SyncList<Room> rooms = new SyncList<Room>();
     public SyncListString roomIDs = new SyncListString();
 
-    [SerializeField]
-    private GameObject turnManagerPrefab;
-
     private void Awake()
     {
         instance = this;
@@ -95,19 +92,14 @@ public class RoomList : NetworkBehaviour
 
     public void BeginGame (string roomId)
     {
-        GameObject newTurnManager = Instantiate(turnManagerPrefab);
-        NetworkServer.Spawn(newTurnManager);
-        newTurnManager.GetComponent<NetworkMatch>().matchId =  roomId.ToGuid();
-        TurnManager turnManager = newTurnManager.GetComponent<TurnManager>(); //Скорей всего мы берём первый менеджер из списка нескольких, и попадаем на не тот что нам нужен
-
         for (int i = 0; i < rooms.Count; i++)
         {
             if (rooms[i].roomId == roomId)
             {
+                rooms[i].inMatch = true;
                 foreach (var collectPlayer in rooms[i].players)
                 {
                     NetworkPlayer player = collectPlayer.GetComponent<NetworkPlayer>();
-                    turnManager.AddPlayer(player);
                     player.StartGame(rooms[i].players);
                 }
                 break;
