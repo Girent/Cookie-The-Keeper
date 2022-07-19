@@ -12,7 +12,7 @@ public class PlayerUi : NetworkBehaviour
 
     private void Awake()
     {
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 30;
     }
 
     public void OnSetNickname()

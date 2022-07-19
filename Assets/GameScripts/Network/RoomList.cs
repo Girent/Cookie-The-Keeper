@@ -3,7 +3,6 @@ using Mirror;
 using System;
 using System.Security.Cryptography;
 using System.Text;
-using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class SyncListRooms : SyncList<Room> { }
@@ -29,7 +28,7 @@ public class RoomList : NetworkBehaviour
         {
             roomIDs.Add(roomId);
             Room room = new Room(roomId, player);
-
+            StartCoroutine(room.WarmupTimer());
             room.publicRoom = publicRoom;
             rooms.Add(room);
             player.GetComponent<NetworkPlayer>().currentRoom = room;

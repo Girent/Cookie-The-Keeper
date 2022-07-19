@@ -149,9 +149,7 @@ public class NetworkPlayer : NetworkBehaviour
 
     public void StartGame(List<GameObject> players)
     {
-        
         TargetBeginGame(players);
-        
     }
 
     [TargetRpc]
@@ -164,6 +162,7 @@ public class NetworkPlayer : NetworkBehaviour
 
         foreach (GameObject player in players)
         {
+            EventsRoom.EndWarmup += player.GetComponent<NetworkPlayer>().DisconnectGame;
             SceneManager.MoveGameObjectToScene(player, sceneToLoad);
         }
     }
@@ -174,6 +173,7 @@ public class NetworkPlayer : NetworkBehaviour
     public void DisconnectGame ()
     {
         cmdDisconnectGame();
+        Application.Quit();
     }
 
     [Command]
@@ -197,7 +197,7 @@ public class NetworkPlayer : NetworkBehaviour
 
     private void clientDisconnect()
     {
-
+        
     }
     #endregion
 }

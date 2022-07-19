@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +13,9 @@ public class Room
 
     public bool roomFull;
 
-    public int maxPlayers = 5;
+    public int maxPlayers = 2;
+
+    private float warmupTime = 30f;
 
     public List<GameObject> players = new List<GameObject>();
 
@@ -22,10 +25,15 @@ public class Room
         players.Add(player);
     }
 
-
-
     public Room()
     {
-
+        
     }
+
+    public IEnumerator WarmupTimer()
+    {
+        yield return new WaitForSeconds(warmupTime);
+        EventsRoom.OnEndWarmup();
+    }
+
 }
