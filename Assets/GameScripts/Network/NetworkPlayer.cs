@@ -162,7 +162,6 @@ public class NetworkPlayer : NetworkBehaviour
 
         foreach (GameObject player in players)
         {
-            EventsRoom.EndWarmup += player.GetComponent<NetworkPlayer>().DisconnectGame;
             SceneManager.MoveGameObjectToScene(player, sceneToLoad);
         }
     }
@@ -173,7 +172,6 @@ public class NetworkPlayer : NetworkBehaviour
     public void DisconnectGame ()
     {
         cmdDisconnectGame();
-        Application.Quit();
     }
 
     [Command]

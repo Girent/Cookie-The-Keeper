@@ -28,11 +28,13 @@ public class RoomList : NetworkBehaviour
         {
             roomIDs.Add(roomId);
             Room room = new Room(roomId, player);
-            StartCoroutine(room.WarmupTimer());
             room.publicRoom = publicRoom;
             rooms.Add(room);
-            player.GetComponent<NetworkPlayer>().currentRoom = room;
+            NetworkPlayer networkPlayer = player.GetComponent<NetworkPlayer>();
+            networkPlayer.currentRoom = room;
             playerIndex = 1;
+            
+            StartCoroutine(room.WarmupTimer());
             return true;
         }
         else

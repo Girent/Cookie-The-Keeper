@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 [System.Serializable]
 public class Room
 {
+    public int maxPlayers = 2;
+
+    private float warmupTime = 10f;
+
     public string roomId { get; private set; }
 
     public bool publicRoom;
@@ -12,10 +17,6 @@ public class Room
     public bool inMatch;
 
     public bool roomFull;
-
-    public int maxPlayers = 2;
-
-    private float warmupTime = 30f;
 
     public List<GameObject> players = new List<GameObject>();
 
@@ -30,10 +31,20 @@ public class Room
         
     }
 
+    private void StartGame ()
+    {
+        foreach (var player in players)
+        {
+            player.GetComponent<WarmUp>().IsEndWarmup(true);
+        }
+    }
+
+    
+
     public IEnumerator WarmupTimer()
     {
         yield return new WaitForSeconds(warmupTime);
-        EventsRoom.OnEndWarmup();
+        StartGame();
     }
 
 }
