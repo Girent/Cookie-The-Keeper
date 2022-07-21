@@ -5,15 +5,15 @@ using UnityEngine;
 public class WarmUp : NetworkBehaviour
 {
     [SerializeField] private TextMeshProUGUI displayStatus;
-    [SyncVar(hook = nameof(syncIsEndWarmup))] public bool isOver;
+    [SyncVar(hook = nameof(syncUpdateLocalWarmupStatus))] public bool isOver;
 
     [Server]
-    public void IsEndWarmup(bool isOver)
+    public void UpdateLocalWarmupStatus(bool isOver)
     {
         this.isOver = isOver;
     }
 
-    private void syncIsEndWarmup(bool oldVal, bool newVal)
+    private void syncUpdateLocalWarmupStatus(bool oldVal, bool newVal)
     {
         if (newVal)
             displayStatus.text = "Матч начался!!";

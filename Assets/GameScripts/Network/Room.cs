@@ -33,9 +33,10 @@ public class Room
 
     private void StartGame ()
     {
-        foreach (var player in players)
+        inMatch = true;
+        foreach (GameObject player in players)
         {
-            player.GetComponent<WarmUp>().IsEndWarmup(true);
+            player.GetComponent<WarmUp>().UpdateLocalWarmupStatus(true);
         }
     }
 

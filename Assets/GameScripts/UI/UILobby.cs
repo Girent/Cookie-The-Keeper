@@ -11,8 +11,6 @@ public class UILobby : MonoBehaviour
 
 
     [Header("Host ??????")]
-    [SerializeField]
-    private InputField joinId;
 
     [SerializeField]
     List<Selectable> lobbySelectables = new List<Selectable>();
@@ -40,7 +38,6 @@ public class UILobby : MonoBehaviour
     private void Host()
     {
         lobbySelectables.ForEach(selectable => selectable.interactable = false);
-        joinId.interactable = false;
 
         NetworkPlayer.localPlayer.CreateRoom();
     }
@@ -56,15 +53,7 @@ public class UILobby : MonoBehaviour
         else
         {
             lobbySelectables.ForEach(selectable => selectable.interactable = true);
-            joinId.interactable = true;
         }
-    }
-
-    public void Join()
-    {
-        NetworkPlayer.localPlayer.JoinRoom(joinId.text);
-        lobbySelectables.ForEach(selectable => selectable.interactable = false);
-        joinId.interactable = false;
     }
 
     public void JoinSuccess(bool success, string matchId)
@@ -79,7 +68,6 @@ public class UILobby : MonoBehaviour
         else
         {
             lobbySelectables.ForEach(selectable => selectable.interactable = true);
-            joinId.interactable = true;
         }
     }
 

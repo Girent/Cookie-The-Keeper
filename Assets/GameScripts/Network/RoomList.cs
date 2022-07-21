@@ -3,6 +3,7 @@ using Mirror;
 using System;
 using System.Security.Cryptography;
 using System.Text;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class SyncListRooms : SyncList<Room> { }
@@ -22,6 +23,19 @@ public class RoomList : NetworkBehaviour
         instance = this;
     }
 
+    public List<GameObject> GetPlayersOnRoom (string roomId)
+    {
+        foreach (var room in rooms)
+        {
+            if (room.roomId == roomId)
+            {
+                return room.players;
+                
+            }
+        }
+        return null;
+    }
+
     public bool HostGame(string roomId, GameObject player, bool publicRoom, out int playerIndex)
     {
         if (!roomIDs.Contains(roomId))
@@ -33,7 +47,7 @@ public class RoomList : NetworkBehaviour
             NetworkPlayer networkPlayer = player.GetComponent<NetworkPlayer>();
             networkPlayer.currentRoom = room;
             playerIndex = 1;
-            
+
             StartCoroutine(room.WarmupTimer());
             return true;
         }
@@ -55,7 +69,9 @@ public class RoomList : NetworkBehaviour
                 if (rooms[i].roomId == roomId)
                 {
                     rooms[i].players.Add(player);
-                    player.GetComponent<NetworkPlayer>().currentRoom = rooms[i];
+                    NetworkPlayer networkPlayer = player.GetComponent<NetworkPlayer>();
+                    networkPlayer.currentRoom = rooms[i];
+
                     playerIndex = rooms[i].players.Count;
                     if (rooms[i].players.Count == rooms[i].maxPlayers)
                         rooms[i].roomFull = true;
@@ -97,11 +113,15 @@ public class RoomList : NetworkBehaviour
         {
             if (rooms[i].roomId == roomId)
             {
-                rooms[i].inMatch = true;
                 foreach (var collectPlayer in rooms[i].players)
                 {
                     NetworkPlayer player = collectPlayer.GetComponent<NetworkPlayer>();
-                    player.StartGame(rooms[i].players);
+                    if (player.inGame == false)
+                    {
+                        Debug.Log("Thats ok");
+                        player.inGame = true;
+                        player.StartGame(rooms[i].players);
+                    }
                 }
                 break;
             }

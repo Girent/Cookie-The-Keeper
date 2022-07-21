@@ -13,6 +13,8 @@ public class NetworkPlayer : NetworkBehaviour
 
     [SyncVar] public Room currentRoom;
 
+    public bool inGame = false;
+
     public Scene scene;
 
     public static NetworkPlayer localPlayer;
@@ -49,6 +51,7 @@ public class NetworkPlayer : NetworkBehaviour
         string matchId = Extensions.GetRandomMatchID();
 
         cmdCreateRoom(matchId, publicMatch);
+        //BeginGame();
     }
 
     [Command]
@@ -75,36 +78,6 @@ public class NetworkPlayer : NetworkBehaviour
 
     #endregion
 
-    #region JoinGame
-
-    public void JoinRoom(string inputMatchId)
-    {
-        cmdJoinRoom(inputMatchId);
-    }
-
-    [Command]
-    private void cmdJoinRoom(string roomId)
-    {
-        RoomID = roomId;
-        if (RoomList.instance.JoinGame(roomId, gameObject, out PlayerIndex))
-        {
-            networkMatch.matchId = roomId.ToGuid();
-            TargetJoinGame(true, roomId);
-        }
-        else
-        {
-            TargetJoinGame(false, roomId);
-        }
-    }
-
-    [TargetRpc]
-    private void TargetJoinGame(bool success, string matchId)
-    {
-        UILobby.instance.JoinSuccess(success, matchId);
-    }
-
-    #endregion
-
     #region SearchGame
     public void SearchGame ()
     {
@@ -118,6 +91,7 @@ public class NetworkPlayer : NetworkBehaviour
         {
             networkMatch.matchId = RoomID.ToGuid();
             targetSearchGame(true, RoomID, PlayerIndex);
+            //RoomList.instance.BeginGame(RoomID);
         }
         else
         {
@@ -159,7 +133,6 @@ public class NetworkPlayer : NetworkBehaviour
 
         SceneManager.LoadScene(2, LoadSceneMode.Additive);
         Scene sceneToLoad = SceneManager.GetSceneByName("Game");
-
         foreach (GameObject player in players)
         {
             SceneManager.MoveGameObjectToScene(player, sceneToLoad);
