@@ -3,7 +3,7 @@ using Mirror;
 using System;
 using System.Security.Cryptography;
 using System.Text;
-using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class SyncListRooms : SyncList<Room> { }
@@ -18,12 +18,22 @@ public class RoomList : NetworkBehaviour
     public SyncList<Room> rooms = new SyncList<Room>();
     public SyncListString roomIDs = new SyncListString();
 
-    [SerializeField]
-    private GameObject turnManagerPrefab;
-
     private void Awake()
     {
         instance = this;
+    }
+
+    public List<GameObject> GetPlayersOnRoom (string roomId)
+    {
+        foreach (var room in rooms)
+        {
+            if (room.roomId == roomId)
+            {
+                return room.players;
+                
+            }
+        }
+        return null;
     }
 
     public bool HostGame(string roomId, GameObject player, bool publicRoom, out int playerIndex)
@@ -32,11 +42,13 @@ public class RoomList : NetworkBehaviour
         {
             roomIDs.Add(roomId);
             Room room = new Room(roomId, player);
-
             room.publicRoom = publicRoom;
             rooms.Add(room);
-            player.GetComponent<NetworkPlayer>().currentRoom = room;
+            NetworkPlayer networkPlayer = player.GetComponent<NetworkPlayer>();
+            networkPlayer.currentRoom = room;
             playerIndex = 1;
+
+            StartCoroutine(room.WarmupTimer());
             return true;
         }
         else
@@ -57,7 +69,9 @@ public class RoomList : NetworkBehaviour
                 if (rooms[i].roomId == roomId)
                 {
                     rooms[i].players.Add(player);
-                    player.GetComponent<NetworkPlayer>().currentRoom = rooms[i];
+                    NetworkPlayer networkPlayer = player.GetComponent<NetworkPlayer>();
+                    networkPlayer.currentRoom = rooms[i];
+
                     playerIndex = rooms[i].players.Count;
                     if (rooms[i].players.Count == rooms[i].maxPlayers)
                         rooms[i].roomFull = true;
@@ -95,11 +109,6 @@ public class RoomList : NetworkBehaviour
 
     public void BeginGame (string roomId)
     {
-        GameObject newTurnManager = Instantiate(turnManagerPrefab);
-        NetworkServer.Spawn(newTurnManager);
-        newTurnManager.GetComponent<NetworkMatch>().matchId =  roomId.ToGuid();
-        TurnManager turnManager = newTurnManager.GetComponent<TurnManager>(); //Скорей всего мы берём первый менеджер из списка нескольких, и попадаем на не тот что нам нужен
-
         for (int i = 0; i < rooms.Count; i++)
         {
             if (rooms[i].roomId == roomId)
@@ -107,8 +116,11 @@ public class RoomList : NetworkBehaviour
                 foreach (var collectPlayer in rooms[i].players)
                 {
                     NetworkPlayer player = collectPlayer.GetComponent<NetworkPlayer>();
-                    turnManager.AddPlayer(player);
-                    player.StartGame(rooms[i].players);
+                    if (player.InGame == false)
+                    {
+                        player.InGame = true;
+                        player.StartGame(rooms[i].players);
+                    }
                 }
                 break;
             }
