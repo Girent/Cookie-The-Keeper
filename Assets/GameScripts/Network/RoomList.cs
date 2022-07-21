@@ -118,7 +118,6 @@ public class RoomList : NetworkBehaviour
                     NetworkPlayer player = collectPlayer.GetComponent<NetworkPlayer>();
                     if (player.inGame == false)
                     {
-                        Debug.Log("Thats ok");
                         player.inGame = true;
                         player.StartGame(rooms[i].players);
                     }

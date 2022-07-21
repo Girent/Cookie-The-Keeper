@@ -51,7 +51,7 @@ public class NetworkPlayer : NetworkBehaviour
         string matchId = Extensions.GetRandomMatchID();
 
         cmdCreateRoom(matchId, publicMatch);
-        //BeginGame();
+        BeginGame();
     }
 
     [Command]
@@ -91,7 +91,6 @@ public class NetworkPlayer : NetworkBehaviour
         {
             networkMatch.matchId = RoomID.ToGuid();
             targetSearchGame(true, RoomID, PlayerIndex);
-            //RoomList.instance.BeginGame(RoomID);
         }
         else
         {
@@ -105,6 +104,7 @@ public class NetworkPlayer : NetworkBehaviour
         PlayerIndex = playerIndex;
         RoomID = matchId;
         UILobby.instance.SearchSuccess(success, matchId);
+        BeginGame();
     }
     #endregion
 
