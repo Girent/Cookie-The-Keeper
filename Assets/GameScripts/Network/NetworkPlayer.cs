@@ -13,7 +13,7 @@ public class NetworkPlayer : NetworkBehaviour
 
     [SyncVar] public Room currentRoom;
 
-    public bool inGame = false;
+    public bool InGame = false;
 
     public Scene scene;
 

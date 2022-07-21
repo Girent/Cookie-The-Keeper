@@ -116,9 +116,9 @@ public class RoomList : NetworkBehaviour
                 foreach (var collectPlayer in rooms[i].players)
                 {
                     NetworkPlayer player = collectPlayer.GetComponent<NetworkPlayer>();
-                    if (player.inGame == false)
+                    if (player.InGame == false)
                     {
-                        player.inGame = true;
+                        player.InGame = true;
                         player.StartGame(rooms[i].players);
                     }
                 }
