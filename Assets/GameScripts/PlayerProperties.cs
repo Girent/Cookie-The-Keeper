@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerProperties : MonoBehaviour
+public class PlayerProperties : NetworkBehaviour
 {
     [SerializeField] private int maxPlayerHealth;
     [SerializeField] private int playerDamage;
