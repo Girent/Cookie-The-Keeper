@@ -17,13 +17,17 @@ public class NetworkPlayer : NetworkBehaviour
 
     public Scene scene;
 
+    private BoxCollider2D playerCollider;
+
     public static NetworkPlayer localPlayer;
     private NetworkMatch networkMatch;
+
 
 
     void Awake()
     {
         networkMatch = GetComponent<NetworkMatch>();
+        playerCollider = GetComponent<BoxCollider2D>();
     }
 
     public override void OnStartClient()
