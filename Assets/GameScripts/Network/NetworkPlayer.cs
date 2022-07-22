@@ -128,10 +128,6 @@ public class NetworkPlayer : NetworkBehaviour
     public void StartGame(List<GameObject> players)
     {
         TargetBeginGame(players);
-        foreach (var player in players)
-        {
-            player.GetComponent<NetworkPlayer>().playerCollider.enabled = true;
-        }
     }
 
     [TargetRpc]
