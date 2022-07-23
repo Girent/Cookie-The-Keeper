@@ -1,12 +1,12 @@
 using Mirror;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerProperties : NetworkBehaviour
 {
     [SerializeField] private int maxPlayerHealth;
-    [SerializeField] private int playerDamage;
+    public int playerDamage { get; private set; }
+    public float attackRange { get; private set; }
+    [SerializeField] private float damageReductionCoefficient;
     [SerializeField] private float inGamePlayerSpeed;
     [SerializeField] private float minSpeed = 0.1f;
     [SerializeField] private GameObject[] andrewsHealthPoints;
@@ -15,6 +15,8 @@ public class PlayerProperties : NetworkBehaviour
 
     private void Awake()
     {
+        attackRange = 2.0f;
+        playerDamage = 1;
         CurrentPlayerHealth = maxPlayerHealth;
     }
 
@@ -26,11 +28,11 @@ public class PlayerProperties : NetworkBehaviour
     [Command]
     public void CmdGettingDamage(int damageAmount)
     {
-        gettingDamage(damageAmount);
+        GettingDamage(damageAmount);
     }
 
     [Server]
-    private void gettingDamage(int damageAmount)
+    public void GettingDamage(int damageAmount)
     {
         CurrentPlayerHealth -= damageAmount;
     }

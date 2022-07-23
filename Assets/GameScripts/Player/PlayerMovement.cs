@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerMovement : NetworkBehaviour
 {
     [SerializeField] private float speed = 5;
-    [SerializeField] private Joystick playerJoystick;
+    [SerializeField] private UIJoystick playerJoystick;
     [SerializeField] private GameObject playerCamera;
 
     [SerializeField] private Canvas playerCanvas;
@@ -22,7 +22,7 @@ public class PlayerMovement : NetworkBehaviour
 
     void Update()
     {
-        Vector2 moveInput = new Vector2(playerJoystick.Horizontal, playerJoystick.Vertical);
+        Vector2 moveInput = new Vector2(playerJoystick.HorizontalInput(), playerJoystick.VerticallInput());
         moveVelocity = moveInput * speed;
     }
 
