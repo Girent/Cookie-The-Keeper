@@ -20,7 +20,7 @@ public class PlayerMovement : NetworkBehaviour
         playerRigidBody = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    private void Update()
     {
         Vector2 moveInput = new Vector2(playerJoystick.HorizontalInput(), playerJoystick.VerticallInput());
         moveVelocity = moveInput * speed;

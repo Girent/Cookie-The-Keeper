@@ -7,8 +7,6 @@ public class PlayerCombat : NetworkBehaviour
     [SerializeField] private LayerMask enemyLayers;
     [SerializeField] UIJoystick joystickInput;
 
-    private Vector3 attackDirection = new Vector3(1,1,0);
-
     private PlayerProperties playerProperties;
 
     private void Awake()
@@ -16,17 +14,11 @@ public class PlayerCombat : NetworkBehaviour
         playerProperties = gameObject.GetComponent<PlayerProperties>();
     }
 
-    private void FixedUpdate()
-    {
-        if (joystickInput.HorizontalInput() != 0 && joystickInput.VerticallInput() != 0)
-            attackDirection = new Vector3(joystickInput.HorizontalInput(), joystickInput.VerticallInput(), 0).normalized * playerProperties.attackRange;
-    }
-
     public void Attack ()
     {
-        attackPoint.localPosition = attackDirection;
+        attackPoint.localPosition = joystickInput.GetLastDirection() * playerProperties.attackRange;
 
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, playerProperties.attackRange / 4, enemyLayers);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, playerProperties.attackRange / 2f, enemyLayers);
 
         foreach (var enemy in hitEnemies)
         {
@@ -42,9 +34,6 @@ public class PlayerCombat : NetworkBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        if (attackPoint == null)
-            return;
-
-            Gizmos.DrawWireSphere(attackPoint.position, playerProperties.attackRange / 4);
+        Gizmos.DrawWireSphere(attackPoint.position, playerProperties.attackRange / 2f);
     }
 }

@@ -15,7 +15,7 @@ public class PlayerProperties : NetworkBehaviour
 
     private void Awake()
     {
-        attackRange = 2.0f;
+        attackRange = 1.2f;
         playerDamage = 1;
         CurrentPlayerHealth = maxPlayerHealth;
     }

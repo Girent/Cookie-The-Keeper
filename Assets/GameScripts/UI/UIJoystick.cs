@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 
 public class UIJoystick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
+    private Vector3 lastDirection = new Vector3(1f,1f,0);
     private Vector2 positionInput;
     private Image joystickBg;
     [SerializeField] private Image joystick;
@@ -34,6 +35,9 @@ public class UIJoystick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoi
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (HorizontalInput() != 0 && VerticallInput() != 0)
+            lastDirection = new Vector3(HorizontalInput(), VerticallInput(), 0).normalized;
+
         positionInput = Vector2.zero;
         joystick.rectTransform.anchoredPosition = Vector2.zero;
     }
@@ -46,5 +50,10 @@ public class UIJoystick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoi
     public float VerticallInput()
     {
         return positionInput.y;
+    }
+
+    public Vector3 GetLastDirection()
+    {
+        return lastDirection;
     }
 }
