@@ -1,15 +1,18 @@
 using Mirror;
 using UnityEngine;
+using TMPro;
 
 public class PlayerProperties : NetworkBehaviour
 {
     [SerializeField] private int maxPlayerHealth;
+    [SerializeField] private int woodAmount;
     public int playerDamage { get; private set; }
     public float attackRange { get; private set; }
     [SerializeField] private float damageReductionCoefficient;
     [SerializeField] private float inGamePlayerSpeed;
     [SerializeField] private float minSpeed = 0.1f;
     [SerializeField] private GameObject[] andrewsHealthPoints;
+    [SerializeField] private TextMeshProUGUI woodCounterUI;
 
     [SyncVar(hook = nameof(syncSetCurrentHealth))] public int CurrentPlayerHealth;
 
@@ -23,6 +26,21 @@ public class PlayerProperties : NetworkBehaviour
     private void syncSetCurrentHealth(int oldValue, int newValue)
     {
         CurrentPlayerHealth = newValue;
+    }
+
+    public void IncreaseWoodAmount(int addedWood)
+    {
+        woodAmount += addedWood;
+    }
+
+    public bool DecreaseWoodAmount(int decreaseWood)
+    {
+        if(woodAmount-decreaseWood > 0)
+        {
+            woodAmount -= decreaseWood;
+            return true;
+        }
+        return false;
     }
 
     [Command]
