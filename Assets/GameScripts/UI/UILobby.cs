@@ -1,32 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UILobby : MonoBehaviour
 {
-    //??? ????? ?? ?????????, ????? ?????? ??????? ???
-    //????? ?????????? ????, ????? ? ???????? ???????? ?? ?????? ???!!!
     public static UILobby instance;
 
 
-    [Header("Host ??????")]
-
-    [SerializeField]
-    List<Selectable> lobbySelectables = new List<Selectable>();
-
-    [SerializeField]
-    private Canvas lobbyCanvas;
-
-    [SerializeField]
-    private Canvas searchCanvas;
-
-    [SerializeField]
-    private Text matchIdText;
-
-
-    [SerializeField]
-    private GameObject beginGameButton;
+    [SerializeField] private Canvas searchCanvas;
 
     private bool searching = false;
 
@@ -35,41 +15,6 @@ public class UILobby : MonoBehaviour
         instance = this;
     }
 
-    private void Host()
-    {
-        lobbySelectables.ForEach(selectable => selectable.interactable = false);
-
-        NetworkPlayer.localPlayer.CreateRoom();
-    }
-
-    public void HostSuccess (bool success, string matchId)
-    {
-        if (success)
-        {
-            lobbyCanvas.enabled = true;
-            beginGameButton.SetActive(true);
-            matchIdText.text = matchId;
-        }
-        else
-        {
-            lobbySelectables.ForEach(selectable => selectable.interactable = true);
-        }
-    }
-
-    public void JoinSuccess(bool success, string matchId)
-    {
-        if (success)
-        {
-            lobbyCanvas.enabled = true;
-            beginGameButton.SetActive(false);
-
-            matchIdText.text = matchId;
-        }
-        else
-        {
-            lobbySelectables.ForEach(selectable => selectable.interactable = true);
-        }
-    }
 
     public void BeginGame ()
     {
@@ -105,7 +50,6 @@ public class UILobby : MonoBehaviour
     {
         if (success)
         {
-            JoinSuccess(success, matchId);
             searching = false;
             searchCanvas.enabled = false;
         }
@@ -113,24 +57,14 @@ public class UILobby : MonoBehaviour
         {
             searching = false;
             searchCanvas.enabled = false;
-            Host();
+            NetworkPlayer.localPlayer.CreateRoom();
         }
        
     }
 
-    public void SearchCancel ()
+    public void disableSearchCanvas()
     {
         searchCanvas.enabled = false;
         searching = false;
-        lobbySelectables.ForEach(selectable => selectable.interactable = true);
-    }
-
-    public void DisconnectLobby ()
-    {
-        NetworkPlayer.localPlayer.DisconnectGame();
-
-        lobbyCanvas.enabled = false;
-        lobbySelectables.ForEach(selectable => selectable.interactable = true);
-        beginGameButton.SetActive(false);
     }
 }

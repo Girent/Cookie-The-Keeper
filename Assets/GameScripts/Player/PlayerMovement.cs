@@ -41,4 +41,15 @@ public class PlayerMovement : NetworkBehaviour
         if (hasAuthority)
             playerCanvas.enabled = true;
     }
+
+    public void DisablePlayerInterface()
+    {
+        mainCamera.SetActive(true);
+        if (isLocalPlayer)
+        {
+            playerCamera.SetActive(false);
+        }
+        if (hasAuthority)
+            playerCanvas.enabled = false;
+    }
 }
