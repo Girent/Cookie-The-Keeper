@@ -11,7 +11,6 @@ public class PlayerProperties : NetworkBehaviour
     [SerializeField] private float damageReductionCoefficient;
     [SerializeField] private float inGamePlayerSpeed;
     [SerializeField] private float minSpeed = 0.1f;
-    [SerializeField] private GameObject[] andrewsHealthPoints;
     [SerializeField] private TextMeshProUGUI woodCounterUI;
 
     [SyncVar(hook = nameof(syncSetCurrentHealth))] public int CurrentPlayerHealth;
@@ -68,11 +67,5 @@ public class PlayerProperties : NetworkBehaviour
     }
     #endregion
 
-    private void FixedUpdate()
-    {
-        for (int i = 0; i < andrewsHealthPoints.Length; i++)
-        {
-            andrewsHealthPoints[i].SetActive(!(CurrentPlayerHealth - 1 < i));
-        }
-    }
+    
 }
