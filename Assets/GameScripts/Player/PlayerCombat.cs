@@ -8,10 +8,12 @@ public class PlayerCombat : NetworkBehaviour
     [SerializeField] UIJoystick joystickInput;
 
     private PlayerProperties playerProperties;
+    private Damage damage;
 
     private void Awake()
     {
         playerProperties = gameObject.GetComponent<PlayerProperties>();
+        damage = GetComponent<Damage>();
     }
 
     public void Attack ()
@@ -22,18 +24,13 @@ public class PlayerCombat : NetworkBehaviour
 
         foreach (var enemy in hitEnemies)
         {
-            damageEnemy(enemy.GetComponent<PlayerProperties>());
+            InflictDamage(enemy.GetComponent<Health>(), damage.Amount);
         }
     }
 
     [Command]
-    private void damageEnemy (PlayerProperties enemy)
+    public void InflictDamage(Health health, float damage)
     {
-        enemy.GettingDamage(playerProperties.playerDamage);
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.DrawWireSphere(attackPoint.position, playerProperties.attackRange / 2f);
+        health.ApplyDamage(damage);
     }
 }

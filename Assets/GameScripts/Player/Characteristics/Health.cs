@@ -1,8 +1,9 @@
 ﻿using System;
 using UnityEngine;
+using Mirror;
+using TMPro;
 
-
-public class Health : MonoBehaviour, IProperty 
+public class Health : NetworkBehaviour, IProperty 
 {   
     public Health()
     {
@@ -25,7 +26,7 @@ public class Health : MonoBehaviour, IProperty
         }
     }
 
-    private float amount;
+    [SyncVar(hook = nameof(syncValue))] private float amount;
 
     public void Decrease(int amount)
     {
@@ -42,6 +43,17 @@ public class Health : MonoBehaviour, IProperty
             throw new InvalidOperationException();
 
         Amount += amount;
+    }
+
+    private void syncValue(float oldValue, float newValue)
+    {
+        amount = newValue;
+    }
+
+    [Server]
+    public void ApplyDamage(float amount)
+    {
+        Amount -= amount;
     }
 }
 

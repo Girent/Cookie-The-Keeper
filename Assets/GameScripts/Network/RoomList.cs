@@ -129,6 +129,7 @@ public class RoomList : NetworkBehaviour
 
     public void PlayerDisconnected(NetworkPlayer player, string roomId)
     {
+        player.currentRoom = null;
         for (int i = 0; i < rooms.Count; i++)
         {
             if (rooms[i].roomId == roomId)

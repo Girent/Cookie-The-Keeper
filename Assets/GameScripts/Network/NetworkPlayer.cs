@@ -17,8 +17,6 @@ public class NetworkPlayer : NetworkBehaviour
 
     public Scene scene;
 
-    private BoxCollider2D playerCollider;
-
     public static NetworkPlayer localPlayer;
     private NetworkMatch networkMatch;
 
@@ -27,7 +25,6 @@ public class NetworkPlayer : NetworkBehaviour
     void Awake()
     {
         networkMatch = GetComponent<NetworkMatch>();
-        playerCollider = GetComponent<BoxCollider2D>();
     }
 
     public override void OnStartClient()
@@ -65,19 +62,18 @@ public class NetworkPlayer : NetworkBehaviour
         if (RoomList.instance.HostGame(_matchId, gameObject, publicMatch, out PlayerIndex))
         {
             networkMatch.matchId = _matchId.ToGuid();
-            TargetHostGame(true, _matchId);
+            TargetHostGame( _matchId);
         }
         else
         {
-            TargetHostGame(false, _matchId);
+            TargetHostGame( _matchId);
         }
     }
 
     [TargetRpc]
-    private void TargetHostGame (bool success, string matchId)
+    private void TargetHostGame (string matchId)
     {
         RoomID = matchId;
-        UILobby.instance.HostSuccess(success, matchId);
     }
 
     #endregion
@@ -136,7 +132,7 @@ public class NetworkPlayer : NetworkBehaviour
         gameObject.GetComponent<PlayerMovement>().EnablePlayerInterface();
 
         SceneManager.LoadScene(2, LoadSceneMode.Additive);
-        Scene sceneToLoad = SceneManager.GetSceneByName("Game");
+        Scene sceneToLoad = SceneManager.GetSceneByBuildIndex(2);
         foreach (GameObject player in players)
         {
             SceneManager.MoveGameObjectToScene(player, sceneToLoad);
@@ -149,6 +145,12 @@ public class NetworkPlayer : NetworkBehaviour
     public void DisconnectGame ()
     {
         cmdDisconnectGame();
+        UILobby.instance.disableSearchCanvas();
+        Scene sceneToLobby = SceneManager.GetSceneByBuildIndex(1);
+
+        SceneManager.MoveGameObjectToScene(gameObject, sceneToLobby);
+        GetComponent<PlayerMovement>().DisablePlayerInterface();
+        SceneManager.UnloadSceneAsync(2);
     }
 
     [Command]
@@ -161,6 +163,7 @@ public class NetworkPlayer : NetworkBehaviour
     {
         RoomList.instance.PlayerDisconnected(this, RoomID);
         networkMatch.matchId = string.Empty.ToGuid();
+        InGame = false;
         rpcDisconnectGame();
     }
 
