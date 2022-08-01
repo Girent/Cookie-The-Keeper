@@ -3,23 +3,25 @@ using UnityEngine;
 
 public class PlayerMovement : NetworkBehaviour
 {
-    [SerializeField] private float speed = 5;
-    [SerializeField] private UIJoystick playerJoystick;
-    [SerializeField] private GameObject playerCamera;
+    [SerializeField] private float speed = 10;
 
+    [SerializeField] private UIJoystick playerJoystick;
     [SerializeField] private Canvas playerCanvas;
 
+    [SerializeField] private GameObject playerCamera;
     private GameObject mainCamera;
 
     private Rigidbody2D playerRigidBody;
     private Vector2 moveVelocity;
+    private NetworkAnimator networkAnimator;
 
     private void Awake()
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         playerRigidBody = GetComponent<Rigidbody2D>();
+        networkAnimator = GetComponent<NetworkAnimator>();
     }
-
+    
     private void Update()
     {
         Vector2 moveInput = new Vector2(playerJoystick.HorizontalInput(), playerJoystick.VerticallInput());
@@ -28,7 +30,13 @@ public class PlayerMovement : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        playerRigidBody.MovePosition(playerRigidBody.position + moveVelocity * Time.deltaTime);
+        if (!isLocalPlayer)
+            return;
+
+        networkAnimator.animator.SetBool("IsMove", playerRigidBody.velocity.magnitude != 0);
+        networkAnimator.animator.SetFloat("Horizontal", playerRigidBody.velocity.x);
+        networkAnimator.animator.SetFloat("Vertical", playerRigidBody.velocity.y);
+        playerRigidBody.velocity = moveVelocity;
     }
 
     public void EnablePlayerInterface()

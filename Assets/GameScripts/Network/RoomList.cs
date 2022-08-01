@@ -74,7 +74,11 @@ public class RoomList : NetworkBehaviour
 
                     playerIndex = rooms[i].players.Count;
                     if (rooms[i].players.Count == rooms[i].maxPlayers)
+                    {
                         rooms[i].roomFull = true;
+                        StopCoroutine(rooms[i].WarmupTimer());
+                        rooms[i].StartGame();
+                    }
                     break;
                 }
             }

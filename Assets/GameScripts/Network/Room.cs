@@ -30,12 +30,12 @@ public class Room
         
     }
 
-    private void StartGame ()
+    public void StartGame ()
     {
         inMatch = true;
         foreach (GameObject player in players)
         {
-            player.GetComponent<WarmUp>().UpdateLocalWarmupStatus(true);
+            
         }
     }
 

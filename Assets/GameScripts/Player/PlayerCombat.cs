@@ -6,21 +6,20 @@ public class PlayerCombat : NetworkBehaviour
     [SerializeField] private Transform attackPoint;
     [SerializeField] private LayerMask enemyLayers;
     [SerializeField] UIJoystick joystickInput;
+    [SerializeField] private float attackRange;
 
-    private PlayerProperties playerProperties;
     private Damage damage;
 
     private void Awake()
     {
-        playerProperties = gameObject.GetComponent<PlayerProperties>();
         damage = GetComponent<Damage>();
     }
 
     public void Attack ()
     {
-        attackPoint.localPosition = joystickInput.GetLastDirection() * playerProperties.attackRange;
+        attackPoint.localPosition = joystickInput.GetLastDirection() * attackRange;
 
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, playerProperties.attackRange / 2f, enemyLayers);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange / 2f, enemyLayers);
 
         foreach (var enemy in hitEnemies)
         {
