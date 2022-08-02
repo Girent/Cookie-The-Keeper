@@ -6,7 +6,7 @@ public class PlayerCombat : NetworkBehaviour
     [SerializeField] private float attackRange;
     [SerializeField] private Transform attackPoint;
     [SerializeField] private LayerMask enemyLayers;
-    [SerializeField] UIJoystick joystickInput;
+    [SerializeField] private UIJoystick joystickInput;
 
     private NetworkAnimator networkAnimator;
     private Damage damage;

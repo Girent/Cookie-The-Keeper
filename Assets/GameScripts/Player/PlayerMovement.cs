@@ -42,10 +42,10 @@ public class PlayerMovement : NetworkBehaviour
     public void EnablePlayerInterface()
     {
         mainCamera.SetActive(false);
+
         if (isLocalPlayer)
-        {
             playerCamera.SetActive(true);
-        }
+
         if (hasAuthority)
             playerCanvas.enabled = true;
     }
@@ -53,10 +53,10 @@ public class PlayerMovement : NetworkBehaviour
     public void DisablePlayerInterface()
     {
         mainCamera.SetActive(true);
+
         if (isLocalPlayer)
-        {
             playerCamera.SetActive(false);
-        }
+
         if (hasAuthority)
             playerCanvas.enabled = false;
     }
