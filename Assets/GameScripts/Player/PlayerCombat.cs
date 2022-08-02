@@ -23,13 +23,18 @@ public class PlayerCombat : NetworkBehaviour
 
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange / 2f, enemyLayers);
 
-        networkAnimator.animator.SetFloat("AttackVector", joystickInput.GetLastDirection().x);
-        networkAnimator.SetTrigger("Attack");
+        setAttackAmination();
 
         foreach (var enemy in hitEnemies)
         {
             InflictDamage(enemy.GetComponent<Health>(), damage.Amount);
         }
+    }
+
+    private void setAttackAmination()
+    {
+        networkAnimator.animator.SetFloat("AttackVector", joystickInput.GetLastDirection().x);
+        networkAnimator.SetTrigger("Attack");
     }
 
     [Command]

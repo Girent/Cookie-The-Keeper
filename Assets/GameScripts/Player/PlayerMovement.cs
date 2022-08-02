@@ -33,10 +33,16 @@ public class PlayerMovement : NetworkBehaviour
         if (!isLocalPlayer)
             return;
 
+        setMovementAnimation();
+
+        playerRigidBody.velocity = moveVelocity;
+    }
+
+    private void setMovementAnimation()
+    {
         networkAnimator.animator.SetBool("IsMove", playerRigidBody.velocity.magnitude != 0);
         networkAnimator.animator.SetFloat("Horizontal", playerRigidBody.velocity.x);
         networkAnimator.animator.SetFloat("Vertical", playerRigidBody.velocity.y);
-        playerRigidBody.velocity = moveVelocity;
     }
 
     public void EnablePlayerInterface()
