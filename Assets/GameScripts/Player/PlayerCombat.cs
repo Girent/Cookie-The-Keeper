@@ -3,24 +3,28 @@ using UnityEngine;
 
 public class PlayerCombat : NetworkBehaviour
 {
+    [SerializeField] private float attackRange;
     [SerializeField] private Transform attackPoint;
     [SerializeField] private LayerMask enemyLayers;
-    [SerializeField] UIJoystick joystickInput;
+    [SerializeField] private UIJoystick joystickInput;
 
-    private PlayerProperties playerProperties;
+    private NetworkAnimator networkAnimator;
     private Damage damage;
 
     private void Awake()
     {
-        playerProperties = gameObject.GetComponent<PlayerProperties>();
         damage = GetComponent<Damage>();
+        networkAnimator = GetComponent<NetworkAnimator>();
     }
 
     public void Attack ()
     {
-        attackPoint.localPosition = joystickInput.GetLastDirection() * playerProperties.attackRange;
+        attackPoint.localPosition = joystickInput.GetLastDirection() * attackRange;
 
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, playerProperties.attackRange / 2f, enemyLayers);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange / 2f, enemyLayers);
+
+        networkAnimator.animator.SetFloat("AttackVector", joystickInput.GetLastDirection().x);
+        networkAnimator.SetTrigger("Attack");
 
         foreach (var enemy in hitEnemies)
         {
