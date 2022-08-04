@@ -17,7 +17,7 @@ public class Damage : MonoBehaviour, IProperty
             amount = value;
         }
     }
-    private float amount;
+    [SerializeField] private float amount;
 
     public void Decrease(int amount)
     {

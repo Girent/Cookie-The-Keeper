@@ -33,7 +33,8 @@ public class PlayerCombat : NetworkBehaviour
 
     private void setAttackAmination()
     {
-        networkAnimator.animator.SetFloat("AttackVector", joystickInput.GetLastDirection().x);
+        networkAnimator.animator.SetFloat("AttackVectorHorizontal", joystickInput.GetLastDirection().x);
+        networkAnimator.animator.SetFloat("AttackVectorVertical", joystickInput.GetLastDirection().y);
         networkAnimator.SetTrigger("Attack");
     }
 

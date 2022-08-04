@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using Mirror;
-using TMPro;
+using UnityEngine.UI;
 
 public class Health : NetworkBehaviour, IProperty 
 {   
@@ -28,6 +28,9 @@ public class Health : NetworkBehaviour, IProperty
 
     [SyncVar(hook = nameof(syncValue))] private float amount;
 
+    [SerializeField] private ParticleSystem hitParticleSystem;
+    [SerializeField] private Image healthBar;
+
     public void Decrease(int amount)
     {
         if (Amount - amount < MinHealth)
@@ -45,15 +48,28 @@ public class Health : NetworkBehaviour, IProperty
         Amount += amount;
     }
 
+    public void FixedUpdate()
+    {
+        healthBar.fillAmount = ((amount / MaxHealth) * 100) / 100;
+    }
+
     private void syncValue(float oldValue, float newValue)
     {
         amount = newValue;
+        hitEffect();
+    }
+
+    private void hitEffect()
+    {
+        hitParticleSystem.Play();
     }
 
     [Server]
     public void ApplyDamage(float amount)
     {
         Amount -= amount;
+        
     }
+
 }
 
