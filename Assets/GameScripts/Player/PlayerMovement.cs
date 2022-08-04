@@ -11,6 +11,8 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private GameObject playerCamera;
     private GameObject mainCamera;
 
+    [SerializeField] private ParticleSystem stepsParticleSystem;
+
     private Rigidbody2D playerRigidBody;
     private Vector2 moveVelocity;
     private NetworkAnimator networkAnimator;
@@ -36,6 +38,7 @@ public class PlayerMovement : NetworkBehaviour
         setMovementAnimation();
 
         playerRigidBody.velocity = moveVelocity;
+        changeParticleVector();
     }
 
     private void setMovementAnimation()
@@ -65,5 +68,22 @@ public class PlayerMovement : NetworkBehaviour
 
         if (hasAuthority)
             playerCanvas.enabled = false;
+    }
+
+    private void changeParticleVector()
+    {
+        if (playerRigidBody.velocity.magnitude != 0)
+        {
+            if (stepsParticleSystem.isStopped)
+                stepsParticleSystem.Play();
+        }
+        else
+        {
+            stepsParticleSystem.Stop();
+        }
+
+            var velocityOverLifetime = stepsParticleSystem.velocityOverLifetime;
+        velocityOverLifetime.x = playerJoystick.HorizontalInput() * -1f;
+        velocityOverLifetime.y = playerJoystick.VerticallInput() * -1f;
     }
 }
