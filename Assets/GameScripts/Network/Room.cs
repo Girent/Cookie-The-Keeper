@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class Room
 {
-    public int maxPlayers = 2;
+    public int maxPlayers = 5;
 
     private float warmupTime = 10f;
 

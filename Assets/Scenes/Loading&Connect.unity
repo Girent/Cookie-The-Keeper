@@ -447,7 +447,7 @@ MonoBehaviour:
   offlineScene: Assets/Scenes/Loading&Connect.unity
   onlineScene: Assets/Scenes/Lobby.unity
   transport: {fileID: 649287794}
-  networkAddress: localhost
+  networkAddress: 195.18.29.252
   maxConnections: 100
   authenticator: {fileID: 0}
   playerPrefab: {fileID: 1352942515576853519, guid: ee4d5f5407b480447958523eb6fb7123, type: 3}
@@ -462,7 +462,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 649287785}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c2c387a4c2d64d9469b22294fd52d171, type: 3}
   m_Name: 
@@ -474,7 +474,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 649287785}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
   m_Name: 

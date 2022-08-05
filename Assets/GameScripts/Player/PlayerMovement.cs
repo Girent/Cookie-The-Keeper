@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerMovement : NetworkBehaviour
 {
-    [SerializeField] private float speed = 10;
+    [SerializeField] private float speed = 15;
 
     [SerializeField] private UIJoystick playerJoystick;
     [SerializeField] private Canvas playerCanvas;
