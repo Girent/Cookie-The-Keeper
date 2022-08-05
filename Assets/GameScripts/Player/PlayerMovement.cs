@@ -16,14 +16,15 @@ public class PlayerMovement : NetworkBehaviour
     private Rigidbody2D playerRigidBody;
     private Vector2 moveVelocity;
     private NetworkAnimator networkAnimator;
-    
+
+    private SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         playerRigidBody = GetComponent<Rigidbody2D>();
         networkAnimator = GetComponent<NetworkAnimator>();
-        
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
     
     private void Update()
@@ -34,13 +35,14 @@ public class PlayerMovement : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (!isLocalPlayer)
-            return;
+        spriteRenderer.sortingOrder = (int)(-transform.position.y * 100);
+        if (isLocalPlayer)
+        {
+            setMovementAnimation();
 
-        setMovementAnimation();
-
-        playerRigidBody.velocity = moveVelocity;
-        changeParticleVector();
+            playerRigidBody.velocity = moveVelocity;
+            changeParticleVector();
+        }
     }
 
     private void setMovementAnimation()
