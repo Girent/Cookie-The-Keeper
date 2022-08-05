@@ -12,7 +12,9 @@ public class Health : NetworkBehaviour, IProperty
 
     public const float MaxHealth = 100;
     public const float MinHealth = 0;
-    
+
+    [SerializeField] private GameObject gameOverUi;
+    [SerializeField] private NetworkAnimator animator;
     public float Amount{
         get 
         { 
@@ -26,7 +28,7 @@ public class Health : NetworkBehaviour, IProperty
         }
     }
 
-    [SyncVar(hook = nameof(syncValue))] private float amount;
+    [SerializeField][SyncVar(hook = nameof(syncValue))] private float amount;
 
     [SerializeField] private ParticleSystem hitParticleSystem;
     [SerializeField] private Image healthBar;
@@ -57,6 +59,7 @@ public class Health : NetworkBehaviour, IProperty
     {
         amount = newValue;
         hitEffect();
+        dead();
     }
 
     private void hitEffect()
@@ -64,11 +67,34 @@ public class Health : NetworkBehaviour, IProperty
         hitParticleSystem.Play();
     }
 
+   
+    private void dead()
+    {
+        if (amount <= 0)
+        {
+            animator.SetTrigger("Dead");
+            gameOverUi.SetActive(true);
+            gameObject.GetComponent<PlayerMovement>().enabled = false;
+            cmdDead();
+        }
+    }
+
+    [Command]
+    private void cmdDead()
+    {
+        playerDeadServer();
+    }
+
+    [Server]
+    public void playerDeadServer()
+    {
+        Amount = MaxHealth;
+    }
+
     [Server]
     public void ApplyDamage(float amount)
     {
         Amount -= amount;
-        
     }
 
 }

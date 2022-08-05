@@ -23,6 +23,7 @@ public class PlayerMovement : NetworkBehaviour
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         playerRigidBody = GetComponent<Rigidbody2D>();
         networkAnimator = GetComponent<NetworkAnimator>();
+        
     }
     
     private void Update()
