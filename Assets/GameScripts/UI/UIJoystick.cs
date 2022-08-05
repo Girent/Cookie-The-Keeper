@@ -8,6 +8,7 @@ public class UIJoystick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoi
     private Vector2 positionInput;
     private Image joystickBg;
     [SerializeField] private Image joystick;
+    [SerializeField] private Animator cameraAnimator;
 
     private void Start()
     {
@@ -27,20 +28,30 @@ public class UIJoystick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoi
             joystick.rectTransform.anchoredPosition = new Vector2(positionInput.x * (joystickBg.rectTransform.sizeDelta.x / 2), positionInput.y * (joystickBg.rectTransform.sizeDelta.y / 2));
 
             if (HorizontalInput() != 0 && VerticallInput() != 0)
+            {
                 lastDirection = new Vector3(HorizontalInput(), VerticallInput(), 0).normalized;
+                cameraMoveAnimation();
+            }
         }
     }
 
     public void OnPointerDown (PointerEventData eventData)
     {
         OnDrag(eventData);
-        
+        cameraAnimator.SetBool("IsMove", true);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         positionInput = Vector2.zero;
         joystick.rectTransform.anchoredPosition = Vector2.zero;
+        cameraAnimator.SetBool("IsMove", false);
+    }
+
+    private void cameraMoveAnimation()
+    {
+        cameraAnimator.SetFloat("Horizontal", positionInput.x);
+        cameraAnimator.SetFloat("Vertical", positionInput.y);
     }
 
     public float HorizontalInput()

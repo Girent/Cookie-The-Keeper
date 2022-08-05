@@ -16,6 +16,7 @@ public class PlayerMovement : NetworkBehaviour
     private Rigidbody2D playerRigidBody;
     private Vector2 moveVelocity;
     private NetworkAnimator networkAnimator;
+    
 
     private void Awake()
     {
