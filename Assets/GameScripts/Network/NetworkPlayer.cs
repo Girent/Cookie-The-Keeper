@@ -87,7 +87,7 @@ public class NetworkPlayer : NetworkBehaviour
     [Command]
     private void cmdSearchGame()
     {
-        if (RoomList.instance.SearchGame(gameObject, out PlayerIndex, out RoomID))
+        if (RoomList.instance.SearchGame(gameObject, out RoomID))
         {
             networkMatch.matchId = RoomID.ToGuid();
             targetSearchGame(true, RoomID, PlayerIndex);
@@ -118,7 +118,7 @@ public class NetworkPlayer : NetworkBehaviour
     [Command]
     private void cmdBeginGame()
     {
-        RoomList.instance.BeginGame(RoomID);
+        RoomList.instance.rooms.Find(room => room.roomId == RoomID).EnterRoom();
     }
 
     public void StartGame(List<GameObject> players)
@@ -161,7 +161,7 @@ public class NetworkPlayer : NetworkBehaviour
 
     private void serverDisconnect ()
     {
-        RoomList.instance.PlayerDisconnected(this, RoomID);
+        RoomList.instance.rooms.Find(room => room.roomId == RoomID).DisconnectPlayer(this);
         networkMatch.matchId = string.Empty.ToGuid();
         InGame = false;
         rpcDisconnectGame();
