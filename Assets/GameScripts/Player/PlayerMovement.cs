@@ -86,7 +86,7 @@ public class PlayerMovement : NetworkBehaviour
             stepsParticleSystem.Stop();
         }
 
-            var velocityOverLifetime = stepsParticleSystem.velocityOverLifetime;
+        var velocityOverLifetime = stepsParticleSystem.velocityOverLifetime;
         velocityOverLifetime.x = playerJoystick.HorizontalInput() * -1f;
         velocityOverLifetime.y = playerJoystick.VerticallInput() * -1f;
     }
