@@ -7,15 +7,11 @@ using System.Collections.Generic;
 
 public class NetworkPlayer : NetworkBehaviour
 {
-    [SyncVar] public int PlayerIndex;
-
     [SyncVar] public string RoomID;
 
-    [SyncVar] public Room currentRoom;
+    [SyncVar] public Room CurrentRoom;
 
     public bool InGame = false;
-
-    public Scene scene;
 
     public static NetworkPlayer localPlayer;
     private NetworkMatch networkMatch;
@@ -56,10 +52,10 @@ public class NetworkPlayer : NetworkBehaviour
     }
 
     [Command]
-    private void cmdCreateRoom(string _matchId, bool publicMatch)
+    private void cmdCreateRoom(string _matchId, bool IsPublicMatch)
     {
         RoomID = _matchId;
-        if (RoomList.instance.HostGame(_matchId, gameObject, publicMatch, out PlayerIndex))
+        if (RoomList.instance.HostGame(_matchId, gameObject, IsPublicMatch))
         {
             networkMatch.matchId = _matchId.ToGuid();
             TargetHostGame( _matchId);
@@ -90,18 +86,17 @@ public class NetworkPlayer : NetworkBehaviour
         if (RoomList.instance.SearchGame(gameObject, out RoomID))
         {
             networkMatch.matchId = RoomID.ToGuid();
-            targetSearchGame(true, RoomID, PlayerIndex);
+            targetSearchGame(true, RoomID);
         }
         else
         {
-            targetSearchGame(false, RoomID, PlayerIndex);
+            targetSearchGame(false, RoomID);
         }
     }
 
     [TargetRpc]
-    private void targetSearchGame(bool success, string matchId, int playerIndex)
+    private void targetSearchGame(bool success, string matchId)
     {
-        PlayerIndex = playerIndex;
         RoomID = matchId;
         UILobby.instance.SearchSuccess(success, matchId);
         BeginGame();
@@ -118,7 +113,7 @@ public class NetworkPlayer : NetworkBehaviour
     [Command]
     private void cmdBeginGame()
     {
-        RoomList.instance.rooms.Find(room => room.roomId == RoomID).EnterRoom();
+        RoomList.instance.Rooms.Find(room => room.RoomId == RoomID).EnterRoom();
     }
 
     public void StartGame(List<GameObject> players)
@@ -146,6 +141,7 @@ public class NetworkPlayer : NetworkBehaviour
     {
         cmdDisconnectGame();
         UILobby.instance.disableSearchCanvas();
+
         Scene sceneToLobby = SceneManager.GetSceneByBuildIndex(1);
 
         SceneManager.MoveGameObjectToScene(gameObject, sceneToLobby);
@@ -161,7 +157,7 @@ public class NetworkPlayer : NetworkBehaviour
 
     private void serverDisconnect ()
     {
-        RoomList.instance.rooms.Find(room => room.roomId == RoomID).DisconnectPlayer(this);
+        RoomList.instance.Rooms.Find(room => room.RoomId == RoomID).DisconnectPlayer(this);
         networkMatch.matchId = string.Empty.ToGuid();
         InGame = false;
         rpcDisconnectGame();

@@ -12,25 +12,24 @@ public class RoomList : NetworkBehaviour
 {
     public static RoomList instance;
 
-    public SyncList<Room> rooms = new SyncList<Room>();
-    public SyncListString roomIDs = new SyncListString();
+    public SyncList<Room> Rooms = new SyncList<Room>();
+    public SyncListString RoomIDs = new SyncListString();
 
     private void Awake()
     {
         instance = this;
     }
 
-    public bool HostGame(string roomId, GameObject player, bool publicRoom, out int playerIndex)
+    public bool HostGame(string roomId, GameObject player, bool IsPublicRoom)
     {
-        if (!roomIDs.Contains(roomId))
+        if (!RoomIDs.Contains(roomId))
         {
-            roomIDs.Add(roomId);
+            RoomIDs.Add(roomId);
             Room room = new Room(roomId, player);
-            room.publicRoom = publicRoom;
-            rooms.Add(room);
+            room.IsPublicRoom = IsPublicRoom;
+            Rooms.Add(room);
             NetworkPlayer networkPlayer = player.GetComponent<NetworkPlayer>();
-            networkPlayer.currentRoom = room;
-            playerIndex = 1;
+            networkPlayer.CurrentRoom = room;
 
             StartCoroutine(room.WarmupTimer());
             return true;
@@ -38,7 +37,6 @@ public class RoomList : NetworkBehaviour
         else
         {
             Debug.Log("Id already exists");
-            playerIndex = -1;
             return false;
         }
     }
@@ -47,15 +45,14 @@ public class RoomList : NetworkBehaviour
     {
         roomId = String.Empty;
 
-        for (int i = 0; i < rooms.Count; i++)
+        for (int i = 0; i < Rooms.Count; i++)
         {
-            if (rooms[i].publicRoom && !rooms[i].roomFull && !rooms[i].inMatch)
+            if (Rooms[i].IsPublicRoom && !Rooms[i].RoomFull && !Rooms[i].InMatch)
             {
-                roomId = rooms[i].roomId;
-                if (roomIDs.Contains(roomId))
+                roomId = Rooms[i].RoomId;
+                if (RoomIDs.Contains(roomId))
                 {
-                    rooms[i].JoinRoom(player);
-                    //JoinGame(roomId, player);
+                    Rooms[i].JoinRoom(player);
                     return true;
                 }
             }

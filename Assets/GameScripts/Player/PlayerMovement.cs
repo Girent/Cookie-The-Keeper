@@ -36,6 +36,7 @@ public class PlayerMovement : NetworkBehaviour
     private void FixedUpdate()
     {
         spriteRenderer.sortingOrder = (int)(-transform.position.y * 100);
+
         if (isLocalPlayer)
         {
             setMovementAnimation();

@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using Mirror;
-using UnityEngine.UI;
 
 public class Health : NetworkBehaviour, IProperty 
 {   
@@ -13,8 +12,9 @@ public class Health : NetworkBehaviour, IProperty
     public const float MaxHealth = 100;
     public const float MinHealth = 0;
 
-    [SerializeField] private GameObject gameOverUi;
     [SerializeField] private NetworkAnimator animator;
+    [SerializeField] private UIHealthSlider healthSlider;
+
     public float Amount{
         get 
         { 
@@ -29,9 +29,6 @@ public class Health : NetworkBehaviour, IProperty
     }
 
     [SerializeField][SyncVar(hook = nameof(syncValue))] private float amount;
-
-    [SerializeField] private ParticleSystem hitParticleSystem;
-    [SerializeField] private Image healthBar;
 
     public void Decrease(int amount)
     {
@@ -50,43 +47,31 @@ public class Health : NetworkBehaviour, IProperty
         Amount += amount;
     }
 
-    public void FixedUpdate()
-    {
-        healthBar.fillAmount = ((amount / MaxHealth) * 100) / 100;
-    }
-
     private void syncValue(float oldValue, float newValue)
     {
         amount = newValue;
-        hitEffect();
-        dead();
-    }
-
-    private void hitEffect()
-    {
-        hitParticleSystem.Play();
+        healthSlider.UpdateHealthUi(amount, MaxHealth);
+        if (amount <= 0)
+            dead();
     }
 
    
     private void dead()
     {
-        if (amount <= 0)
-        {
-            animator.SetTrigger("Dead");
-            gameOverUi.SetActive(true);
-            gameObject.GetComponent<PlayerMovement>().enabled = false;
-            cmdDead();
-        }
+        animator.SetTrigger("Dead");
+        //windowController.SetGameOverWindow(true);
+        gameObject.GetComponent<PlayerMovement>().enabled = false;
+        cmdDead();
     }
 
     [Command]
     private void cmdDead()
     {
-        playerDeadServer();
+        playerDeadOnServer();
     }
 
     [Server]
-    public void playerDeadServer()
+    public void playerDeadOnServer()
     {
         Amount = MaxHealth;
     }
