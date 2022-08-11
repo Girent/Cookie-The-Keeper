@@ -2,6 +2,7 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using System;
 
 [RequireComponent(typeof(NetworkMatch))]
 
@@ -16,7 +17,8 @@ public class NetworkPlayer : NetworkBehaviour
     public static NetworkPlayer localPlayer;
     private NetworkMatch networkMatch;
 
-
+    public Action OnBeginGame;
+    public Action OnDisconnectGame;
 
     void Awake()
     {
@@ -124,7 +126,7 @@ public class NetworkPlayer : NetworkBehaviour
     [TargetRpc]
     private void TargetBeginGame(List<GameObject> players)
     {
-        gameObject.GetComponent<PlayerMovement>().EnablePlayerInterface();
+        OnBeginGame?.Invoke();
 
         SceneManager.LoadScene(2, LoadSceneMode.Additive);
         Scene sceneToLoad = SceneManager.GetSceneByBuildIndex(2);
@@ -145,7 +147,7 @@ public class NetworkPlayer : NetworkBehaviour
         Scene sceneToLobby = SceneManager.GetSceneByBuildIndex(1);
 
         SceneManager.MoveGameObjectToScene(gameObject, sceneToLobby);
-        GetComponent<PlayerMovement>().DisablePlayerInterface();
+        OnDisconnectGame?.Invoke();
         SceneManager.UnloadSceneAsync(2);
     }
 

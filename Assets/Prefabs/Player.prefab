@@ -12,13 +12,13 @@ GameObject:
   - component: {fileID: 1127445530}
   - component: {fileID: 1127445529}
   - component: {fileID: 8036385707365073287}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GayCam
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1127445528
 Transform:
   m_ObjectHideFlags: 0
@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 1477785050}
   - component: {fileID: 1477785049}
   - component: {fileID: 1477785048}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: AttackButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 6175338782704310787}
   - component: {fileID: 6772947233385233821}
   - component: {fileID: 338954677819715436}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Amount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -384,7 +384,7 @@ GameObject:
   - component: {fileID: 1181085709518552993}
   - component: {fileID: 3528619374648103058}
   - component: {fileID: 386056720982663735}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -466,8 +466,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.46
-  m_fontSizeBase: 23.46
+  m_fontSize: 43.2
+  m_fontSizeBase: 43.2
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -519,7 +519,7 @@ GameObject:
   - component: {fileID: 391757494159725510}
   - component: {fileID: 7121866446668530746}
   - component: {fileID: 3498660483606297112}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Steps Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5342,9 +5342,10 @@ GameObject:
   - component: {fileID: 9081561197235861430}
   - component: {fileID: 2690557306262282116}
   - component: {fileID: 1046803416115785032}
+  - component: {fileID: 8844675918911053836}
+  - component: {fileID: 6800863073896336328}
   - component: {fileID: 6188689808013214993}
-  - component: {fileID: 3422864654299243537}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -5570,8 +5571,7 @@ MonoBehaviour:
   syncInterval: 0.1
   speed: 5
   playerJoystick: {fileID: 6938738807796265482}
-  playerCanvas: {fileID: 0}
-  playerCamera: {fileID: 1127445527}
+  playerCanvas: {fileID: 7240415773694759242}
   stepsParticleSystem: {fileID: 7121866446668530746}
 --- !u!114 &9081561197235861430
 MonoBehaviour:
@@ -5591,7 +5591,7 @@ MonoBehaviour:
   attackPoint: {fileID: 4673313669260895828}
   enemyLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 72
   joystickInput: {fileID: 6938738807796265482}
 --- !u!114 &2690557306262282116
 MonoBehaviour:
@@ -5623,6 +5623,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   amount: 10
+--- !u!114 &8844675918911053836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352942515576853519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85281c717424846efb1da673cb6e2ffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  playerCanvas:
+  - {fileID: 7240415773694759242}
+  - {fileID: 6522917445809067292}
+  - {fileID: 7189117583173937273}
+  networkPlayer: {fileID: 3174306990855708142}
+  health: {fileID: 2690557306262282116}
+  playerCamera: {fileID: 1127445527}
+  endGamePanel: {fileID: 4656460673984625052}
+--- !u!114 &6800863073896336328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352942515576853519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 000e954f5422f4ab888770d565f03b84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  health: {fileID: 2690557306262282116}
 --- !u!212 &6188689808013214993
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5675,20 +5712,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!114 &3422864654299243537
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1352942515576853519}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85281c717424846efb1da673cb6e2ffa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerCanvas:
-  - {fileID: 7240415773694759242}
 --- !u!1 &1988018753103503884
 GameObject:
   m_ObjectHideFlags: 0
@@ -5699,7 +5722,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8781438754902906216}
   - component: {fileID: 3389384521229129836}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5782,7 +5805,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2781373505424692195}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Wood amount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5824,7 +5847,7 @@ GameObject:
   - component: {fileID: 1179750433475892104}
   - component: {fileID: 7531679720353230873}
   - component: {fileID: 6938738807796265482}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: JoystickUi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5915,7 +5938,8 @@ GameObject:
   - component: {fileID: 8560951973723286323}
   - component: {fileID: 7240415773694759242}
   - component: {fileID: 7753242761671056965}
-  m_Layer: 6
+  - component: {fileID: 7633456093584036445}
+  m_Layer: 3
   m_Name: StaticCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5951,7 +5975,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3832741286068267615}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 1127445530}
@@ -5963,7 +5987,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 1225464127
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &7753242761671056965
 MonoBehaviour:
@@ -5988,6 +6012,23 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
+--- !u!114 &7633456093584036445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3832741286068267615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &3916526246329717354
 GameObject:
   m_ObjectHideFlags: 0
@@ -6000,7 +6041,7 @@ GameObject:
   - component: {fileID: 239288839451583660}
   - component: {fileID: 9122642029488748669}
   - component: {fileID: 1509199118426581919}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6089,7 +6130,7 @@ GameObject:
   - component: {fileID: 4189048623881414783}
   - component: {fileID: 4027270420561483930}
   - component: {fileID: 1866413670328258443}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: LeaveGame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6114,8 +6155,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -130, y: 75}
-  m_SizeDelta: {x: 150, y: 30}
+  m_AnchoredPosition: {x: -213.58, y: 1249.9}
+  m_SizeDelta: {x: 300, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4189048623881414783
 CanvasRenderer:
@@ -6199,34 +6240,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3174306990855708142}
-        m_TargetAssemblyTypeName: NetworkPlayer, Assembly-CSharp
-        m_MethodName: DisconnectGame
+      - m_Target: {fileID: 8844675918911053836}
+        m_TargetAssemblyTypeName: InGameUi, Assembly-CSharp
+        m_MethodName: ToLobby
         m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 4656460673984625052}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 4970372277193461393}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -6258,7 +6275,7 @@ GameObject:
   - component: {fileID: 2278084006734879475}
   - component: {fileID: 3304286888714207829}
   - component: {fileID: 7613862317418559860}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: GameOverUi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6335,7 +6352,7 @@ GameObject:
   - component: {fileID: 2144040637956354943}
   - component: {fileID: 905737866236992156}
   - component: {fileID: 8409481580427515667}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6412,7 +6429,7 @@ GameObject:
   - component: {fileID: 6522917445809067292}
   - component: {fileID: 8418590177131906383}
   - component: {fileID: 8291250556255295032}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: ButtonCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6449,7 +6466,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6949987443740995926}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 1127445530}
@@ -6515,7 +6532,7 @@ GameObject:
   - component: {fileID: 7189117583173937273}
   - component: {fileID: 7189117583173937222}
   - component: {fileID: 7189117583173937223}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: StatsCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6551,7 +6568,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7189117583173937221}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 1127445530}
@@ -6616,7 +6633,7 @@ GameObject:
   - component: {fileID: 939605436500104504}
   - component: {fileID: 5882825193879523865}
   - component: {fileID: 4039469212922455412}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Avatar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6690,7 +6707,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4673313669260895828}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: AttackPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6723,7 +6740,7 @@ GameObject:
   - component: {fileID: 5345398291317682211}
   - component: {fileID: 7023933492104696895}
   - component: {fileID: 5554122253893774378}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Wood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6800,7 +6817,7 @@ GameObject:
   - component: {fileID: 4667964260429661711}
   - component: {fileID: 8749582694264283095}
   - component: {fileID: 1709604157208385130}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: BuildButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6920,7 +6937,7 @@ GameObject:
   - component: {fileID: 6404001709717989422}
   - component: {fileID: 4130343735244039350}
   - component: {fileID: 5128984166087090815}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -15,6 +15,8 @@ public class Health : NetworkBehaviour, IProperty
     [SerializeField] private NetworkAnimator animator;
     [SerializeField] private UIHealthSlider healthSlider;
 
+    public Action OnPlayerDead;
+
     public float Amount{
         get 
         { 
@@ -51,17 +53,13 @@ public class Health : NetworkBehaviour, IProperty
     {
         amount = newValue;
         healthSlider.UpdateHealthUi(amount, MaxHealth);
-        if (amount <= 0)
-            dead();
-    }
 
-   
-    private void dead()
-    {
-        animator.SetTrigger("Dead");
-        //windowController.SetGameOverWindow(true);
-        gameObject.GetComponent<PlayerMovement>().enabled = false;
-        cmdDead();
+        if (amount <= 0)
+        {
+            if(hasAuthority)
+                OnPlayerDead?.Invoke();
+            cmdDead();
+        }
     }
 
     [Command]
@@ -83,4 +81,3 @@ public class Health : NetworkBehaviour, IProperty
     }
 
 }
-

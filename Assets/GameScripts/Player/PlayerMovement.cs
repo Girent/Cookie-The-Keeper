@@ -8,8 +8,6 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private UIJoystick playerJoystick;
     [SerializeField] private Canvas playerCanvas;
 
-    [SerializeField] private GameObject playerCamera;
-    private GameObject mainCamera;
 
     [SerializeField] private ParticleSystem stepsParticleSystem;
 
@@ -21,7 +19,6 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Awake()
     {
-        mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         playerRigidBody = GetComponent<Rigidbody2D>();
         networkAnimator = GetComponent<NetworkAnimator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -51,28 +48,6 @@ public class PlayerMovement : NetworkBehaviour
         networkAnimator.animator.SetBool("IsMove", playerRigidBody.velocity.magnitude != 0);
         networkAnimator.animator.SetFloat("Horizontal", playerRigidBody.velocity.x);
         networkAnimator.animator.SetFloat("Vertical", playerRigidBody.velocity.y);
-    }
-
-    public void EnablePlayerInterface()
-    {
-        mainCamera.SetActive(false);
-
-        if (isLocalPlayer)
-            playerCamera.SetActive(true);
-
-        if (hasAuthority)
-            playerCanvas.enabled = true;
-    }
-
-    public void DisablePlayerInterface()
-    {
-        mainCamera.SetActive(true);
-
-        if (isLocalPlayer)
-            playerCamera.SetActive(false);
-
-        if (hasAuthority)
-            playerCanvas.enabled = false;
     }
 
     private void changeParticleVector()
