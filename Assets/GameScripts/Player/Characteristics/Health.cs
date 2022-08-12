@@ -12,8 +12,11 @@ public class Health : NetworkBehaviour, IProperty
     public const float MaxHealth = 100;
     public const float MinHealth = 0;
 
-    [SerializeField] private NetworkAnimator animator;
     [SerializeField] private UIHealthSlider healthSlider;
+    [SerializeField] private GameObject player;
+
+    private NetworkAnimator animator;
+    private NetworkPlayer networkPlayer;
 
     public Action OnPlayerDead;
 
@@ -31,6 +34,12 @@ public class Health : NetworkBehaviour, IProperty
     }
 
     [SerializeField][SyncVar(hook = nameof(syncValue))] private float amount;
+
+    private void Awake()
+    {
+        animator = player.GetComponent<NetworkAnimator>();
+        networkPlayer = player.GetComponent<NetworkPlayer>();
+    }
 
     public void Decrease(int amount)
     {
@@ -56,20 +65,13 @@ public class Health : NetworkBehaviour, IProperty
 
         if (amount <= 0)
         {
-            if(hasAuthority)
+            if (hasAuthority)
                 OnPlayerDead?.Invoke();
-            cmdDead();
         }
     }
 
-    [Command]
-    private void cmdDead()
-    {
-        playerDeadOnServer();
-    }
-
     [Server]
-    public void playerDeadOnServer()
+    public void serverSetMaxHealthAmount()
     {
         Amount = MaxHealth;
     }

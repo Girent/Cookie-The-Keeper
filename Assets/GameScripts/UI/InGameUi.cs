@@ -16,10 +16,13 @@ public class InGameUi : NetworkBehaviour
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
     }
 
-    private void OnEnable()
+    private void Start()
     {
-        networkPlayer.OnBeginGame += enableCanvas;
-        health.OnPlayerDead += endGameUi;
+        if (hasAuthority)
+        {
+            networkPlayer.OnBeginGame += enableCanvas;
+            health.OnPlayerDead += endGameUi;
+        }
     }
 
     private void OnDisable()

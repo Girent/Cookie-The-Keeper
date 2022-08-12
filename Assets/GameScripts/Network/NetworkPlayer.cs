@@ -147,7 +147,8 @@ public class NetworkPlayer : NetworkBehaviour
         Scene sceneToLobby = SceneManager.GetSceneByBuildIndex(1);
 
         SceneManager.MoveGameObjectToScene(gameObject, sceneToLobby);
-        OnDisconnectGame?.Invoke();
+        if(hasAuthority)
+            OnDisconnectGame?.Invoke();
         SceneManager.UnloadSceneAsync(2);
     }
 

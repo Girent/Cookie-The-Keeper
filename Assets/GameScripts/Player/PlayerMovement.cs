@@ -6,8 +6,6 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private float speed = 15;
 
     [SerializeField] private UIJoystick playerJoystick;
-    [SerializeField] private Canvas playerCanvas;
-
 
     [SerializeField] private ParticleSystem stepsParticleSystem;
 

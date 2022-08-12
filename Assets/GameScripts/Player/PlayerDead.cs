@@ -3,12 +3,22 @@ using UnityEngine;
 
 public class PlayerDead : NetworkBehaviour
 {
-    [SerializeField] private Health health;
-    private PlayerMovement playerMovement;
+    [SerializeField] private GameObject player;
+    private Collider2D playerCollider;
+    private Health health;
+    private NetworkAnimator playerAnimator;
 
-    private void OnEnable()
+    private void Awake()
     {
-        health.OnPlayerDead += die;
+        playerCollider = player.GetComponent<Collider2D>();
+        health = player.GetComponent<Health>();
+        playerAnimator = player.GetComponent<NetworkAnimator>();
+    }
+
+    private void Start()
+    {
+        if (hasAuthority)
+            health.OnPlayerDead += die;
     }
 
     private void OnDisable()
@@ -23,7 +33,19 @@ public class PlayerDead : NetworkBehaviour
 
     private void die()
     {
-        Debug.Log("jj");
-        playerMovement.enabled = false;
+        playerAnimator.SetTrigger("Dead");
+        cmdDie();
+    }
+
+    [Command]
+    private void cmdDie()
+    {
+        inServerDie();
+    }
+
+    [Server]
+    private void inServerDie()
+    {
+        playerCollider.enabled = false;
     }
 }
