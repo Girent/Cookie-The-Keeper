@@ -38,11 +38,11 @@ public class PlayerRevival : NetworkBehaviour
     private void revival()
     {
         health.serverSetMaxHealthAmount();
-        inServerRevival();
+        reviewOnServer();
     }
-
+    
     [Server]
-    private void inServerRevival()
+    private void reviewOnServer()
     {
         playerCollider.enabled = true;
     }
