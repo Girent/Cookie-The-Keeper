@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using Mirror;
-using TMPro;
 
 public class Health : NetworkBehaviour, IProperty 
 {   
@@ -12,7 +11,15 @@ public class Health : NetworkBehaviour, IProperty
 
     public const float MaxHealth = 100;
     public const float MinHealth = 0;
-    
+
+    [SerializeField] private UIHealthSlider healthSlider;
+    [SerializeField] private GameObject player;
+
+    private NetworkAnimator animator;
+    private NetworkPlayer networkPlayer;
+
+    public Action OnPlayerDead;
+
     public float Amount{
         get 
         { 
@@ -26,7 +33,13 @@ public class Health : NetworkBehaviour, IProperty
         }
     }
 
-    [SyncVar(hook = nameof(syncValue))] private float amount;
+    [SerializeField][SyncVar(hook = nameof(syncValue))] private float amount;
+
+    private void Awake()
+    {
+        animator = player.GetComponent<NetworkAnimator>();
+        networkPlayer = player.GetComponent<NetworkPlayer>();
+    }
 
     public void Decrease(int amount)
     {
@@ -48,6 +61,19 @@ public class Health : NetworkBehaviour, IProperty
     private void syncValue(float oldValue, float newValue)
     {
         amount = newValue;
+        healthSlider.UpdateHealthUi(amount, MaxHealth);
+
+        if (amount <= 0)
+        {
+            if (hasAuthority)
+                OnPlayerDead?.Invoke();
+        }
+    }
+
+    [Server]
+    public void serverSetMaxHealthAmount()
+    {
+        Amount = MaxHealth;
     }
 
     [Server]
@@ -55,5 +81,5 @@ public class Health : NetworkBehaviour, IProperty
     {
         Amount -= amount;
     }
-}
 
+}

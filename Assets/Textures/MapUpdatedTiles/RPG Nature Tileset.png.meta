@@ -69,7 +69,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -11977,36 +11977,36 @@ TextureImporter:
       RPG Nature Tileset_98: -1273354671
       RPG Nature Tileset_317: -1838817687
       RPG Nature Tileset_363: 1643298943
-      RPG Nature Tileset_425: -1462286245
-      RPG Nature Tileset_385: 495686139
+      RPG Nature Tileset_543: -1907962767
       RPG Nature Tileset_415: -1147228870
+      RPG Nature Tileset_385: 495686139
       RPG Nature Tileset_63: -428006362
       RPG Nature Tileset_384: -987478193
       RPG Nature Tileset_322: 620991427
       RPG Nature Tileset_178: 69565341
       RPG Nature Tileset_440: -1259512405
-      RPG Nature Tileset_543: -1907962767
+      RPG Nature Tileset_425: -1462286245
       RPG Nature Tileset_202: 1911695568
       RPG Nature Tileset_268: 2038252264
       RPG Nature Tileset_479: 2025613164
       RPG Nature Tileset_386: -1428872346
       RPG Nature Tileset_371: -1070843060
-      RPG Nature Tileset_179: -678539260
-      RPG Nature Tileset_408: 527421580
       RPG Nature Tileset_511: 67619886
+      RPG Nature Tileset_408: 527421580
+      RPG Nature Tileset_179: -678539260
       RPG Nature Tileset_228: -831893855
       RPG Nature Tileset_145: 552297031
-      RPG Nature Tileset_215: 934134389
       RPG Nature Tileset_493: 2027568284
-      RPG Nature Tileset_287: -1184945166
+      RPG Nature Tileset_215: 934134389
       RPG Nature Tileset_106: 1594648574
       RPG Nature Tileset_347: 1183833382
       RPG Nature Tileset_81: 1023271842
-      RPG Nature Tileset_271: -990552384
       RPG Nature Tileset_341: -1196456212
+      RPG Nature Tileset_287: -1184945166
       RPG Nature Tileset_4: 2008946360
       RPG Nature Tileset_78: -678360812
       RPG Nature Tileset_13: 849143811
+      RPG Nature Tileset_271: -990552384
       RPG Nature Tileset_27: -1016282932
       RPG Nature Tileset_375: 1044914025
       RPG Nature Tileset_552: -335279930
@@ -12148,9 +12148,9 @@ TextureImporter:
       RPG Nature Tileset_242: -460902498
       RPG Nature Tileset_248: -1255828575
       RPG Nature Tileset_433: 1436261221
-      RPG Nature Tileset_487: 638474788
       RPG Nature Tileset_534: -1051636702
       RPG Nature Tileset_315: -988713931
+      RPG Nature Tileset_487: 638474788
       RPG Nature Tileset_508: 1602570746
       RPG Nature Tileset_6: -1950739873
       RPG Nature Tileset_343: 1118577379

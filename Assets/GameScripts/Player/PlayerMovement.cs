@@ -3,13 +3,9 @@ using UnityEngine;
 
 public class PlayerMovement : NetworkBehaviour
 {
-    [SerializeField] private float speed = 10;
+    [SerializeField] private float speed = 15;
 
     [SerializeField] private UIJoystick playerJoystick;
-    [SerializeField] private Canvas playerCanvas;
-
-    [SerializeField] private GameObject playerCamera;
-    private GameObject mainCamera;
 
     [SerializeField] private ParticleSystem stepsParticleSystem;
 
@@ -17,11 +13,13 @@ public class PlayerMovement : NetworkBehaviour
     private Vector2 moveVelocity;
     private NetworkAnimator networkAnimator;
 
+    private SpriteRenderer spriteRenderer;
+
     private void Awake()
     {
-        mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         playerRigidBody = GetComponent<Rigidbody2D>();
         networkAnimator = GetComponent<NetworkAnimator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
     
     private void Update()
@@ -32,13 +30,15 @@ public class PlayerMovement : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (!isLocalPlayer)
-            return;
+        spriteRenderer.sortingOrder = (int)(-transform.position.y * 100);
 
-        setMovementAnimation();
+        if (isLocalPlayer)
+        {
+            setMovementAnimation();
 
-        playerRigidBody.velocity = moveVelocity;
-        changeParticleVector();
+            playerRigidBody.velocity = moveVelocity;
+            changeParticleVector();
+        }
     }
 
     private void setMovementAnimation()
@@ -46,28 +46,6 @@ public class PlayerMovement : NetworkBehaviour
         networkAnimator.animator.SetBool("IsMove", playerRigidBody.velocity.magnitude != 0);
         networkAnimator.animator.SetFloat("Horizontal", playerRigidBody.velocity.x);
         networkAnimator.animator.SetFloat("Vertical", playerRigidBody.velocity.y);
-    }
-
-    public void EnablePlayerInterface()
-    {
-        mainCamera.SetActive(false);
-
-        if (isLocalPlayer)
-            playerCamera.SetActive(true);
-
-        if (hasAuthority)
-            playerCanvas.enabled = true;
-    }
-
-    public void DisablePlayerInterface()
-    {
-        mainCamera.SetActive(true);
-
-        if (isLocalPlayer)
-            playerCamera.SetActive(false);
-
-        if (hasAuthority)
-            playerCanvas.enabled = false;
     }
 
     private void changeParticleVector()
@@ -82,7 +60,7 @@ public class PlayerMovement : NetworkBehaviour
             stepsParticleSystem.Stop();
         }
 
-            var velocityOverLifetime = stepsParticleSystem.velocityOverLifetime;
+        var velocityOverLifetime = stepsParticleSystem.velocityOverLifetime;
         velocityOverLifetime.x = playerJoystick.HorizontalInput() * -1f;
         velocityOverLifetime.y = playerJoystick.VerticallInput() * -1f;
     }

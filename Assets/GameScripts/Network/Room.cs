@@ -1,28 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 [System.Serializable]
 public class Room
 {
-    public int maxPlayers = 2;
+    public string RoomId { get; private set; }
+
+    public bool IsPublicRoom;
+
+    public bool InMatch;
+
+    public bool RoomFull;
 
     private float warmupTime = 10f;
 
-    public string roomId { get; private set; }
+    private int maxPlayers = 5;
 
-    public bool publicRoom;
+    private RoomList roomList;
 
-    public bool inMatch;
-
-    public bool roomFull;
-
-    public List<GameObject> players = new List<GameObject>();
+    [SyncVar] public List<GameObject> Players = new List<GameObject>();
 
     public Room(string roomId, GameObject player)
     {
-        this.roomId = roomId;
-        players.Add(player);
+        RoomId = roomId;
+        Players.Add(player);
+        roomList = RoomList.instance;
     }
 
     public Room()
@@ -30,21 +34,59 @@ public class Room
         
     }
 
-    public void StartGame ()
+    public void JoinRoom(GameObject player)
     {
-        inMatch = true;
-        foreach (GameObject player in players)
+        Players.Add(player);
+        NetworkPlayer networkPlayer = player.GetComponent<NetworkPlayer>();
+        networkPlayer.CurrentRoom = this;
+        if (Players.Count == maxPlayers)
+        {
+            RoomFull = true;
+            //StopCoroutine(WarmupTimer()); надо придумать как остановить корутину от сюда без наследования от монобихейвора
+            //startMatch();
+        }
+    }
+
+    public void EnterRoom()
+    {
+        foreach (var collectPlayer in Players)
+        {
+            NetworkPlayer player = collectPlayer.GetComponent<NetworkPlayer>();
+            if (player.InGame == false)
+            {
+                player.InGame = true;
+                player.StartGame(Players);
+            }
+        }
+    }
+
+    public void StartMatch()
+    {
+        InMatch = true;
+        foreach (GameObject player in Players)
         {
             
         }
     }
 
+    public void DisconnectPlayer(NetworkPlayer player)
+    {
+        player.CurrentRoom = null;
+        int playerIndex = Players.IndexOf(player.gameObject);
+        Players.RemoveAt(playerIndex);
+        RoomFull = false;
+        if (Players.Count == 0)
+        {
+            roomList.Rooms.Remove(roomList.Rooms.Find(room => room.RoomId == RoomId));
+            roomList.RoomIDs.Remove(RoomId);
+        }
+    }
     
 
     public IEnumerator WarmupTimer()
     {
         yield return new WaitForSeconds(warmupTime);
-        StartGame();
+        StartMatch();
     }
 
 }
