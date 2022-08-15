@@ -63,9 +63,9 @@ public class Room
     public void StartMatch()
     {
         InMatch = true;
-        foreach (GameObject player in Players)
+        for (int i = 0; i < Players.Count; i++)
         {
-            
+            Players[i].GetComponent<NetworkPlayer>().MoveToStartPoint(i);
         }
     }
 

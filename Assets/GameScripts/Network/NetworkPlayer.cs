@@ -20,6 +20,8 @@ public class NetworkPlayer : NetworkBehaviour
     public Action OnBeginGame;
     public Action OnDisconnectGame;
 
+    private GameObject[] spawnPoints;
+
     void Awake()
     {
         networkMatch = GetComponent<NetworkMatch>();
@@ -129,6 +131,7 @@ public class NetworkPlayer : NetworkBehaviour
         OnBeginGame?.Invoke();
 
         SceneManager.LoadScene(2, LoadSceneMode.Additive);
+
         Scene sceneToLoad = SceneManager.GetSceneByBuildIndex(2);
         foreach (GameObject player in players)
         {
@@ -176,5 +179,16 @@ public class NetworkPlayer : NetworkBehaviour
     {
         
     }
+    #endregion
+
+    #region Start Match
+
+    [TargetRpc]
+    public void MoveToStartPoint(int playerIndex)
+    {
+        spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+        transform.position = spawnPoints[playerIndex].transform.position;
+    }
+
     #endregion
 }
