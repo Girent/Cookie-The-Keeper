@@ -14,7 +14,7 @@ public class Room
 
     public bool RoomFull;
 
-    private float warmupTime = 10f;
+    private float warmupTime = 30f;
 
     private int maxPlayers = 5;
 

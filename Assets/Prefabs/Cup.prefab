@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 1413596963062521317}
   - component: {fileID: 7938836648362818274}
   - component: {fileID: -5701723141366950858}
-  - component: {fileID: 2995358057007862736}
-  m_Layer: 0
+  - component: {fileID: 5792115242694066789}
+  - component: {fileID: 4865831771913313457}
+  m_Layer: 3
   m_Name: Cup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +104,7 @@ MonoBehaviour:
   visible: 2
   m_AssetId: 695cacf3664134178ae8080a8f666643
   hasSpawned: 0
---- !u!114 &2995358057007862736
+--- !u!114 &5792115242694066789
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -112,28 +113,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 5924544349618697781}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Script: {fileID: 11500000, guid: c437a71e13cb74898b89c4a04b049fb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clientAuthority: 0
-  sendInterval: 0.05
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 0
-  bufferTimeMultiplier: 1
-  bufferSizeLimit: 64
-  catchupThreshold: 4
-  catchupMultiplier: 0.1
-  onlySyncOnChange: 1
-  bufferResetMultiplier: 5
-  positionSensitivity: 0.01
-  rotationSensitivity: 0.01
-  scaleSensitivity: 0.01
-  showGizmos: 0
-  showOverlay: 0
-  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  IdMaster: 0
+  popupDamage: {fileID: 62359003330940553, guid: 31e3f11e039dc4d1394c4e1c5763db7b, type: 3}
+  amount: 100
+--- !u!58 &4865831771913313457
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5924544349618697781}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.1

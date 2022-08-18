@@ -2,7 +2,7 @@
 using UnityEngine;
 using Mirror;
 
-public class Health : NetworkBehaviour, IProperty 
+public class Health : NetworkBehaviour, IProperty, IHealth
 {   
     public Health()
     {
@@ -14,6 +14,8 @@ public class Health : NetworkBehaviour, IProperty
 
     [SerializeField] private UIHealthSlider healthSlider;
     [SerializeField] private GameObject player;
+    [SerializeField][SyncVar(hook = nameof(syncValue))] private float amount;
+    [SerializeField] private GameObject popupDamage;
 
     private NetworkAnimator animator;
     private NetworkPlayer networkPlayer;
@@ -32,8 +34,6 @@ public class Health : NetworkBehaviour, IProperty
                 amount = MaxHealth;
         }
     }
-
-    [SerializeField][SyncVar(hook = nameof(syncValue))] private float amount;
 
     private void Awake()
     {
@@ -60,8 +60,9 @@ public class Health : NetworkBehaviour, IProperty
 
     private void syncValue(float oldValue, float newValue)
     {
-        amount = newValue;
         healthSlider.UpdateHealthUi(amount, MaxHealth);
+
+        amount = newValue;
 
         if (amount <= 0)
         {
@@ -76,10 +77,20 @@ public class Health : NetworkBehaviour, IProperty
         Amount = MaxHealth;
     }
 
+    [Command(requiresAuthority = false)]
+    public void ApplyDamage(float amount, uint netId)
+    {
+        if(this.netId != netId)
+        {
+            applyDamage(amount);
+            GameObject popup = Instantiate(popupDamage, gameObject.transform.position, Quaternion.identity);
+            popup.GetComponent<DamagePopup>().Setup(amount);
+        }
+    }
+
     [Server]
-    public void ApplyDamage(float amount)
+    private void applyDamage(float amount)
     {
         Amount -= amount;
     }
-
 }

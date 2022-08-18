@@ -18,6 +18,7 @@ public class NetworkPlayer : NetworkBehaviour
     private NetworkMatch networkMatch;
 
     public Action OnBeginGame;
+    public Action OnStartGame;
     public Action OnDisconnectGame;
 
     private GameObject[] spawnPoints;
@@ -186,6 +187,7 @@ public class NetworkPlayer : NetworkBehaviour
     [TargetRpc]
     public void MoveToStartPoint(int playerIndex)
     {
+        OnStartGame?.Invoke();
         spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
         transform.position = spawnPoints[playerIndex].transform.position;
     }

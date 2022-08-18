@@ -16,13 +16,8 @@ public class PutDown : NetworkBehaviour
     [Server]
     private void spawnBullet()
     {
-        GameObject bulletGo = Instantiate(cup, transform.position, Quaternion.identity); //Создаем локальный объект пули на сервере
-        NetworkServer.Spawn(bulletGo); //отправляем информацию о сетевом объекте всем игрокам.
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        GameObject bulletGo = Instantiate(cup, transform.position, Quaternion.identity);
+        bulletGo.GetComponent<Cup>().IdMaster = netId;
+        NetworkServer.Spawn(bulletGo);
     }
 }

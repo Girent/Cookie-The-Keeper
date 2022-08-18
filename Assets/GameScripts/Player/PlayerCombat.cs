@@ -1,3 +1,4 @@
+using System;
 using Mirror;
 using UnityEngine;
 
@@ -27,7 +28,7 @@ public class PlayerCombat : NetworkBehaviour
 
         foreach (var enemy in hitEnemies)
         {
-            InflictDamage(enemy.GetComponent<Health>(), damage.Amount);
+            InflictDamage(enemy.GetComponent<IHealth>(), damage.Amount);
         }
     }
 
@@ -38,9 +39,8 @@ public class PlayerCombat : NetworkBehaviour
         networkAnimator.SetTrigger("Attack");
     }
 
-    [Command]
-    public void InflictDamage(Health health, float damage)
+    public void InflictDamage(IHealth health, float damage)
     {
-        health.ApplyDamage(damage);
+        health.ApplyDamage(damage, netId);
     }
 }
