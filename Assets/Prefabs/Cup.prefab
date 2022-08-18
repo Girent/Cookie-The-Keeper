@@ -120,7 +120,7 @@ MonoBehaviour:
   syncInterval: 0.1
   IdMaster: 0
   popupDamage: {fileID: 62359003330940553, guid: 31e3f11e039dc4d1394c4e1c5763db7b, type: 3}
-  amount: 100
+  amount: 20
 --- !u!58 &4865831771913313457
 CircleCollider2D:
   m_ObjectHideFlags: 0
