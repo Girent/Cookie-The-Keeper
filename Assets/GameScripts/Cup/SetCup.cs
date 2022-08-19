@@ -9,11 +9,13 @@ using UnityEngine.UI;
 public class SetCup : NetworkBehaviour
 {
     private const float setCupRange = 1.5f;
+
     [SerializeField] private GameObject cup;
-    [SerializeField] private GameObject davaiPodimaem;
-    [SerializeField] private UIJoystick joystickInput;
+    [SerializeField] private GameObject cupTemplate;
     [SerializeField] private GameObject buildButton;
     [SerializeField] private GameObject showBuildButton;
+
+    [SerializeField] private UIJoystick joystickInput;
     private NetworkPlayer networkPlayer;
 
     private void Start()
@@ -24,18 +26,18 @@ public class SetCup : NetworkBehaviour
 
     private void beginGame()
     {
-        davaiPodimaem.SetActive(false);
+        cupTemplate.SetActive(false);
         showBuildButton.SetActive(true);
     }
 
     private void FixedUpdate()
     {
-        davaiPodimaem.transform.localPosition = joystickInput.GetCurrentDirection() * setCupRange;
+        cupTemplate.transform.localPosition = joystickInput.GetCurrentDirection() * setCupRange;
     }
 
     public void ShowBuildingMode()
     {
-        davaiPodimaem.SetActive(true);
+        cupTemplate.SetActive(true);
         buildButton.SetActive(true);
         showBuildButton.SetActive(false);
     }
@@ -44,14 +46,14 @@ public class SetCup : NetworkBehaviour
     public void CmdSpawnCup()
     {
         buildButton.SetActive(false);
-        davaiPodimaem.SetActive(false);
+        cupTemplate.SetActive(false);
         spawnCup();
     }
 
     [Server]
     private void spawnCup()
     {
-        GameObject cupObject = Instantiate(cup, davaiPodimaem.transform.position, Quaternion.identity);
+        GameObject cupObject = Instantiate(cup, cupTemplate.transform.position, Quaternion.identity);
         cupObject.GetComponent<Cup>().IdMaster = netId;
         NetworkServer.Spawn(cupObject);
     }
