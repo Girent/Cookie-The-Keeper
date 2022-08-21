@@ -7,12 +7,12 @@ public class Cup : NetworkBehaviour, IHealth
 {
     public Cup()
     {
-        Amount = MaxHealth;
+        HealthAmount = MaxHealth;
     }
 
     public const float MaxHealth = 100;
     public const float MinHealth = 0;
-    public float Amount
+    public float HealthAmount
     {
         get
         {
@@ -50,13 +50,13 @@ public class Cup : NetworkBehaviour, IHealth
             applyDamage(amount);
 
             GameObject popup = Instantiate(popupDamage, gameObject.transform.position, Quaternion.identity);
-            popup.GetComponent<DamagePopup>().Setup(amount);
+            popup.GetComponent<DamagePopup>().SetPopupText(amount);
         }
     }
 
     [Server]
     private void applyDamage(float amount)
     {
-        Amount -= amount;
+        HealthAmount -= amount;
     }
 }

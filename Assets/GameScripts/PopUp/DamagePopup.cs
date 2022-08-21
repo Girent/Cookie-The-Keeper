@@ -6,21 +6,21 @@ using UnityEngine;
 public class DamagePopup : MonoBehaviour
 {
     private TextMeshPro textMesh;
-    private float disappearTime = 1f;
+    [SerializeField] private float disappearTime = 1f;
+    [SerializeField] private float moveYSpeed = 5f;
 
     private void Awake()
     {
         textMesh = GetComponent<TextMeshPro>();
     }
 
-    public void Setup(float amount)
+    public void SetPopupText(float amount)
     {
-        textMesh.SetText(amount.ToString());
+        textMesh.text = amount.ToString();
     }
 
     private void FixedUpdate()
     {
-        float moveYSpeed = 5f;
         transform.position += new Vector3(0, moveYSpeed) * Time.deltaTime;
 
         disappearTime -= Time.deltaTime;

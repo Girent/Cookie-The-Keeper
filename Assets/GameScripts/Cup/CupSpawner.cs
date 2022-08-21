@@ -6,16 +6,15 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class SetCup : NetworkBehaviour
+public class CupSpawner : NetworkBehaviour
 {
-    private const float setCupRange = 1.5f;
-
-    [SerializeField] private GameObject cup;
-    [SerializeField] private GameObject cupTemplate;
+    [SerializeField] private float setCupRange = 1.5f;
+    [SerializeField] private GameObject cupPrefab;
+    [SerializeField] private GameObject cupSpawnPoint;
+    [SerializeField] private GameObject showBuildPointButton;
     [SerializeField] private GameObject buildButton;
-    [SerializeField] private GameObject showBuildButton;
-
     [SerializeField] private UIJoystick joystickInput;
+
     private NetworkPlayer networkPlayer;
 
     private void Start()
@@ -26,34 +25,34 @@ public class SetCup : NetworkBehaviour
 
     private void beginGame()
     {
-        cupTemplate.SetActive(false);
-        showBuildButton.SetActive(true);
+        cupSpawnPoint.SetActive(false);
+        buildButton.SetActive(true);
     }
 
     private void FixedUpdate()
     {
-        cupTemplate.transform.localPosition = joystickInput.GetCurrentDirection() * setCupRange;
+        cupSpawnPoint.transform.localPosition = joystickInput.GetCurrentDirection() * setCupRange;
     }
 
     public void ShowBuildingMode()
     {
-        cupTemplate.SetActive(true);
-        buildButton.SetActive(true);
-        showBuildButton.SetActive(false);
+        cupSpawnPoint.SetActive(true);
+        showBuildPointButton.SetActive(true);
+        buildButton.SetActive(false);
     }
 
     [Command]
     public void CmdSpawnCup()
     {
-        buildButton.SetActive(false);
-        cupTemplate.SetActive(false);
+        showBuildPointButton.SetActive(false);
+        cupSpawnPoint.SetActive(false);
         spawnCup();
     }
 
     [Server]
     private void spawnCup()
     {
-        GameObject cupObject = Instantiate(cup, cupTemplate.transform.position, Quaternion.identity);
+        GameObject cupObject = Instantiate(cupPrefab, cupSpawnPoint.transform.position, Quaternion.identity);
         cupObject.GetComponent<Cup>().IdMaster = netId;
         NetworkServer.Spawn(cupObject);
     }

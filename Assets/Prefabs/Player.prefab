@@ -5693,8 +5693,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  cup: {fileID: 5924544349618697781, guid: 695cacf3664134178ae8080a8f666643, type: 3}
-  cupTemplate: {fileID: 4876849681276997951}
+  cupPrefab: {fileID: 5924544349618697781, guid: 695cacf3664134178ae8080a8f666643, type: 3}
+  cupSpawnPoint: {fileID: 4876849681276997951}
   buildButton: {fileID: 8490681826469679043}
   showBuildButton: {fileID: 7616174925608403315}
   joystickInput: {fileID: 6938738807796265482}
@@ -6554,7 +6554,7 @@ GameObject:
   - component: {fileID: 4479077122989947386}
   - component: {fileID: 5010268310259368803}
   m_Layer: 3
-  m_Name: CupTemplate
+  m_Name: CupSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -84,7 +84,7 @@ public class Health : NetworkBehaviour, IProperty, IHealth
         {
             applyDamage(amount);
             GameObject popup = Instantiate(popupDamage, gameObject.transform.position, Quaternion.identity);
-            popup.GetComponent<DamagePopup>().Setup(amount);
+            popup.GetComponent<DamagePopup>().SetPopupText(amount);
         }
     }
 
