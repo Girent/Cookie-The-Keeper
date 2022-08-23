@@ -60,9 +60,8 @@ public class Health : NetworkBehaviour, IProperty, IHealth
 
     private void syncValue(float oldValue, float newValue)
     {
-        healthSlider.UpdateHealthUi(amount, MaxHealth);
-
         amount = newValue;
+        healthSlider.UpdateHealthUi(Amount, MaxHealth);
 
         if (amount <= 0)
         {

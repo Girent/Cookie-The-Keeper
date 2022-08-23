@@ -11,22 +11,24 @@ public class CupSpawner : NetworkBehaviour
     [SerializeField] private float setCupRange = 1.5f;
     [SerializeField] private GameObject cupPrefab;
     [SerializeField] private GameObject cupSpawnPoint;
-    [SerializeField] private GameObject showBuildPointButton;
     [SerializeField] private GameObject buildButton;
+    [SerializeField] private GameObject showBuildPointButton;
     [SerializeField] private UIJoystick joystickInput;
 
+    private SpriteRenderer spriteRendererSpawnPoint;
     private NetworkPlayer networkPlayer;
 
     private void Start()
     {
         networkPlayer = GetComponent<NetworkPlayer>();
         networkPlayer.OnBeginGame += beginGame;
+        spriteRendererSpawnPoint = cupSpawnPoint.GetComponent<SpriteRenderer>();
     }
 
     private void beginGame()
     {
         cupSpawnPoint.SetActive(false);
-        buildButton.SetActive(true);
+        showBuildPointButton.SetActive(true);
     }
 
     private void FixedUpdate()
@@ -37,20 +39,41 @@ public class CupSpawner : NetworkBehaviour
     public void ShowBuildingMode()
     {
         cupSpawnPoint.SetActive(true);
-        showBuildPointButton.SetActive(true);
-        buildButton.SetActive(false);
+        buildButton.SetActive(true);
+        showBuildPointButton.SetActive(false);
+    }
+
+    private void setColor()
+    {
+        spriteRendererSpawnPoint.color = Color.green;
+    }
+
+    public void SpawnCup()
+    {
+        RaycastHit2D hit2D = Physics2D.Raycast(cupSpawnPoint.transform.position, cupSpawnPoint.transform.TransformDirection(Vector2.down), 1f);
+
+        if (hit2D)
+        {
+            spriteRendererSpawnPoint.color = Color.red;
+            Invoke("setColor", 0.2f);
+        }
+        else
+        {
+            spriteRendererSpawnPoint.color = Color.blue;
+            buildButton.SetActive(false);
+            cupSpawnPoint.SetActive(false);
+            cmdSpawnCup();
+        }
     }
 
     [Command]
-    public void CmdSpawnCup()
+    private void cmdSpawnCup()
     {
-        showBuildPointButton.SetActive(false);
-        cupSpawnPoint.SetActive(false);
-        spawnCup();
+        serverSpawnCup();
     }
 
     [Server]
-    private void spawnCup()
+    private void serverSpawnCup()
     {
         GameObject cupObject = Instantiate(cupPrefab, cupSpawnPoint.transform.position, Quaternion.identity);
         cupObject.GetComponent<Cup>().IdMaster = netId;

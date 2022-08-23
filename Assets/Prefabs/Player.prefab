@@ -5557,7 +5557,6 @@ MonoBehaviour:
     IsPublicRoom: 0
     InMatch: 0
     RoomFull: 0
-    Players: []
   InGame: 0
 --- !u!114 &4970372277193461393
 MonoBehaviour:
@@ -5693,10 +5692,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  setCupRange: 1.5
   cupPrefab: {fileID: 5924544349618697781, guid: 695cacf3664134178ae8080a8f666643, type: 3}
   cupSpawnPoint: {fileID: 4876849681276997951}
   buildButton: {fileID: 8490681826469679043}
-  showBuildButton: {fileID: 7616174925608403315}
+  showBuildPointButton: {fileID: 7616174925608403315}
   joystickInput: {fileID: 6938738807796265482}
 --- !u!212 &6188689808013214993
 SpriteRenderer:
@@ -6552,14 +6552,13 @@ GameObject:
   m_Component:
   - component: {fileID: 2609071334085538877}
   - component: {fileID: 4479077122989947386}
-  - component: {fileID: 5010268310259368803}
   m_Layer: 3
   m_Name: CupSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2609071334085538877
 Transform:
   m_ObjectHideFlags: 0
@@ -6627,22 +6626,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &5010268310259368803
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4876849681276997951}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!1 &5945868195323869276
 GameObject:
   m_ObjectHideFlags: 0
@@ -7362,8 +7345,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1619038071339260377}
-        m_TargetAssemblyTypeName: SetCup, Assembly-CSharp
-        m_MethodName: CmdSpawnCup
+        m_TargetAssemblyTypeName: CupSpawner, Assembly-CSharp
+        m_MethodName: SpawnCup
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
