@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 95108bdbbcdad45b6b837be5757b5145
+guid: 288f1273d227442839d3f1cfc1e981b4
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 200
+  spritePixelsToUnits: 300
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -69,7 +69,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -116,55 +116,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: idle-sheet_0
+      name: MoveVertical_0
       rect:
         serializedVersion: 2
-        x: 124
-        y: 939
-        width: 412
-        height: 505
-      alignment: 9
-      pivot: {x: 0.37, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 46e8897a3af1944e7b101a1644563e17
-      internalID: 1841001736
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: idle-sheet_1
-      rect:
-        serializedVersion: 2
-        x: 571
-        y: 937
-        width: 429
-        height: 509
-      alignment: 9
-      pivot: {x: 0.37, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 538440847f14d48edb4753567f045d6f
-      internalID: 1121772384
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: idle-sheet_2
-      rect:
-        serializedVersion: 2
-        x: 1029
-        y: 936
-        width: 398
-        height: 506
+        x: 112
+        y: 27
+        width: 249
+        height: 946
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -172,20 +130,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 17a3874409cff4f5a932178287d6237f
-      internalID: 1183586383
+      spriteID: f4324ca1c38d24c6ead9824e84ad4f8b
+      internalID: -1656915663
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle-sheet_3
+      name: MoveVertical_1
       rect:
         serializedVersion: 2
-        x: 1453
-        y: 937
-        width: 392
-        height: 507
+        x: 488
+        y: 24
+        width: 264
+        height: 952
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -193,20 +151,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 159c7b9dc172f4b67b89fc387874e7f5
-      internalID: 1019751157
+      spriteID: ea601c531062e43f28e492588f5f0972
+      internalID: 450839725
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle-sheet_4
+      name: MoveVertical_2
       rect:
         serializedVersion: 2
-        x: 181
-        y: 121
-        width: 289
-        height: 508
+        x: 864
+        y: 27
+        width: 269
+        height: 949
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -214,20 +172,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1467353ed395f4932b630e87792944a5
-      internalID: -1773938675
+      spriteID: 1849c377712bf4da69abe683ea9f297f
+      internalID: -1517049254
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle-sheet_5
+      name: MoveVertical_3
       rect:
         serializedVersion: 2
-        x: 619
-        y: 121
-        width: 294
-        height: 510
+        x: 1226
+        y: 24
+        width: 251
+        height: 952
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -235,20 +193,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8bb8fc631978f412485dc297532ac274
-      internalID: -778911544
+      spriteID: 32575438c6470496ea33bdba0cb5baf9
+      internalID: -749496243
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle-sheet_6
+      name: MoveVertical_4
       rect:
         serializedVersion: 2
-        x: 1042
-        y: 117
-        width: 294
-        height: 510
+        x: 1599
+        y: 24
+        width: 261
+        height: 949
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -256,20 +214,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ba5f4deb0e0a8404aa8f4b09a3796302
-      internalID: -4906449
+      spriteID: fe5054fc7e30f4323b5e18ad49a934df
+      internalID: 316922383
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle-sheet_7
+      name: MoveVertical_5
       rect:
         serializedVersion: 2
-        x: 1397
-        y: 121
-        width: 289
-        height: 508
+        x: 1987
+        y: 27
+        width: 269
+        height: 949
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -277,8 +235,134 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f79691d3357de48afa44db54d074ba12
-      internalID: 1085356238
+      spriteID: 649fe71f20597423ca9559f42ff6abff
+      internalID: 525089538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoveVertical_6
+      rect:
+        serializedVersion: 2
+        x: 2380
+        y: 27
+        width: 257
+        height: 949
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f67013eb9be44319b79ebfbb51575d1
+      internalID: 629534435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoveVertical_7
+      rect:
+        serializedVersion: 2
+        x: 2759
+        y: 24
+        width: 261
+        height: 954
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0d4a71763aff4031af5aa7507906d21
+      internalID: 1707994417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoveVertical_8
+      rect:
+        serializedVersion: 2
+        x: 3140
+        y: 27
+        width: 273
+        height: 951
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aab23a6eed24f405f9bd957d19e8fd9b
+      internalID: 1060254886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoveVertical_9
+      rect:
+        serializedVersion: 2
+        x: 3528
+        y: 24
+        width: 256
+        height: 952
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96baa9ea7856643f1b34d493f1056233
+      internalID: -734855104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoveVertical_10
+      rect:
+        serializedVersion: 2
+        x: 3948
+        y: 24
+        width: 261
+        height: 954
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3864d86dc4fa40f9b320ec2b9723f9a
+      internalID: 530640197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoveVertical_11
+      rect:
+        serializedVersion: 2
+        x: 4370
+        y: 24
+        width: 291
+        height: 952
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a2b1ee274b654824aa9d4e87c1ddb8a
+      internalID: -1865177783
       vertices: []
       indices: 
       edges: []
@@ -294,14 +378,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      idle-sheet_0: 1841001736
-      idle-sheet_6: -4906449
-      idle-sheet_5: -778911544
-      idle-sheet_7: 1085356238
-      idle-sheet_1: 1121772384
-      idle-sheet_4: -1773938675
-      idle-sheet_3: 1019751157
-      idle-sheet_2: 1183586383
+      MoveVertical_6: 629534435
+      MoveVertical_10: 530640197
+      MoveVertical_8: 1060254886
+      MoveVertical_3: -749496243
+      MoveVertical_7: 1707994417
+      MoveVertical_5: 525089538
+      MoveVertical_9: -734855104
+      MoveVertical_4: 316922383
+      MoveVertical_1: 450839725
+      MoveVertical_2: -1517049254
+      MoveVertical_0: -1656915663
+      MoveVertical_11: -1865177783
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

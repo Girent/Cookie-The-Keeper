@@ -6,9 +6,11 @@ public class InGameUi : NetworkBehaviour
 {
     [SerializeField] private Canvas[] playerCanvas;
     [SerializeField] private NetworkPlayer networkPlayer;
+    [SerializeField] private NetworkAnimator networkAnimator;
     [SerializeField] private Health health;
     [SerializeField] private GameObject playerCamera;
     [SerializeField] private GameObject endGamePanel;
+    [SerializeField] private GameObject winUi;
     private GameObject mainCamera;
 
     private void Awake()
@@ -40,6 +42,7 @@ public class InGameUi : NetworkBehaviour
     private void endGameUi()
     {
         endGamePanel.SetActive(true);
+        Invoke("ToLobby", 5f);
     }
 
     public void ToLobby()
@@ -47,6 +50,13 @@ public class InGameUi : NetworkBehaviour
         disableCanvas();
         networkPlayer.DisconnectGame();
         endGamePanel.SetActive(false);
+        winUi.SetActive(false);
+        networkAnimator.SetTrigger("Live");
+    }
+
+    public void Win()
+    {
+        winUi.SetActive(true);
     }
 
     private void disableCanvas()

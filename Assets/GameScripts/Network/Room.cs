@@ -82,6 +82,10 @@ public class Room
             roomList.Rooms.Remove(roomList.Rooms.Find(room => room.RoomId == RoomId));
             roomList.RoomIDs.Remove(RoomId);
         }
+        if (players.Count == 1)
+        {
+            players[0].GetComponent<InGameUi>().Win();
+        }
     }
     
 
