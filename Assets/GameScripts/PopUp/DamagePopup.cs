@@ -6,6 +6,7 @@ using UnityEngine;
 public class DamagePopup : MonoBehaviour
 {
     private TextMeshPro textMesh;
+    
     [SerializeField] private float disappearTime = 1f;
     [SerializeField] private float moveYSpeed = 5f;
 

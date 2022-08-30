@@ -13,9 +13,12 @@ public class Health : NetworkBehaviour, IProperty, IHealth
     public const float MinHealth = 0;
 
     [SerializeField] private UIHealthSlider healthSlider;
+
     [SerializeField] private GameObject player;
-    [SerializeField][SyncVar(hook = nameof(syncValue))] private float amount;
     [SerializeField] private GameObject popupDamage;
+
+    [SerializeField][SyncVar(hook = nameof(syncValue))] private float amount;
+
 
     private NetworkAnimator animator;
     private NetworkPlayer networkPlayer;
@@ -41,21 +44,37 @@ public class Health : NetworkBehaviour, IProperty, IHealth
         networkPlayer = player.GetComponent<NetworkPlayer>();
     }
 
+    #region Debug
+    [Command]
+    public void Increase(int amount)
+    {
+        increase(amount);
+    }
+
+    [Command]
     public void Decrease(int amount)
     {
+        decrease(amount);
+    }
+    #endregion
+
+    [Server]
+    private void decrease(int amount)
+    {
         if (Amount - amount < MinHealth)
-            throw new InvalidOperationException();
-        
-        Amount -= amount;
+            this.amount = MinHealth;
+
+        this.amount -= amount;
 
     }
 
-    public void Increase(int amount)
+    [Server]
+    private void increase(int amount)
     {
-        if(Amount + amount > MaxHealth)
-            throw new InvalidOperationException();
+        if (Amount + amount > MaxHealth)
+            this.amount = MaxHealth;
 
-        Amount += amount;
+        this.amount += amount;
     }
 
     private void syncValue(float oldValue, float newValue)

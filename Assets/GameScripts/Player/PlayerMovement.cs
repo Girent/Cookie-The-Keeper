@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerMovement : NetworkBehaviour
 {
-    [SerializeField] public float speed = 15;
+    public float Speed { get; private set; }
     [SerializeField] private ParticleSystem stepsParticleSystem;
 
     [SerializeField] private UIJoystick playerJoystick;
@@ -15,6 +15,7 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Awake()
     {
+        Speed = 5;
         playerRigidBody = GetComponent<Rigidbody2D>();
         networkAnimator = GetComponent<NetworkAnimator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -22,19 +23,19 @@ public class PlayerMovement : NetworkBehaviour
 
     public void IncreaseSpeed(float amount)
     {
-        speed += amount;
+        Speed += amount;
     }
 
     public void DecreaseSpeed(float amount)
     {
-        if(speed > 1)
-            speed -= amount;
+        if(Speed > 1)
+            Speed -= amount;
     }
 
     private void Update()
     {
         Vector2 moveInput = new Vector2(playerJoystick.HorizontalInput(), playerJoystick.VerticallInput());
-        moveVelocity = moveInput * speed;
+        moveVelocity = moveInput * Speed;
     }
 
     private void FixedUpdate()

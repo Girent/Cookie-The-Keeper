@@ -22,7 +22,7 @@ public class Damage : MonoBehaviour, IProperty
     public void Decrease(int amount)
     {
         if (Amount - amount < MinDamage)
-            throw new InvalidOperationException();
+            Amount = MinDamage;
        
         Amount -= amount;
 
@@ -31,7 +31,7 @@ public class Damage : MonoBehaviour, IProperty
     public void Increase(int amount)
     {
         if (Amount + amount > MaxDamage)
-            throw new InvalidOperationException();
+            Amount = MaxDamage;
 
         Amount += amount;
     }
