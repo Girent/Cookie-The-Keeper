@@ -13,7 +13,9 @@ public class CupSpawner : NetworkBehaviour
     [SerializeField] private GameObject cupSpawnPoint;
     [SerializeField] private GameObject buildButton;
     [SerializeField] private GameObject showBuildPointButton;
+    [SerializeField] private GameObject cupDirUi;
     [SerializeField] private UIJoystick joystickInput;
+    private GameObject cupObject;
 
     private SpriteRenderer spriteRendererSpawnPoint;
     private NetworkPlayer networkPlayer;
@@ -35,6 +37,7 @@ public class CupSpawner : NetworkBehaviour
     {
         cupSpawnPoint.transform.localPosition = joystickInput.GetCurrentDirection() * setCupRange;
     }
+
 
     public void ShowBuildingMode()
     {
@@ -63,7 +66,13 @@ public class CupSpawner : NetworkBehaviour
             buildButton.SetActive(false);
             cupSpawnPoint.SetActive(false);
             cmdSpawnCup();
+            cupDirUi.SetActive(true);
         }
+    }
+
+    public Transform getSpawnPointPosition()
+    {
+        return cupSpawnPoint.transform;
     }
 
     [Command]
@@ -75,7 +84,7 @@ public class CupSpawner : NetworkBehaviour
     [Server]
     private void serverSpawnCup()
     {
-        GameObject cupObject = Instantiate(cupPrefab, cupSpawnPoint.transform.position, Quaternion.identity);
+        cupObject = Instantiate(cupPrefab, cupSpawnPoint.transform.position, Quaternion.identity);
         cupObject.GetComponent<Cup>().IdMaster = netId;
         NetworkServer.Spawn(cupObject);
     }
@@ -87,6 +96,7 @@ public class CupSpawner : NetworkBehaviour
 
     private void OnDisable()
     {
+        cupDirUi.SetActive(false);
         networkPlayer.OnBeginGame -= beginGame;
     }
 }

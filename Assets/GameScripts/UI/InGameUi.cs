@@ -42,7 +42,6 @@ public class InGameUi : NetworkBehaviour
     private void endGameUi()
     {
         endGamePanel.SetActive(true);
-        Invoke("ToLobby", 5f);
     }
 
     public void ToLobby()
@@ -54,6 +53,7 @@ public class InGameUi : NetworkBehaviour
         networkAnimator.SetTrigger("Live");
     }
 
+    [TargetRpc]
     public void Win()
     {
         winUi.SetActive(true);
