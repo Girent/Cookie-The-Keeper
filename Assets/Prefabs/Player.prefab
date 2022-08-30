@@ -5966,10 +5966,10 @@ MonoBehaviour:
   setCupRange: 1.5
   cupPrefab: {fileID: 5924544349618697781, guid: 695cacf3664134178ae8080a8f666643, type: 3}
   cupSpawnPoint: {fileID: 4876849681276997951}
+  joystickInput: {fileID: 6938738807796265482}
   buildButton: {fileID: 8490681826469679043}
   showBuildPointButton: {fileID: 7616174925608403315}
-  cupDirUi: {fileID: 4050151891386904982}
-  joystickInput: {fileID: 6938738807796265482}
+  directionUI: {fileID: 4050151891386904982}
 --- !u!212 &6188689808013214993
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7224,7 +7224,7 @@ GameObject:
   - component: {fileID: 6019470793442394795}
   - component: {fileID: 1127233035914333457}
   m_Layer: 3
-  m_Name: anchor
+  m_Name: DirectionUi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

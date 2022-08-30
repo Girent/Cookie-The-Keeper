@@ -4,15 +4,13 @@ using UnityEngine;
 public class PlayerMovement : NetworkBehaviour
 {
     [SerializeField] public float speed = 15;
-
-    [SerializeField] private UIJoystick playerJoystick;
-
     [SerializeField] private ParticleSystem stepsParticleSystem;
 
+    [SerializeField] private UIJoystick playerJoystick;
     private Rigidbody2D playerRigidBody;
     private Vector2 moveVelocity;
-    private NetworkAnimator networkAnimator;
 
+    private NetworkAnimator networkAnimator;
     private SpriteRenderer spriteRenderer;
 
     private void Awake()

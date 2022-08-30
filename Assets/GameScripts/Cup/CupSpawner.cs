@@ -9,12 +9,16 @@ using UnityEngine.UI;
 public class CupSpawner : NetworkBehaviour
 {
     [SerializeField] private float setCupRange = 1.5f;
+
     [SerializeField] private GameObject cupPrefab;
     [SerializeField] private GameObject cupSpawnPoint;
+
+    [SerializeField] private UIJoystick joystickInput;
+
     [SerializeField] private GameObject buildButton;
     [SerializeField] private GameObject showBuildPointButton;
-    [SerializeField] private GameObject cupDirUi;
-    [SerializeField] private UIJoystick joystickInput;
+    [SerializeField] private GameObject directionUI;
+
     private GameObject cupObject;
 
     private SpriteRenderer spriteRendererSpawnPoint;
@@ -51,6 +55,7 @@ public class CupSpawner : NetworkBehaviour
         spriteRendererSpawnPoint.color = Color.green;
     }
 
+    [Client]
     public void SpawnCup()
     {
         RaycastHit2D hit2D = Physics2D.Raycast(cupSpawnPoint.transform.position, cupSpawnPoint.transform.TransformDirection(Vector2.down), 1f);
@@ -58,15 +63,16 @@ public class CupSpawner : NetworkBehaviour
         if (hit2D)
         {
             spriteRendererSpawnPoint.color = Color.red;
-            Invoke("setColor", 0.2f);
+            Invoke(nameof(setColor), 0.2f);
         }
         else
         {
             spriteRendererSpawnPoint.color = Color.blue;
             buildButton.SetActive(false);
             cupSpawnPoint.SetActive(false);
-            cmdSpawnCup();
-            cupDirUi.SetActive(true);
+
+            cmdSpawnCup(cupSpawnPoint.transform.position);
+            directionUI.SetActive(true);
         }
     }
 
@@ -76,15 +82,15 @@ public class CupSpawner : NetworkBehaviour
     }
 
     [Command]
-    private void cmdSpawnCup()
+    private void cmdSpawnCup(Vector3 spawnPoint)
     {
-        serverSpawnCup();
+        serverSpawnCup(spawnPoint);
     }
 
     [Server]
-    private void serverSpawnCup()
+    private void serverSpawnCup(Vector3 spawnPoint)
     {
-        cupObject = Instantiate(cupPrefab, cupSpawnPoint.transform.position, Quaternion.identity);
+        cupObject = Instantiate(cupPrefab, spawnPoint, Quaternion.identity);
         cupObject.GetComponent<Cup>().IdMaster = netId;
         NetworkServer.Spawn(cupObject);
     }
@@ -96,7 +102,7 @@ public class CupSpawner : NetworkBehaviour
 
     private void OnDisable()
     {
-        cupDirUi.SetActive(false);
+        directionUI.SetActive(false);
         networkPlayer.OnBeginGame -= beginGame;
     }
 }
