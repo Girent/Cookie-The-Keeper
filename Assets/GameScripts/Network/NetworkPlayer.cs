@@ -18,7 +18,10 @@ public class NetworkPlayer : NetworkBehaviour
     private NetworkMatch networkMatch;
 
     public Action OnBeginGame;
+    public Action OnStartGame;
     public Action OnDisconnectGame;
+
+    private GameObject[] spawnPoints;
 
     void Awake()
     {
@@ -107,6 +110,26 @@ public class NetworkPlayer : NetworkBehaviour
 
     #region BeginGame
 
+    public void MoveToRoomScene(List<GameObject> players)
+    {
+        targetMoveToRoomScene(players);
+    }
+
+    [TargetRpc]
+    private void targetMoveToRoomScene(List<GameObject> players)
+    {
+        Scene sceneToLoad = SceneManager.GetSceneByBuildIndex(2);
+
+        foreach (var player in players)
+        {
+
+            if (gameObject != player)
+            {
+                SceneManager.MoveGameObjectToScene(player, sceneToLoad);
+            }
+        }
+    }
+
     public void BeginGame()
     {
         cmdBeginGame();
@@ -118,22 +141,20 @@ public class NetworkPlayer : NetworkBehaviour
         RoomList.instance.Rooms.Find(room => room.RoomId == RoomID).EnterRoom();
     }
 
-    public void StartGame(List<GameObject> players)
+    public void TargetBeginGame()
     {
-        TargetBeginGame(players);
+        targetBeginGame();
     }
 
     [TargetRpc]
-    private void TargetBeginGame(List<GameObject> players)
+    private void targetBeginGame()
     {
         OnBeginGame?.Invoke();
 
         SceneManager.LoadScene(2, LoadSceneMode.Additive);
+
         Scene sceneToLoad = SceneManager.GetSceneByBuildIndex(2);
-        foreach (GameObject player in players)
-        {
-            SceneManager.MoveGameObjectToScene(player, sceneToLoad);
-        }
+        SceneManager.MoveGameObjectToScene(gameObject, sceneToLoad);
     }
 
     #endregion
@@ -176,5 +197,17 @@ public class NetworkPlayer : NetworkBehaviour
     {
         
     }
+    #endregion
+
+    #region Start Match
+
+    [TargetRpc]
+    public void MoveToStartPoint(int playerIndex)
+    {
+        OnStartGame?.Invoke();
+        spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+        transform.position = spawnPoints[playerIndex].transform.position;
+    }
+
     #endregion
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -5,6 +6,7 @@ using UnityEngine.EventSystems;
 public class UIJoystick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
     private Vector3 lastDirection = new Vector3(1f,1f,0);
+    private Vector3 currentDirection;
     private Vector2 positionInput;
     private Image joystickBg;
     [SerializeField] private Image joystick;
@@ -29,8 +31,13 @@ public class UIJoystick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoi
 
             if (HorizontalInput() != 0 && VerticallInput() != 0)
             {
+                currentDirection = new Vector3(HorizontalInput(), VerticallInput(), 0).normalized;
                 lastDirection = new Vector3(HorizontalInput(), VerticallInput(), 0).normalized;
                 cameraMoveAnimation();
+            }
+            else
+            {
+                currentDirection = lastDirection;
             }
         }
     }
@@ -67,5 +74,10 @@ public class UIJoystick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoi
     public Vector3 GetLastDirection()
     {
         return lastDirection;
+    }
+
+    public Vector3 GetCurrentDirection()
+    {
+        return currentDirection;
     }
 }
