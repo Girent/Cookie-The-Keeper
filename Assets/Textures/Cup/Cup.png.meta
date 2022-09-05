@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 66a49fc30200549dc900eafdbd462543
+guid: 8e70137c4d0fe4bcc9f3c73cc244ea34
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,11 +43,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 0
-  spriteMeshType: 0
+  spriteExtrude: 1
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 300
+  spritePixelsToUnits: 5000
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -116,13 +116,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Move_0
+      name: Cup_0
       rect:
         serializedVersion: 2
-        x: 29
+        x: 79
         y: 25
-        width: 522
-        height: 950
+        width: 498
+        height: 975
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -130,20 +130,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 979accb43e8c540198208d9a1d67128d
-      internalID: 272109066
+      spriteID: e29273b20e07f425c9b165955045d063
+      internalID: 1046327359
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Move_1
+      name: Cup_1
       rect:
         serializedVersion: 2
-        x: 627
+        x: 713
         y: 25
-        width: 533
-        height: 950
+        width: 501
+        height: 975
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -151,20 +151,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 37a5e565d219a40ebb9e3fb6ddc10568
-      internalID: -1371073624
+      spriteID: 1b42741a04b5f445995336a896d70b28
+      internalID: 1509959529
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Move_2
+      name: Cup_2
       rect:
         serializedVersion: 2
-        x: 1258
+        x: 1375
         y: 25
-        width: 551
-        height: 950
+        width: 502
+        height: 975
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -172,20 +172,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e5570e7da86ab4f1cbdede789954efd6
-      internalID: 1706306937
+      spriteID: b0af85cc15eab40c1b84e1d5d04833f8
+      internalID: 982705798
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Move_3
+      name: Cup_3
       rect:
         serializedVersion: 2
-        x: 1896
+        x: 2025
         y: 25
-        width: 566
-        height: 950
+        width: 498
+        height: 975
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -193,20 +193,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 81c7066f4303147c7b962d08ab38e43e
-      internalID: -1710292203
+      spriteID: 63882ee58e94042539867adbbe82d757
+      internalID: 158044162
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Move_4
+      name: Cup_4
       rect:
         serializedVersion: 2
-        x: 2578
+        x: 2640
         y: 25
-        width: 540
-        height: 950
+        width: 501
+        height: 975
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -214,20 +214,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a3bbcc397e0c5494a849f0927f81b7e5
-      internalID: 1466703144
+      spriteID: ed280f4d1b52347988abf2ca337496d4
+      internalID: 1132567572
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Move_5
+      name: Cup_5
       rect:
         serializedVersion: 2
-        x: 3176
+        x: 3239
         y: 25
-        width: 529
-        height: 950
+        width: 498
+        height: 975
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -235,20 +235,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d1e45fab84fa6433392591562a504f0a
-      internalID: -690699340
+      spriteID: 719b8e1e225f84604a4be3dc2d4b53fb
+      internalID: 2007842255
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Move_6
+      name: Cup_6
       rect:
         serializedVersion: 2
-        x: 3781
+        x: 3876
         y: 25
-        width: 577
-        height: 950
+        width: 501
+        height: 975
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -256,20 +256,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 125ab103525f9479c86559dc5df82342
-      internalID: -1543419071
+      spriteID: abed6026c5f7e470895dfde48a8b7edf
+      internalID: 973044958
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Move_7
+      name: Cup_7
       rect:
         serializedVersion: 2
-        x: 4434
+        x: 4441
         y: 25
-        width: 540
-        height: 946
+        width: 501
+        height: 975
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -277,71 +277,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 614f8e2d9902c46e9a65de2a998089cc
-      internalID: -1444068141
+      spriteID: 9416d82ca976547c2b1d0bebc16dcb7f
+      internalID: -325356799
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Move_8
+      name: Cup_8
       rect:
         serializedVersion: 2
-        x: 5076
-        y: 25
-        width: 543
-        height: 950
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 5015
+        y: 0
+        width: 501
+        height: 1000
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 949eb07f9bb3047cc9ac5c872d5fedae
-      internalID: 51096402
+      spriteID: 64a2dbcf60c004a2e84fb0c5a7b07c9d
+      internalID: 1901092180
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Move_9
+      name: Cup_10
       rect:
         serializedVersion: 2
-        x: 5721
-        y: 29
-        width: 562
-        height: 946
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 5683
+        y: 0
+        width: 502
+        height: 1000
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e5778a8002c914b70afddaad8ec49442
-      internalID: -1124804514
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Move_10
-      rect:
-        serializedVersion: 2
-        x: 6377
-        y: 29
-        width: 551
-        height: 946
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1ab5b0fdeb802419eab83b40dff3d9c1
-      internalID: -477478536
+      spriteID: 3351c9a9ea23d4e3ebf7bbd1e2f98d6f
+      internalID: 813483825
       vertices: []
       indices: 
       edges: []
@@ -357,17 +336,23 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Move_4: 1466703144
-      Move_8: 51096402
-      Move_10: -477478536
-      Move_5: -690699340
-      Move_6: -1543419071
-      Move_9: -1124804514
-      Move_2: 1706306937
-      Move_3: -1710292203
-      Move_1: -1371073624
-      Move_0: 272109066
-      Move_7: -1444068141
+      Cup_5: 2007842255
+      Cup_11: 1968630278
+      Cup_13: 701311537
+      Cup_16: 1840432111
+      Cup_8: 1901092180
+      Cup_4: 1132567572
+      Cup_15: -508799277
+      Cup_6: 973044958
+      Cup_14: -1887938013
+      Cup_0: 1046327359
+      Cup_2: 982705798
+      Cup_7: -325356799
+      Cup_12: 1757766982
+      Cup_1: 1509959529
+      Cup_9: 1030827319
+      Cup_3: 158044162
+      Cup_10: 813483825
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
