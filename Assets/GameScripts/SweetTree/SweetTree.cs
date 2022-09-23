@@ -26,15 +26,20 @@ public class SweetTree : NetworkBehaviour, IHealth
         }
     }
 
-    [SerializeField][SyncVar(hook = nameof(syncValue))] private float amount;
+    [SyncVar(hook = nameof(syncValue))]
+    private float amount;
 
     private void syncValue(float oldValue, float newValue)
     {
         amount = newValue;
+
+    }
+
+    private void FixedUpdate()
+    {
         if (amount <= 0)
             destroyObject();
     }
-
     private void destroyObject()
     {
         NetworkServer.Destroy(gameObject);

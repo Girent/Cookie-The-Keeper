@@ -1,5 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Mirror;
 
 public class UILobby : MonoBehaviour
 {
@@ -18,53 +20,21 @@ public class UILobby : MonoBehaviour
 
     public void BeginGame ()
     {
-        NetworkPlayer.localPlayer.BeginGame();
+        //NetworkPlayer.localPlayer.BeginGame();
     }
 
     public void SearchGame ()
     {
         searchCanvas.enabled = true;
-        StartCoroutine(SearchingForGame());
-    }
 
-    IEnumerator SearchingForGame ()
-    {
-        searching = true;
-        float currentTime = 1;
-        while (searching)
-        {
-            if (currentTime > 0)
-            {
-                currentTime -= Time.deltaTime;
-            }
-            else
-            {
-                currentTime = 1;
-                NetworkPlayer.localPlayer.SearchGame();
-            }
-            yield return null;
-        }
-    }
+        SceneManager.LoadScene(2, LoadSceneMode.Additive);
 
-    public void SearchSuccess(bool success, string matchId)
-    {
-        if (success)
-        {
-            searching = false;
-            searchCanvas.enabled = false;
-        }
-        else
-        {
-            searching = false;
-            searchCanvas.enabled = false;
-            NetworkPlayer.localPlayer.CreateRoom();
-        }
-       
+        PosMessage m = new PosMessage() { vector2 = Vector2.zero };
+        GameObject.FindGameObjectWithTag("Networking").GetComponent<Networking>().connection.Send(m);
     }
 
     public void disableSearchCanvas()
     {
         searchCanvas.enabled = false;
-        searching = false;
     }
 }

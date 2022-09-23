@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: sweet-tree (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 1556291012878241880, guid: b544104f06d0a43389ed2948b2ca4e4f, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2740110045770917834, guid: b544104f06d0a43389ed2948b2ca4e4f, type: 3}
       propertyPath: sceneId
       value: 440243661
@@ -211,6 +215,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: sweet-tree (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1556291012878241880, guid: b544104f06d0a43389ed2948b2ca4e4f, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2740110045770917834, guid: b544104f06d0a43389ed2948b2ca4e4f, type: 3}
       propertyPath: sceneId
       value: 3126535255
@@ -287,6 +295,10 @@ PrefabInstance:
     - target: {fileID: 1556291012878241880, guid: b544104f06d0a43389ed2948b2ca4e4f, type: 3}
       propertyPath: m_Name
       value: sweet-tree (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1556291012878241880, guid: b544104f06d0a43389ed2948b2ca4e4f, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2740110045770917834, guid: b544104f06d0a43389ed2948b2ca4e4f, type: 3}
       propertyPath: sceneId
@@ -2064,6 +2076,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: sweet-tree (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 1556291012878241880, guid: b544104f06d0a43389ed2948b2ca4e4f, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2740110045770917834, guid: b544104f06d0a43389ed2948b2ca4e4f, type: 3}
       propertyPath: sceneId
       value: 1653992125
@@ -2140,6 +2156,10 @@ PrefabInstance:
     - target: {fileID: 1556291012878241880, guid: b544104f06d0a43389ed2948b2ca4e4f, type: 3}
       propertyPath: m_Name
       value: sweet-tree (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1556291012878241880, guid: b544104f06d0a43389ed2948b2ca4e4f, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2740110045770917834, guid: b544104f06d0a43389ed2948b2ca4e4f, type: 3}
       propertyPath: sceneId
@@ -2265,6 +2285,10 @@ PrefabInstance:
     - target: {fileID: 1556291012878241880, guid: b544104f06d0a43389ed2948b2ca4e4f, type: 3}
       propertyPath: m_Name
       value: sweet-tree (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1556291012878241880, guid: b544104f06d0a43389ed2948b2ca4e4f, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2740110045770917834, guid: b544104f06d0a43389ed2948b2ca4e4f, type: 3}
       propertyPath: sceneId
