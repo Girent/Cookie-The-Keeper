@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CupSpawner : NetworkBehaviour
@@ -93,6 +94,9 @@ public class CupSpawner : NetworkBehaviour
         cupObject = Instantiate(cupPrefab, spawnPoint, Quaternion.identity);
         cupObject.GetComponent<Cup>().IdMaster = netId;
         NetworkServer.Spawn(cupObject);
+
+        Scene scene = SceneManager.GetSceneAt(RoomList.instance.Rooms.IndexOf(networkPlayer.CurrentRoom) + 1);
+        SceneManager.MoveGameObjectToScene(cupObject, scene);
     }
 
     private void OnDestroy()
