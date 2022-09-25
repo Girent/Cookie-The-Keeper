@@ -1,39 +1,43 @@
-using UnityEngine;
-using Mirror;
-using UnityEngine.SceneManagement;
-using System.Collections.Generic;
 using System;
-
-[RequireComponent(typeof(NetworkMatch))]
+using System.Collections;
+using System.Collections.Generic;
+using Mirror;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NetworkPlayer : NetworkBehaviour
 {
+    [SyncVar] public Room CurrentRoom;
     [SyncVar] public string RoomID;
 
-    [SyncVar] public Room CurrentRoom;
-
     public bool InGame = false;
-
-    public static NetworkPlayer localPlayer;
-    private NetworkMatch networkMatch;
 
     public Action OnBeginGame;
     public Action OnStartGame;
     public Action OnDisconnectGame;
 
+    public static NetworkPlayer localPlayer;
+
+    private NetworkMatch networkMatch;
+
     private GameObject[] spawnPoints;
 
-    void Awake()
+    private void Awake()
     {
         networkMatch = GetComponent<NetworkMatch>();
     }
 
-    public override void OnStartClient()
+    private void Start()
     {
-        if (hasAuthority)
+        if (isClient)
         {
-            localPlayer = this;
+            Invoke(nameof(beginGame), 0.1f);
         }
+    }
+
+    private void beginGame()
+    {
+        OnBeginGame?.Invoke();
     }
 
     public override void OnStopClient()
@@ -46,143 +50,28 @@ public class NetworkPlayer : NetworkBehaviour
         serverDisconnect();
     }
 
-    #region CreateGame
-
-    public void CreateRoom(bool publicMatch = true)
-    {
-        string matchId = Extensions.GetRandomMatchID();
-
-        cmdCreateRoom(matchId, publicMatch);
-        BeginGame();
-    }
-
-    [Command]
-    private void cmdCreateRoom(string _matchId, bool IsPublicMatch)
-    {
-        RoomID = _matchId;
-        if (RoomList.instance.HostGame(_matchId, gameObject, IsPublicMatch))
-        {
-            networkMatch.matchId = _matchId.ToGuid();
-            TargetHostGame( _matchId);
-        }
-        else
-        {
-            TargetHostGame( _matchId);
-        }
-    }
-
-    [TargetRpc]
-    private void TargetHostGame (string matchId)
-    {
-        RoomID = matchId;
-    }
-
-    #endregion
-
-    #region SearchGame
-    public void SearchGame ()
-    {
-        cmdSearchGame();
-    }
-
-    [Command]
-    private void cmdSearchGame()
-    {
-        if (RoomList.instance.SearchGame(gameObject, out RoomID))
-        {
-            networkMatch.matchId = RoomID.ToGuid();
-            targetSearchGame(true, RoomID);
-        }
-        else
-        {
-            targetSearchGame(false, RoomID);
-        }
-    }
-
-    [TargetRpc]
-    private void targetSearchGame(bool success, string matchId)
-    {
-        RoomID = matchId;
-        UILobby.instance.SearchSuccess(success, matchId);
-        BeginGame();
-    }
-    #endregion
-
-    #region BeginGame
-
-    public void MoveToRoomScene(List<GameObject> players)
-    {
-        targetMoveToRoomScene(players);
-    }
-
-    [TargetRpc]
-    private void targetMoveToRoomScene(List<GameObject> players)
-    {
-        Scene sceneToLoad = SceneManager.GetSceneByBuildIndex(2);
-
-        foreach (var player in players)
-        {
-
-            if (gameObject != player)
-            {
-                SceneManager.MoveGameObjectToScene(player, sceneToLoad);
-            }
-        }
-    }
-
-    public void BeginGame()
-    {
-        cmdBeginGame();
-    }
-
-    [Command]
-    private void cmdBeginGame()
-    {
-        RoomList.instance.Rooms.Find(room => room.RoomId == RoomID).EnterRoom();
-    }
-
-    public void TargetBeginGame()
-    {
-        targetBeginGame();
-    }
-
-    [TargetRpc]
-    private void targetBeginGame()
-    {
-        OnBeginGame?.Invoke();
-
-        SceneManager.LoadScene(2, LoadSceneMode.Additive);
-
-        Scene sceneToLoad = SceneManager.GetSceneByBuildIndex(2);
-        SceneManager.MoveGameObjectToScene(gameObject, sceneToLoad);
-    }
-
-    #endregion
-
     #region DisconectMatch
-    public void DisconnectGame ()
+    public void DisconnectGame()
     {
         cmdDisconnectGame();
         UILobby.instance.disableSearchCanvas();
 
-        Scene sceneToLobby = SceneManager.GetSceneByBuildIndex(1);
-
-        SceneManager.MoveGameObjectToScene(gameObject, sceneToLobby);
-        if(hasAuthority)
+        if (hasAuthority)
             OnDisconnectGame?.Invoke();
         SceneManager.UnloadSceneAsync(2);
     }
 
     [Command]
-    private void cmdDisconnectGame ()
+    private void cmdDisconnectGame()
     {
         serverDisconnect();
     }
 
-    private void serverDisconnect ()
+    private void serverDisconnect()
     {
+        Debug.Log("disconnect");
         RoomList.instance.Rooms.Find(room => room.RoomId == RoomID).DisconnectPlayer(this);
-        networkMatch.matchId = string.Empty.ToGuid();
+        NetworkServer.Destroy(gameObject);
         InGame = false;
         rpcDisconnectGame();
     }
@@ -195,7 +84,7 @@ public class NetworkPlayer : NetworkBehaviour
 
     private void clientDisconnect()
     {
-        
+
     }
     #endregion
 

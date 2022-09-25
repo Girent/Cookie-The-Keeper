@@ -1,21 +1,19 @@
-using UnityEngine;
-using Mirror;
 using System;
-
-[System.Serializable]
-public class SyncListRooms : SyncList<Room> { }
-
-[System.Serializable]
-public class SyncListString : SyncList<String> { }
+using System.Collections.Generic;
+using System.Text;
+using Mirror;
+using UnityEngine;
 
 public class RoomList : NetworkBehaviour
 {
+
     public static RoomList instance;
 
-    public SyncList<Room> Rooms = new SyncList<Room>();
-    public SyncListString RoomIDs = new SyncListString();
+    public List<Room> Rooms = new List<Room>();
+    public List<string> RoomIDs = new List<string>();
 
-    private void Awake()
+
+    void Awake()
     {
         instance = this;
     }
@@ -41,23 +39,22 @@ public class RoomList : NetworkBehaviour
         }
     }
 
-    public bool SearchGame (GameObject player, out string roomId)
+    public bool SearchRoom(GameObject player, out string roomId)
     {
         roomId = String.Empty;
 
         for (int i = 0; i < Rooms.Count; i++)
         {
-            if (Rooms[i].IsPublicRoom && !Rooms[i].RoomFull && !Rooms[i].InMatch)
+            roomId = Rooms[i].RoomId;
+
+            if (Rooms[i].IsFull == false && Rooms[i].InMatch != true)
             {
-                roomId = Rooms[i].RoomId;
-                if (RoomIDs.Contains(roomId))
-                {
-                    Rooms[i].JoinRoom(player);
-                    return true;
-                }
+                Rooms[i].EnterRoom(player);
+                Debug.Log("Not a full " + Rooms[i].RoomId);
+                return true;
             }
         }
-
         return false;
     }
+
 }

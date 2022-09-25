@@ -50,7 +50,6 @@ public class InGameUi : NetworkBehaviour
         networkPlayer.DisconnectGame();
         endGamePanel.SetActive(false);
         winUi.SetActive(false);
-        networkAnimator.SetTrigger("Live");
     }
 
     [TargetRpc]
