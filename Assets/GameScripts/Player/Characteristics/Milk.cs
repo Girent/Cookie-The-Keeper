@@ -2,11 +2,11 @@
 using UnityEngine;
 using TMPro;
 
-public class Wood : MonoBehaviour, IProperty
+public class Milk : MonoBehaviour, IProperty
 {
     [SerializeField] private TextMeshProUGUI counterUI;
     
-    public Wood()
+    public Milk()
     {
         Amout = 0;
     }
