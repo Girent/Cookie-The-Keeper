@@ -5742,6 +5742,7 @@ GameObject:
   - component: {fileID: 3269664276686883353}
   - component: {fileID: 6091823344144617454}
   - component: {fileID: 3174306990855708142}
+  - component: {fileID: 8844675918911053836}
   - component: {fileID: 4970372277193461393}
   - component: {fileID: 9081561197235861430}
   - component: {fileID: 2690557306262282116}
@@ -5749,7 +5750,6 @@ GameObject:
   - component: {fileID: 1046803416115785032}
   - component: {fileID: 6800863073896336328}
   - component: {fileID: 650826708720544440}
-  - component: {fileID: 8844675918911053836}
   - component: {fileID: 1619038071339260377}
   - component: {fileID: 6188689808013214993}
   m_Layer: 3
@@ -5957,12 +5957,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  RoomID: 
   CurrentRoom:
     IsPublicRoom: 0
     InMatch: 0
-    RoomFull: 0
+    IsFull: 0
+  RoomID: 
   InGame: 0
+--- !u!114 &8844675918911053836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352942515576853519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85281c717424846efb1da673cb6e2ffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  playerCanvas:
+  - {fileID: 7240415773694759242}
+  - {fileID: 6522917445809067292}
+  - {fileID: 7189117583173937273}
+  networkPlayer: {fileID: 3174306990855708142}
+  networkAnimator: {fileID: 6091823344144617454}
+  health: {fileID: 2690557306262282116}
+  playerCamera: {fileID: 1127445527}
+  endGamePanel: {fileID: 4656460673984625052}
+  winUi: {fileID: 8126129204453755178}
 --- !u!114 &4970372277193461393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6073,30 +6097,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   player: {fileID: 1352942515576853519}
---- !u!114 &8844675918911053836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1352942515576853519}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85281c717424846efb1da673cb6e2ffa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  playerCanvas:
-  - {fileID: 7240415773694759242}
-  - {fileID: 6522917445809067292}
-  - {fileID: 7189117583173937273}
-  networkPlayer: {fileID: 3174306990855708142}
-  networkAnimator: {fileID: 6091823344144617454}
-  health: {fileID: 2690557306262282116}
-  playerCamera: {fileID: 1127445527}
-  endGamePanel: {fileID: 4656460673984625052}
-  winUi: {fileID: 8126129204453755178}
 --- !u!114 &1619038071339260377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6159,12 +6159,12 @@ SpriteRenderer:
   m_SortingLayerID: -62097449
   m_SortingLayer: 2
   m_SortingOrder: 1
-  m_Sprite: {fileID: -749496243, guid: 288f1273d227442839d3f1cfc1e981b4, type: 3}
+  m_Sprite: {fileID: -337941876, guid: 972f34598a6d449748fda6ad62170899, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.8366667, y: 3.1764324}
+  m_Size: {x: 2.2166665, y: 3.132213}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
