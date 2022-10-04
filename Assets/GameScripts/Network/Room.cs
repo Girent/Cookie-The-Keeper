@@ -17,7 +17,7 @@ public class Room
     private RoomList roomList;
 
     private int maxPlayers = 2;
-    private float warmupTime = 30f;
+    private float warmupTime = 10f;
 
     private List<GameObject> players = new List<GameObject>();
 
@@ -79,9 +79,21 @@ public class Room
         InMatch = true;
     }
 
+    private void cupStage()
+    {
+        for (int i = 0; i < players.Count; i++)
+        {
+            CupSpawner cupSpawner = players[i].GetComponent<CupSpawner>();
+
+            cupSpawner.ForcedSpawn();
+        }
+    }
+
     public IEnumerator WarmupTimer()
     {
         yield return new WaitForSeconds(warmupTime);
         startMatch();
+        yield return new WaitForSeconds(2);
+        cupStage();
     }
 }

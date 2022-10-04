@@ -25,6 +25,8 @@ public class CupSpawner : NetworkBehaviour
     private SpriteRenderer spriteRendererSpawnPoint;
     private NetworkPlayer networkPlayer;
 
+    [SyncVar] private bool isSpawn = false;
+
     private void Start()
     {
         networkPlayer = GetComponent<NetworkPlayer>();
@@ -54,6 +56,16 @@ public class CupSpawner : NetworkBehaviour
     private void setColor()
     {
         spriteRendererSpawnPoint.color = Color.green;
+    }
+
+    [ClientRpc]
+    public void ForcedSpawn()
+    {
+        if (!isSpawn)
+        {
+            ShowBuildingMode();
+            SpawnCup();
+        }
     }
 
     [Client]
@@ -91,6 +103,7 @@ public class CupSpawner : NetworkBehaviour
     [Server]
     private void serverSpawnCup(Vector3 spawnPoint)
     {
+        isSpawn = true;
         cupObject = Instantiate(cupPrefab, spawnPoint, Quaternion.identity);
         cupObject.GetComponent<Cup>().IdMaster = netId;
         NetworkServer.Spawn(cupObject);
