@@ -10,17 +10,9 @@ public class UILobby : MonoBehaviour
 
     [SerializeField] private Canvas searchCanvas;
 
-    private bool searching = false;
-
     private void Start()
     {
         instance = this;
-    }
-
-
-    public void BeginGame ()
-    {
-        //NetworkPlayer.localPlayer.BeginGame();
     }
 
     public void SearchGame ()
