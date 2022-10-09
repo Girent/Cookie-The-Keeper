@@ -19,11 +19,13 @@ public class Health : NetworkBehaviour, IProperty, IHealth
 
     [SerializeField][SyncVar(hook = nameof(syncValue))] private float amount;
 
+    private bool isDead = false;
 
     private NetworkAnimator animator;
     private NetworkPlayer networkPlayer;
 
     public Action OnPlayerDead;
+
 
     public float Amount{
         get 
@@ -80,12 +82,17 @@ public class Health : NetworkBehaviour, IProperty, IHealth
     private void syncValue(float oldValue, float newValue)
     {
         amount = newValue;
-        healthSlider.UpdateHealthUi(Amount, MaxHealth);
+
+        if(isClient)
+            healthSlider.UpdateHealthUi(Amount, MaxHealth);
 
         if (amount <= 0)
         {
             if (hasAuthority)
+            {
                 OnPlayerDead?.Invoke();
+            }
+            isDead = true;
         }
     }
 
@@ -98,11 +105,9 @@ public class Health : NetworkBehaviour, IProperty, IHealth
     [Command(requiresAuthority = false)]
     public void ApplyDamage(float amount, uint netId)
     {
-        if(this.netId != netId)
+        if(this.netId != netId && !isDead)
         {
             applyDamage(amount);
-            GameObject popup = Instantiate(popupDamage, gameObject.transform.position, Quaternion.identity);
-            popup.GetComponent<DamagePopup>().SetPopupText(amount);
         }
     }
 
@@ -110,5 +115,15 @@ public class Health : NetworkBehaviour, IProperty, IHealth
     private void applyDamage(float amount)
     {
         Amount -= amount;
+        spawnPopupDamage(amount);
+        if (Amount <= 0)
+            isDead = true;
+    }
+
+    [ClientRpc]
+    private void spawnPopupDamage(float damage)
+    {
+        GameObject popup = Instantiate(popupDamage, gameObject.transform.position, Quaternion.identity);
+        popup.GetComponent<DamagePopup>().SetPopupText(damage);
     }
 }

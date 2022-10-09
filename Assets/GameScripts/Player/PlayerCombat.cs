@@ -12,10 +12,17 @@ public class PlayerCombat : NetworkBehaviour
     private NetworkAnimator networkAnimator;
     private Damage damage;
 
+    [SyncVar]private bool isAllow = false;
+
     private void Awake()
     {
         damage = GetComponent<Damage>();
         networkAnimator = GetComponent<NetworkAnimator>();
+    }
+
+    public void endWarmup()
+    {
+        isAllow = true;
     }
 
     public void Attack ()
@@ -26,10 +33,11 @@ public class PlayerCombat : NetworkBehaviour
 
         setAttackAmination();
 
-        foreach (var enemy in hitEnemies)
-        {
-            InflictDamage(enemy.GetComponent<IHealth>(), damage.Amount);
-        }
+        if(isAllow)
+            foreach (var enemy in hitEnemies)
+            {
+                InflictDamage(enemy.GetComponent<IHealth>(), damage.Amount);
+            }
     }
 
     private void setAttackAmination()

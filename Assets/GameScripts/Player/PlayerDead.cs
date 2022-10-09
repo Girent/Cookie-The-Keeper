@@ -31,11 +31,13 @@ public class PlayerDead : NetworkBehaviour
         health.OnPlayerDead -= die;
     }
 
+    [Client]
     private void die()
     {
         playerAnimator.SetTrigger("Dead");
         cmdDie();
     }
+
 
     [Command]
     private void cmdDie()
@@ -46,6 +48,5 @@ public class PlayerDead : NetworkBehaviour
     [Server]
     private void inServerDie()
     {
-        playerCollider.enabled = false;
     }
 }

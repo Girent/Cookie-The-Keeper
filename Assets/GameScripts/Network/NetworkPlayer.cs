@@ -14,7 +14,6 @@ public class NetworkPlayer : NetworkBehaviour
 
     public Action OnBeginGame;
     public Action OnStartGame;
-    public Action OnDisconnectGame;
 
     public static NetworkPlayer localPlayer;
 
@@ -31,7 +30,7 @@ public class NetworkPlayer : NetworkBehaviour
     {
         if (isClient)
         {
-            Invoke(nameof(beginGame), 0.1f);
+            Invoke(nameof(beginGame), 0.05f);
         }
     }
 
@@ -55,10 +54,8 @@ public class NetworkPlayer : NetworkBehaviour
     {
         cmdDisconnectGame();
         UILobby.instance.disableSearchCanvas();
-
-        if (hasAuthority)
-            OnDisconnectGame?.Invoke();
         SceneManager.UnloadSceneAsync(2);
+        NetworkServer.Destroy(gameObject);
     }
 
     [Command]
@@ -69,9 +66,7 @@ public class NetworkPlayer : NetworkBehaviour
 
     private void serverDisconnect()
     {
-        Debug.Log("disconnect");
         RoomList.instance.Rooms.Find(room => room.RoomId == RoomID).DisconnectPlayer(this);
-        NetworkServer.Destroy(gameObject);
         InGame = false;
         rpcDisconnectGame();
     }

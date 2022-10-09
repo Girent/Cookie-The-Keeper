@@ -64,16 +64,18 @@ public class CupSpawner : NetworkBehaviour
         if (!isSpawn)
         {
             ShowBuildingMode();
-            SpawnCup();
+            SpawnCup(true);
+            buildButton.SetActive(false);
+            cupSpawnPoint.SetActive(false);
         }
     }
 
     [Client]
-    public void SpawnCup()
+    public void SpawnCup(bool forceSpawn = false)
     {
         RaycastHit2D hit2D = Physics2D.Raycast(cupSpawnPoint.transform.position, cupSpawnPoint.transform.TransformDirection(Vector2.down), 1f);
 
-        if (hit2D)
+        if (hit2D && forceSpawn == false)
         {
             spriteRendererSpawnPoint.color = Color.red;
             Invoke(nameof(setColor), 0.2f);

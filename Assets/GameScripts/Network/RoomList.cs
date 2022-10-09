@@ -50,7 +50,6 @@ public class RoomList : NetworkBehaviour
             if (Rooms[i].IsFull == false && Rooms[i].InMatch != true)
             {
                 Rooms[i].EnterRoom(player);
-                Debug.Log("Not a full " + Rooms[i].RoomId);
                 return true;
             }
         }

@@ -17,7 +17,7 @@ public class Room
     private RoomList roomList;
 
     private int maxPlayers = 2;
-    private float warmupTime = 10f;
+    private float warmupTime = 20f;
 
     private List<GameObject> players = new List<GameObject>();
 
@@ -51,7 +51,6 @@ public class Room
         int playerIndex = players.IndexOf(player.gameObject);
         players.RemoveAt(playerIndex);
 
-        players.ForEach(pl => Debug.Log(pl));
         IsFull = false;
         if (players.Count == 0)
         {
@@ -67,19 +66,18 @@ public class Room
         }
     }
 
-    private void startMatch()
+    private void endWarmup()
     {
         if (!InMatch)
             for (int i = 0; i < players.Count; i++)
             {
-                NetworkPlayer networkPlayer = players[i].GetComponent<NetworkPlayer>();
-
-                networkPlayer.MoveToStartPoint(i);
+                players[i].GetComponent<NetworkPlayer>().MoveToStartPoint(i);
+                players[i].GetComponent<PlayerCombat>().endWarmup();
             }
         InMatch = true;
     }
 
-    private void cupStage()
+    private void endCupStage()
     {
         for (int i = 0; i < players.Count; i++)
         {
@@ -92,8 +90,8 @@ public class Room
     public IEnumerator WarmupTimer()
     {
         yield return new WaitForSeconds(warmupTime);
-        startMatch();
-        yield return new WaitForSeconds(2);
-        cupStage();
+        endWarmup();
+        yield return new WaitForSeconds(10);
+        endCupStage();
     }
 }

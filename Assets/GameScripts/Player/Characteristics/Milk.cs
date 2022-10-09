@@ -21,7 +21,6 @@ public class Milk : MonoBehaviour, IProperty
         private set
         {
             amout = value;
-            counterUI.text = amout.ToString();
         }        
     }
     private int amout;
