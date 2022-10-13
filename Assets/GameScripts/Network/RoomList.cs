@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Mirror;
@@ -26,10 +27,10 @@ public class RoomList : NetworkBehaviour
             Room room = new Room(roomId, player);
             room.IsPublicRoom = IsPublicRoom;
             Rooms.Add(room);
+
             NetworkPlayer networkPlayer = player.GetComponent<NetworkPlayer>();
             networkPlayer.CurrentRoom = room;
 
-            StartCoroutine(room.WarmupTimer());
             return true;
         }
         else

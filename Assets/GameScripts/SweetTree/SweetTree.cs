@@ -12,6 +12,8 @@ public class SweetTree : NetworkBehaviour, IHealth
 
     public const float MaxHealth = 100;
     public const float MinHealth = 0;
+    public const int MilkPointDrop = 20;
+
     public float HealthAmount
     {
         get
@@ -26,33 +28,32 @@ public class SweetTree : NetworkBehaviour, IHealth
         }
     }
 
-    [SyncVar(hook = nameof(syncValue))]
-    private float amount;
+    [SyncVar(hook = nameof(syncValue))] private float amount;
 
     private void syncValue(float oldValue, float newValue)
     {
         amount = newValue;
-
     }
 
-    private void FixedUpdate()
-    {
-        if (amount <= 0)
-            destroyObject();
-    }
     private void destroyObject()
     {
         NetworkServer.Destroy(gameObject);
     }
 
     [Command(requiresAuthority = false)]
-    public void ApplyDamage(float amount, uint netId)
+    public void ApplyDamage(float amount, uint netId, GameObject player)
     {
-        applyDamage(amount);
+        if (this.amount <= 0)
+        {
+            player.GetComponent<Milk>().Increase(MilkPointDrop);
+            destroyObject();
+        }
+
+        applyDamage(amount, netId);
     }
 
     [Server]
-    private void applyDamage(float amount)
+    private void applyDamage(float amount, uint netid)
     {
         HealthAmount -= amount;
     }

@@ -4,6 +4,6 @@ public class GlobalSettings : MonoBehaviour
 {
     private void Awake()
     {
-        Application.targetFrameRate = 45;
+        Application.targetFrameRate = 25;
     }
 }

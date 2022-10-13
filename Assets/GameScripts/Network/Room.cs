@@ -17,7 +17,9 @@ public class Room
     private RoomList roomList;
 
     private int maxPlayers = 2;
-    private float warmupTime = 20f;
+    private const float warmupStageTime = 6f;
+    private const float cupStageTime = 2f;
+    private const float gameStageTime = 300f;
 
     private List<GameObject> players = new List<GameObject>();
 
@@ -26,6 +28,8 @@ public class Room
         roomList = RoomList.instance;
         RoomId = roomId;
         players.Add(player);
+
+        roomList.StartCoroutine(WarmupTimer());
     }
 
     public Room()
@@ -43,6 +47,7 @@ public class Room
         if (players.Count >= maxPlayers)
         {
             IsFull = true;
+            endWarmup();
         }
     }
 
@@ -69,6 +74,9 @@ public class Room
     private void endWarmup()
     {
         if (!InMatch)
+            roomList.StopCoroutine(WarmupTimer());
+            roomList.StartCoroutine(GameTimmer());
+
             for (int i = 0; i < players.Count; i++)
             {
                 players[i].GetComponent<NetworkPlayer>().MoveToStartPoint(i);
@@ -87,11 +95,30 @@ public class Room
         }
     }
 
+    private void endGameStage()
+    {
+        foreach (GameObject player in players)
+        {
+            if (player.GetComponent<Health>().isDead)
+                player.GetComponent<InGameUi>().ToLobbyRps();
+            else
+                player.GetComponent<InGameUi>().WinRps();
+        }
+    }
+
     public IEnumerator WarmupTimer()
     {
-        yield return new WaitForSeconds(warmupTime);
-        endWarmup();
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(warmupStageTime);
+        if(!InMatch)
+            endWarmup();
+        
+    }
+
+    public IEnumerator GameTimmer()
+    {
+        yield return new WaitForSeconds(cupStageTime);
         endCupStage();
+        yield return new WaitForSeconds(10);
+        endGameStage();
     }
 }

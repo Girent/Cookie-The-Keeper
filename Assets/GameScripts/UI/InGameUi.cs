@@ -44,6 +44,12 @@ public class InGameUi : NetworkBehaviour
         endGamePanel.SetActive(true);
     }
 
+    [TargetRpc]
+    public void ToLobbyRps()
+    {
+        ToLobby();
+    }
+
     public void ToLobby()
     {
         disableCanvas();
@@ -53,6 +59,11 @@ public class InGameUi : NetworkBehaviour
     }
 
     [TargetRpc]
+    public void WinRps()
+    {
+        Win();
+    }
+
     public void Win()
     {
         winUi.SetActive(true);

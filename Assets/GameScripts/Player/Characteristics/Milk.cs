@@ -1,41 +1,35 @@
 ﻿using System;
 using UnityEngine;
 using TMPro;
+using Mirror;
 
-public class Milk : MonoBehaviour, IProperty
+public class Milk : NetworkBehaviour, IProperty
 {
     [SerializeField] private TextMeshProUGUI counterUI;
     
-    public Milk()
-    {
-        Amout = 0;
-    }
+    [SyncVar(hook = nameof(syncValue))] private int amount;
 
     public const int MinAmount = 0;
-    public int Amout
-    {
-        get 
-        { 
-            return amout; 
-        }
-        private set
-        {
-            amout = value;
-        }        
-    }
-    private int amout;
 
+
+    private void syncValue(int oldValue, int newValue)
+    {
+        amount = newValue;
+        counterUI.text = amount.ToString();
+    }
+
+    [Server]
     public void Increase(int amount)
     {
-        Amout += amount;
+        this.amount += amount;
     }
 
     public void Decrease(int amount)
     {
-        if (Amout - amount < MinAmount)
+        if (this.amount - amount < MinAmount)
             throw new InvalidOperationException();
 
-        Amout -= amount;
+        this.amount -= amount;
 
     }
 }

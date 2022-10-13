@@ -19,7 +19,7 @@ public class Health : NetworkBehaviour, IProperty, IHealth
 
     [SerializeField][SyncVar(hook = nameof(syncValue))] private float amount;
 
-    private bool isDead = false;
+    public bool isDead { get; private set; }
 
     private NetworkAnimator animator;
     private NetworkPlayer networkPlayer;
@@ -42,6 +42,7 @@ public class Health : NetworkBehaviour, IProperty, IHealth
 
     private void Awake()
     {
+        isDead = false;
         animator = player.GetComponent<NetworkAnimator>();
         networkPlayer = player.GetComponent<NetworkPlayer>();
     }
@@ -103,7 +104,7 @@ public class Health : NetworkBehaviour, IProperty, IHealth
     }
 
     [Command(requiresAuthority = false)]
-    public void ApplyDamage(float amount, uint netId)
+    public void ApplyDamage(float amount, uint netId, GameObject player)
     {
         if(this.netId != netId && !isDead)
         {

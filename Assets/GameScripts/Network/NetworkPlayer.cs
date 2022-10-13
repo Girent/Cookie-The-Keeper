@@ -17,6 +17,8 @@ public class NetworkPlayer : NetworkBehaviour
 
     public static NetworkPlayer localPlayer;
 
+    private bool disconected = false;
+
     private NetworkMatch networkMatch;
 
     private GameObject[] spawnPoints;
@@ -39,14 +41,10 @@ public class NetworkPlayer : NetworkBehaviour
         OnBeginGame?.Invoke();
     }
 
-    public override void OnStopClient()
-    {
-        clientDisconnect();
-    }
-
     public override void OnStopServer()
     {
-        serverDisconnect();
+        if(!disconected)
+            serverDisconnect();
     }
 
     #region DisconectMatch
@@ -68,18 +66,7 @@ public class NetworkPlayer : NetworkBehaviour
     {
         RoomList.instance.Rooms.Find(room => room.RoomId == RoomID).DisconnectPlayer(this);
         InGame = false;
-        rpcDisconnectGame();
-    }
-
-    [ClientRpc]
-    private void rpcDisconnectGame()
-    {
-        clientDisconnect();
-    }
-
-    private void clientDisconnect()
-    {
-
+        disconected = true;
     }
     #endregion
 

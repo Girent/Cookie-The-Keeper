@@ -7,7 +7,7 @@ public class UILobby : MonoBehaviour
 {
     public static UILobby instance;
 
-
+    private Vector2 startPoint = new Vector2(-12,1);
     [SerializeField] private Canvas searchCanvas;
 
     private void Start()
@@ -21,7 +21,7 @@ public class UILobby : MonoBehaviour
 
         SceneManager.LoadScene(2, LoadSceneMode.Additive);
 
-        PosMessage m = new PosMessage() { vector2 = Vector2.zero };
+        PosMessage m = new PosMessage() { vector2 = startPoint };
         GameObject.FindGameObjectWithTag("Networking").GetComponent<Networking>().connection.Send(m);
     }
 

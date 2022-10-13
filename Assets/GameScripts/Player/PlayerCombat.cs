@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerCombat : NetworkBehaviour
 {
+    public int milkPoints;
+
     [SerializeField] private float attackRange;
     [SerializeField] private Transform attackPoint;
     [SerializeField] private LayerMask enemyLayers;
@@ -49,6 +51,6 @@ public class PlayerCombat : NetworkBehaviour
 
     public void InflictDamage(IHealth health, float damage)
     {
-        health.ApplyDamage(damage, netId);
+        health.ApplyDamage(damage, netId, gameObject);
     }
 }

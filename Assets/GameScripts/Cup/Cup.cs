@@ -43,7 +43,7 @@ public class Cup : NetworkBehaviour, IHealth
     }
 
     [Command(requiresAuthority = false)]
-    public void ApplyDamage(float amount, uint netId)
+    public void ApplyDamage(float amount, uint netId, GameObject player)
     {
         if(IdMaster != netId)
         {
