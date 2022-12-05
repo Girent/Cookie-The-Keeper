@@ -10,8 +10,6 @@ public class NetworkPlayer : NetworkBehaviour
     [SyncVar] public Room CurrentRoom;
     [SyncVar] public string RoomID;
 
-    public bool InGame = false;
-
     public Action OnBeginGame;
     public Action OnStartGame;
 
@@ -47,30 +45,25 @@ public class NetworkPlayer : NetworkBehaviour
             serverDisconnect();
     }
 
-    #region DisconectMatch
     public void DisconnectGame()
     {
         cmdDisconnectGame();
         UILobby.instance.disableSearchCanvas();
         SceneManager.UnloadSceneAsync(2);
-        NetworkServer.Destroy(gameObject);
     }
 
     [Command]
     private void cmdDisconnectGame()
     {
         serverDisconnect();
+        NetworkServer.Destroy(gameObject);
     }
 
     private void serverDisconnect()
     {
-        RoomList.instance.Rooms.Find(room => room.RoomId == RoomID).DisconnectPlayer(this);
-        InGame = false;
+        RoomList.instance.Rooms.Find(room => room.RoomId == RoomID).DisconnectPlayer(gameObject);
         disconected = true;
     }
-    #endregion
-
-    #region Start Match
 
     [TargetRpc]
     public void MoveToStartPoint(int playerIndex)
@@ -79,6 +72,4 @@ public class NetworkPlayer : NetworkBehaviour
         spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
         transform.position = spawnPoints[playerIndex].transform.position;
     }
-
-    #endregion
 }

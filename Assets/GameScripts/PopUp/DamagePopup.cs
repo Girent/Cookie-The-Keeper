@@ -15,8 +15,9 @@ public class DamagePopup : MonoBehaviour
         textMesh = GetComponent<TextMeshPro>();
     }
 
-    public void SetPopupText(float amount)
+    public void SetPopupText(float amount, Color color)
     {
+        textMesh.color = color;
         textMesh.text = amount.ToString();
     }
 

@@ -15,7 +15,7 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Awake()
     {
-        Speed = 5;
+        Speed = 7;
         playerRigidBody = GetComponent<Rigidbody2D>();
         networkAnimator = GetComponent<NetworkAnimator>();
         spriteRenderer = GetComponent<SpriteRenderer>();

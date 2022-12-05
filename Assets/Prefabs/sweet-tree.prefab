@@ -119,6 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  popupText: {fileID: 62359003330940553, guid: 31e3f11e039dc4d1394c4e1c5763db7b, type: 3}
 --- !u!61 &8722353537893558183
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -22,7 +22,7 @@ public class PlayerCombat : NetworkBehaviour
         networkAnimator = GetComponent<NetworkAnimator>();
     }
 
-    public void endWarmup()
+    public void EndWarmup()
     {
         isAllow = true;
     }

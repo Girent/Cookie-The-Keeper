@@ -17,9 +17,9 @@ public class Room
     private RoomList roomList;
 
     private int maxPlayers = 2;
-    private const float warmupStageTime = 6f;
-    private const float cupStageTime = 2f;
-    private const float gameStageTime = 300f;
+    private float warmupStageTime = 60f;
+    private const float cupStageTime = 20f;
+    private const float gameStageTime = 120f;
 
     private List<GameObject> players = new List<GameObject>();
 
@@ -47,17 +47,21 @@ public class Room
         if (players.Count >= maxPlayers)
         {
             IsFull = true;
-            endWarmup();
+            roomList.StopCoroutine(WarmupTimer());
+            warmupStageTime = 5f;
+            roomList.StartCoroutine(WarmupTimer());
         }
     }
 
-    public void DisconnectPlayer(NetworkPlayer player)
+    public void DisconnectPlayer(GameObject player)
     {
-        int playerIndex = players.IndexOf(player.gameObject);
+        int playerIndex = players.IndexOf(player);
+
         players.RemoveAt(playerIndex);
 
         IsFull = false;
-        if (players.Count == 0)
+
+        if (players.Count <= 0)
         {
             Scene scene = SceneManager.GetSceneAt(roomList.Rooms.IndexOf(this) + 1);
             SceneManager.UnloadSceneAsync(scene);
@@ -66,7 +70,7 @@ public class Room
         }
         if (players.Count == 1)
         {
-            players[0].GetComponent<InGameUi>().Win();
+            players[0].GetComponent<InGameUi>().WinRps();
             InMatch = true;
         }
     }
@@ -80,18 +84,21 @@ public class Room
             for (int i = 0; i < players.Count; i++)
             {
                 players[i].GetComponent<NetworkPlayer>().MoveToStartPoint(i);
-                players[i].GetComponent<PlayerCombat>().endWarmup();
+                players[i].GetComponent<PlayerCombat>().EndWarmup();
+                players[i].GetComponent<InGameUi>().StartCupStageRps(cupStageTime);
             }
         InMatch = true;
     }
 
     private void endCupStage()
     {
-        for (int i = 0; i < players.Count; i++)
+        foreach(GameObject player in players)
         {
-            CupSpawner cupSpawner = players[i].GetComponent<CupSpawner>();
+            CupSpawner cupSpawner = player.GetComponent<CupSpawner>();
 
             cupSpawner.ForcedSpawn();
+
+            player.GetComponent<InGameUi>().StartGameStageRps(gameStageTime);
         }
     }
 
@@ -118,7 +125,7 @@ public class Room
     {
         yield return new WaitForSeconds(cupStageTime);
         endCupStage();
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(gameStageTime);
         endGameStage();
     }
 }

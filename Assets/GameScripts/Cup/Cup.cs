@@ -45,12 +45,9 @@ public class Cup : NetworkBehaviour, IHealth
     [Command(requiresAuthority = false)]
     public void ApplyDamage(float amount, uint netId, GameObject player)
     {
-        if(IdMaster != netId)
+        if (IdMaster != netId)
         {
             applyDamage(amount);
-
-            GameObject popup = Instantiate(popupDamage, gameObject.transform.position, Quaternion.identity);
-            popup.GetComponent<DamagePopup>().SetPopupText(amount);
         }
     }
 
@@ -58,5 +55,13 @@ public class Cup : NetworkBehaviour, IHealth
     private void applyDamage(float amount)
     {
         HealthAmount -= amount;
+        spawnPopupDamage(amount);
+    }
+
+    [ClientRpc]
+    private void spawnPopupDamage(float damage)
+    {
+        GameObject popup = Instantiate(popupDamage, gameObject.transform.position, Quaternion.identity);
+        popup.GetComponent<DamagePopup>().SetPopupText(damage, Color.white);
     }
 }

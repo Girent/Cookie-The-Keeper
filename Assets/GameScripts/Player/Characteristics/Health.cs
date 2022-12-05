@@ -19,6 +19,8 @@ public class Health : NetworkBehaviour, IProperty, IHealth
 
     [SerializeField][SyncVar(hook = nameof(syncValue))] private float amount;
 
+    [SerializeField] private PlayerSounds playerSounds;
+
     public bool isDead { get; private set; }
 
     private NetworkAnimator animator;
@@ -84,7 +86,7 @@ public class Health : NetworkBehaviour, IProperty, IHealth
     {
         amount = newValue;
 
-        if(isClient)
+        if(isLocalPlayer)
             healthSlider.UpdateHealthUi(Amount, MaxHealth);
 
         if (amount <= 0)
@@ -110,6 +112,7 @@ public class Health : NetworkBehaviour, IProperty, IHealth
         {
             applyDamage(amount);
         }
+        playerSounds.HitSound();
     }
 
     [Server]
@@ -125,6 +128,14 @@ public class Health : NetworkBehaviour, IProperty, IHealth
     private void spawnPopupDamage(float damage)
     {
         GameObject popup = Instantiate(popupDamage, gameObject.transform.position, Quaternion.identity);
-        popup.GetComponent<DamagePopup>().SetPopupText(damage);
+        if (isLocalPlayer)
+        {
+            popup.GetComponent<DamagePopup>().SetPopupText(damage, Color.red);
+        }
+        else
+        {
+            popup.GetComponent<DamagePopup>().SetPopupText(damage, Color.green);
+        }
+
     }
 }

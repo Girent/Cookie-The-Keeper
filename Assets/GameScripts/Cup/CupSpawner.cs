@@ -15,10 +15,10 @@ public class CupSpawner : NetworkBehaviour
     [SerializeField] private GameObject cupSpawnPoint;
 
     [SerializeField] private UIJoystick joystickInput;
+    [SerializeField] private GameObject directionUI;
 
     [SerializeField] private GameObject buildButton;
     [SerializeField] private GameObject showBuildPointButton;
-    [SerializeField] private GameObject directionUI;
 
     private GameObject cupObject;
 
@@ -34,17 +34,15 @@ public class CupSpawner : NetworkBehaviour
         spriteRendererSpawnPoint = cupSpawnPoint.GetComponent<SpriteRenderer>();
     }
 
-    private void beginGame()
-    {
-        cupSpawnPoint.SetActive(false);
-        showBuildPointButton.SetActive(true);
-    }
-
     private void FixedUpdate()
     {
         cupSpawnPoint.transform.localPosition = joystickInput.GetCurrentDirection() * setCupRange;
     }
 
+    private void beginGame()
+    {
+        cupSpawnPoint.SetActive(false);
+    }
 
     public void ShowBuildingMode()
     {

@@ -9,8 +9,15 @@ public class InGameUi : NetworkBehaviour
     [SerializeField] private NetworkAnimator networkAnimator;
     [SerializeField] private Health health;
     [SerializeField] private GameObject playerCamera;
+
+    [SerializeField] private TimerView timerView;
+
     [SerializeField] private GameObject endGamePanel;
     [SerializeField] private GameObject winUi;
+    [SerializeField] private GameObject buildButton;
+
+    [SerializeField] private PlayerSounds playerSounds;
+
     private GameObject mainCamera;
 
     private void Awake()
@@ -39,9 +46,35 @@ public class InGameUi : NetworkBehaviour
         health.OnPlayerDead -= endGameUi;
     }
 
+    [TargetRpc]
+    public void StartCupStageRps(float time)
+    {
+        startCupStage(time);
+        playerSounds.WarmUpEndSound();
+    }
+
+    private void startCupStage(float time)
+    {
+        buildButton.SetActive(true);
+        timerView.StartTimer(time, "Put the glass down");
+    }
+
+    [TargetRpc]
+    public void StartGameStageRps(float time)
+    {
+        startGameStage(time);
+    }
+
+    private void startGameStage(float time)
+    {
+        timerView.StartTimer(time, "End of battle in");
+    }
+
     private void endGameUi()
     {
         endGamePanel.SetActive(true);
+        timerView.gameObject.SetActive(false);
+        playerSounds.EndGameSound();
     }
 
     [TargetRpc]
@@ -67,6 +100,7 @@ public class InGameUi : NetworkBehaviour
     public void Win()
     {
         winUi.SetActive(true);
+        timerView.gameObject.SetActive(false);
     }
 
     private void disableCanvas()
@@ -83,9 +117,15 @@ public class InGameUi : NetworkBehaviour
     {
         mainCamera.SetActive(false);
         playerCamera.SetActive(true);
+
+        timerView.gameObject.SetActive(true);
+        timerView.StartTimer(60, "Game start in");
+
         foreach (var item in playerCanvas)
         {
             item.enabled = true;
         }
     }
+
+    
 }

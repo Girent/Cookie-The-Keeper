@@ -5616,7 +5616,6 @@ GameObject:
   - component: {fileID: 2750551545990608656}
   - component: {fileID: 1046803416115785032}
   - component: {fileID: 6800863073896336328}
-  - component: {fileID: 650826708720544440}
   - component: {fileID: 1619038071339260377}
   - component: {fileID: 2348385366615575099}
   - component: {fileID: 6188689808013214993}
@@ -5831,7 +5830,6 @@ MonoBehaviour:
     InMatch: 0
     IsFull: 0
   RoomID: 
-  InGame: 0
 --- !u!114 &8844675918911053836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5854,8 +5852,11 @@ MonoBehaviour:
   networkAnimator: {fileID: 6091823344144617454}
   health: {fileID: 2690557306262282116}
   playerCamera: {fileID: 1127445527}
+  timerView: {fileID: 7782916251704381194}
   endGamePanel: {fileID: 4656460673984625052}
   winUi: {fileID: 8126129204453755178}
+  buildButton: {fileID: 7616174925608403315}
+  playerSounds: {fileID: 2348385366615575099}
 --- !u!114 &4970372277193461393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5911,6 +5912,7 @@ MonoBehaviour:
   player: {fileID: 1352942515576853519}
   popupDamage: {fileID: 62359003330940553, guid: 31e3f11e039dc4d1394c4e1c5763db7b, type: 3}
   amount: 100
+  playerSounds: {fileID: 2348385366615575099}
 --- !u!114 &2750551545990608656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5954,21 +5956,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   player: {fileID: 1352942515576853519}
---- !u!114 &650826708720544440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1352942515576853519}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0d514ebfbc514577b75df58b2a6a66d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  player: {fileID: 1352942515576853519}
 --- !u!114 &1619038071339260377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6006,6 +5993,9 @@ MonoBehaviour:
   audioClips:
   - {fileID: 8300000, guid: b80a56c8029c64c20812bdfaf23ea22e, type: 3}
   - {fileID: 8300000, guid: d0e33f4e6f26d455d8c4ef7b74a31011, type: 3}
+  - {fileID: 8300000, guid: 2022c2096528441a2a44f6f3b3fc3b87, type: 3}
+  - {fileID: 8300000, guid: dc3361893d1c94043bfef328227e2ee3, type: 3}
+  - {fileID: 8300000, guid: a3e776c57aaf140c788b7d58e60dd59a, type: 3}
 --- !u!212 &6188689808013214993
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6079,7 +6069,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 30
+  MaxDistance: 15
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -6657,12 +6647,12 @@ GameObject:
   - component: {fileID: 5103524715451145097}
   - component: {fileID: 7782916251704381194}
   m_Layer: 3
-  m_Name: WarmupView
+  m_Name: TimerView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3566032123688173819
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6680,8 +6670,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -51.784973}
-  m_SizeDelta: {x: 903.57, y: 103.57001}
+  m_AnchoredPosition: {x: -10.89, y: -51.784973}
+  m_SizeDelta: {x: 1230.12, y: 103.57}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7512277877925941148
 CanvasRenderer:
@@ -6793,7 +6783,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timmerView: {fileID: 5103524715451145097}
-  networkPlayer: {fileID: 3174306990855708142}
+  time: 0
 --- !u!1 &2594383426933756398
 GameObject:
   m_ObjectHideFlags: 0
@@ -7044,7 +7034,7 @@ RectTransform:
   - {fileID: 7882855491891908212}
   - {fileID: 686278113291915583}
   m_Father: {fileID: 4844741540130170691}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -7818,7 +7808,7 @@ RectTransform:
   m_Children:
   - {fileID: 6404001709717989422}
   m_Father: {fileID: 4844741540130170691}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -7928,7 +7918,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3832741286068267615}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 1127445530}
@@ -9938,10 +9928,10 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2217186938852503897}
   - {fileID: 1506268997368819997}
-  - {fileID: 824218292435510080}
   - {fileID: 5878748575767089861}
+  - {fileID: 2217186938852503897}
+  - {fileID: 824218292435510080}
   m_Father: {fileID: 2942661505490064111}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10266,7 +10256,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &824218292435510080
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10280,7 +10270,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4844741540130170691}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -10867,7 +10857,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4844741540130170691}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}

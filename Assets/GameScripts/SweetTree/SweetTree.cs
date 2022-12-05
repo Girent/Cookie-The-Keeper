@@ -30,6 +30,8 @@ public class SweetTree : NetworkBehaviour, IHealth
 
     [SyncVar(hook = nameof(syncValue))] private float amount;
 
+    [SerializeField] private GameObject popupText;
+
     private void syncValue(float oldValue, float newValue)
     {
         amount = newValue;
@@ -56,5 +58,13 @@ public class SweetTree : NetworkBehaviour, IHealth
     private void applyDamage(float amount, uint netid)
     {
         HealthAmount -= amount;
+        spawnPopupDamage(amount);
+    }
+
+    [ClientRpc]
+    private void spawnPopupDamage(float damage)
+    {
+        GameObject popup = Instantiate(popupText, gameObject.transform.position, Quaternion.identity);
+        popup.GetComponent<DamagePopup>().SetPopupText(damage, Color.blue);
     }
 }

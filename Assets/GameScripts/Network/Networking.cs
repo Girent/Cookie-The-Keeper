@@ -13,32 +13,32 @@ public class Networking : NetworkManager
 
     public void OnCreateCharacter(NetworkConnection conn, PosMessage message)
     {
-        GameObject go = Instantiate(playerPrefab, message.vector2, Quaternion.identity);
-        NetworkPlayer networkPlayer = go.GetComponent<NetworkPlayer>();
+        GameObject gameObject = Instantiate(playerPrefab, message.vector2, Quaternion.identity);
+        NetworkPlayer networkPlayer = gameObject.GetComponent<NetworkPlayer>();
 
         string roomId = "";
 
-        if (!RoomList.instance.SearchRoom(go, out roomId))
+        if (!RoomList.instance.SearchRoom(gameObject, out roomId))
         {
             roomId = Extensions.GetRandomMatchID();
             networkPlayer.RoomID = roomId;
 
             SceneManager.LoadScene(2, LoadSceneMode.Additive);
-            RoomList.instance.HostGame(roomId, go, true);
+            RoomList.instance.HostGame(roomId, gameObject, true);
 
             Scene scene = SceneManager.GetSceneAt(RoomList.instance.Rooms.Count);
-            SceneManager.MoveGameObjectToScene(go, scene);
+            SceneManager.MoveGameObjectToScene(gameObject, scene);
         }
         else
         {
             networkPlayer.RoomID = roomId;
             Scene scene = SceneManager.GetSceneAt(RoomList.instance.Rooms.Count);
-            SceneManager.MoveGameObjectToScene(go, scene);
+            SceneManager.MoveGameObjectToScene(gameObject, scene);
         }
 
         UILobby.instance.disableSearchCanvas();
 
-        NetworkServer.AddPlayerForConnection((NetworkConnectionToClient)conn, go);
+        NetworkServer.AddPlayerForConnection((NetworkConnectionToClient)conn, gameObject);
     }
 
     public override void OnStartServer()
@@ -48,8 +48,6 @@ public class Networking : NetworkManager
         base.OnStartServer();
         NetworkServer.RegisterHandler<PosMessage>(OnCreateCharacter);
     }
-
-   
 
     public override void OnClientConnect(NetworkConnection conn)
     {
